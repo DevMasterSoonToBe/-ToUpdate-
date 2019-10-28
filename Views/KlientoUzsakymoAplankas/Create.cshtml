@@ -1,0 +1,220 @@
+@model AlausDaryklosGamybosValdymoSistema.Models.KlientoUzsakymoAplankas
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<Vartotojas> SignInManager
+@{
+  ViewData["Title"] = "Create";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Kliento užsakymo aplanko kūrimas</title>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <!-- JS validation-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+    });
+  </script>
+  <!-- Font Icon -->
+  <link rel="stylesheet" href="~/DviFormos/fonts/material-icon/css/material-design-iconic-font.min.css">
+
+  <!-- Main css -->
+  <link rel="stylesheet" href="~/DviFormos/css/style.css">
+</head>
+<body style="font-family: 'Open Sans', Arial, sans-serif;background-color:rgba(0, 0, 0, 0.03);">
+  <div class="main" style="text-align:center;">
+    <!-- Kliento uzsakymo aplanko forma -->
+    <section class="signup">
+      @if (ViewBag.kiadd == 1)
+      {
+        <script type="text/javascript">
+          swal({
+            title: "Klientas pridėtas į duomenų bazę!",
+            icon: "success",
+            button: "Gerai"
+          });
+        </script>
+      }
+      @if (ViewBag.kuiadd == 1)
+      {
+        <script type="text/javascript">
+          swal({
+            title: "Kliento užsakymo aplankas pridėtas!",
+            icon: "success",
+            button: "Gerai"
+          });
+        </script>
+      }
+      <style>
+        .modal-header {
+          display: -webkit-box;
+          display: -ms-flexbox;
+          display: flex;
+          -webkit-box-align: start;
+          -ms-flex-align: start;
+          align-items: flex-start;
+          -webkit-box-pack: justify;
+          -ms-flex-pack: justify;
+          justify-content: space-between;
+          padding: 1rem 1rem;
+          border-bottom: 1px solid #e9ecef;
+          border-top-left-radius: 0.3rem;
+          border-top-right-radius: 0.3rem;
+        }
+
+        .modal-content {
+          position: relative;
+          display: -webkit-box;
+          display: -ms-flexbox;
+          display: flex;
+          -webkit-box-orient: vertical;
+          -webkit-box-direction: normal;
+          -ms-flex-direction: column;
+          flex-direction: column;
+          width: 100%;
+          pointer-events: auto;
+          background-color: #fff;
+          background-clip: padding-box;
+          border: 1px solid rgba(0, 0, 0, 0.2);
+          border-radius: 0.3rem;
+          outline: 0;
+        }
+
+        .modal-title {
+          margin-bottom: 0;
+          line-height: 1.5;
+        }
+
+        h5, .h5 {
+          font-size: 1.25rem;
+        }
+
+        h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+          margin-bottom: 0.5rem;
+          font-family: inherit;
+          font-weight: 500;
+          line-height: 1.2;
+          color: inherit;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+          margin-top: 0;
+          margin-bottom: 0.5rem;
+        }
+
+        .modal-footer {
+          display: -webkit-box;
+          display: -ms-flexbox;
+          display: flex;
+          -webkit-box-align: center;
+          -ms-flex-align: center;
+          align-items: center;
+          -webkit-box-pack: end;
+          -ms-flex-pack: end;
+          justify-content: flex-end;
+          padding: 1rem;
+          border-top: 1px solid #e9ecef;
+          border-bottom-right-radius: 0.3rem;
+          border-bottom-left-radius: 0.3rem;
+        }
+      </style>
+      <div class="container" style="width:1500px; text-align:center;">
+        <center><h2 style="margin:2%;font-family: 'Open Sans', Arial, sans-serif">Pridėti kliento užsakymo aplanką</h2></center>
+        <form method="POST" class="register-form" asp-action="Create" id="register-form">
+          <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+          @{
+            var ki = ViewBag.KlientoID;
+            string a3 = ViewBag.InstrukcijosBrandinimoLaikas;
+          }
+          <input type="hidden" asp-for="Busena" value="S" />
+          <div class="form-group">
+            <select asp-for="KlientoId" class="form-control" asp-items="ViewBag.KlientoId"></select>
+          </div>
+          <div class="form-group">
+            <input asp-for="Terminas" class="form-control" type="date" />
+            <span asp-validation-for="Terminas" class="text-danger"></span>
+          </div>
+          <center>
+            <div class="form-group form-button" style="margin-bottom:3%">
+              <input type="submit" class="form-submit" value="Pridėti" />
+            </div>
+          </center>
+        </form>
+      </div>
+    </section>
+    <!-- Kliento forma -->
+    <section class="sign-in">
+      <div class="container" style=" width:1500px">
+        <center><h2 style="margin:5%; font-family: 'Open Sans', Arial, sans-serif;">Pridėti klientą jei jo nėra duomenų bazėje</h2></center>
+        <form asp-controller="Klientas" asp-action="Create" class="register-form" method="POST" id="login-form">
+          @{
+            string kipav = "";
+            string kikod = "";
+            string kinr = "";
+            string kiadr = "";
+          }
+          <div class="form-group">
+            <input asp-for="@kipav" class="form-control" placeholder="Kliento pavadinimas" data-val="true" data-val-length="Kliento pavadinimas negali būti daugiau nei 50 simbolių!"
+                   data-val-length-max="50" data-val-required="Kliento pavadinimas negali būti tuščias!" />
+            <span class="text-danger field-validation-valid"
+                  data-valmsg-for="kipav" data-valmsg-replace="true"></span>
+          </div>
+          <div class="form-group">
+            <input asp-for="@kikod" class="form-control" placeholder="Kliento įmonės kodas" data-val="true" data-val-length="Kliento įmonės kodas negali būti daugiau nei 9 simboliai!"
+                   data-val-length-max="9" data-msg-number="Kliento įmonės kodas turi būti sudarytas iš skaičių!" data-rule-number="true"/>
+            <span class="text-danger field-validation-valid"
+                  data-valmsg-for="kikod" data-valmsg-replace="true"></span>
+          </div>
+          <div class="form-group">
+            <input asp-for="@kinr" class="form-control" placeholder="Kliento kontaktinis numeris" data-val="true" data-val-length="Kliento kontaktinis numeris negali būti daugiau nei 12 simbolių!"
+                   data-val-length-max="12" data-msg-number="Kliento kontaktinis numeris turi būti sudarytas iš skaičių!" data-rule-number="true" />
+            <span class="text-danger field-validation-valid"
+                  data-valmsg-for="kinr" data-valmsg-replace="true"></span>
+          </div>
+          <div class="form-group">
+            <input asp-for="@kiadr" class="form-control" placeholder="Kliento adresas" data-val="true" data-val-length="Kliento adresas negali būti daugiau nei 50 simbolių!"
+                   data-val-length-max="50" />
+            <span class="text-danger field-validation-valid"
+                  data-valmsg-for="kiadr" data-valmsg-replace="true"></span>
+          </div>
+          <center style="margin-bottom:3%">
+            <div class="form-group form-button">
+              <input type="submit" class="form-submit" value="Pridėti" />
+            </div>
+          </center>
+        </form>
+      </div>
+    </section>
+  </div>
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel" style="font-size: 25px;">Ar tikrai norite atsijungti?</h5>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal" style="margin-right:1%;">Grįžti</button>
+          <form asp-area="Identity" asp-page="/Account/Logout">
+            <button class="btn btn-primary" type="submit">Atsijungti</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- JS -->
+  <script src="~/DviFormos/vendor/jquery/jquery.min.js"></script>
+  <script src="~/DviFormos/js/main.js"></script>
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+</html>
+
+
+
+@section Scripts {
+  @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,2 @@
+pasterizavimas - vyksta kai supakuojamas alus ir jis kaitinamas iki tam tikros temperaturos kad dingtu visi mikrobai.
+filtruotas alus - fermentuojama tol, kol dings visos nuosedos.

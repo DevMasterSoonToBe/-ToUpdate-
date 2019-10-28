@@ -1,0 +1,64 @@
+@page
+@model LoginModel
+
+@{
+  ViewData["Title"] = "Prisijungti";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>Prisijungimas</title>
+  <!-- Custom fonts for this template-->
+  <link href="~/KlientoUzsakymoAplankasDetails/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <!-- Custom styles for this template-->
+  <link href="~/KlientoUzsakymoAplankasDetails/css/sb-admin.css" rel="stylesheet">
+</head>
+<body class="bg-dark">
+  <div class="container" style="margin: 0 auto;">
+    <div class="card card-login mx-auto mt-5">
+      <div class="card-header">Prisijungti</div>
+      <div class="card-body">
+        <form method="post">
+          <div asp-validation-summary="All" class="text-danger"></div>
+          <div class="form-group">
+            <div class="form-label-group">
+              <input asp-for="Input.UserName" class="form-control" placeholder="Prisijungimo vardas" required="required" autofocus="autofocus" />
+             <label asp-for="Input.UserName">Prisijungimo vardas</label>
+              <span asp-validation-for="Input.UserName" class="text-danger"></span>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-label-group">
+              <input asp-for="Input.Password" class="form-control" placeholder="Prisijungimo vardas" required="required" autofocus="autofocus" />
+              <label asp-for="Input.Password">Slaptažodis</label>
+              <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+          </div>
+          <div class="form-group">
+            <button class="btn btn-primary btn-block">Prisijungti</button>
+            </div>
+        </form>
+        <div class="text-center">
+          <a class="d-block small mt-3" asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Priregistruoti naują vartotoją</a>
+          <a class="d-block small" asp-page="./ForgotPassword">Pamiršote slaptažodį?</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Bootstrap core JavaScript-->
+  <script src="~/KlientoUzsakymoAplankasDetails/vendor/jquery/jquery.min.js"></script>
+  <script src="~/KlientoUzsakymoAplankasDetails/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- Core plugin JavaScript-->
+  <script src="~/KlientoUzsakymoAplankasDetails/vendor/jquery-easing/jquery.easing.min.js"></script>
+</body>
+</html>
+
+@section Scripts {
+  <partial name="_ValidationScriptsPartial" />
+}

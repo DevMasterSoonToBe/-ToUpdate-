@@ -1,0 +1,39 @@
+@model AlausDaryklosGamybosValdymoSistema.Models.Ingredientas
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Ingredientas</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.IngredientoPavadinimas)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IngredientoPavadinimas)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.LaisvasKiekis)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.LaisvasKiekis)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Formos)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Formos.LaisvuResursuKodas)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="IngredientoId" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

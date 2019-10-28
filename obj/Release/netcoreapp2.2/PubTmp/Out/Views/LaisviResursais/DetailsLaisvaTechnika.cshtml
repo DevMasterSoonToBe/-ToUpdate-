@@ -1,0 +1,169 @@
+@model AlausDaryklosGamybosValdymoSistema.Models.LaisviResursai
+
+@{
+  ViewData["Title"] = "DetailsLaisvaTechnika";
+}
+<!doctype html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="~/css/RedaguotiPrasymus.css">>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
+<body style="font-family: 'Open Sans', Arial, sans-serif;background-color:rgba(0, 0, 0, 0.03); font-size:15px;">
+  <h2 style="margin:1%;">Laisvos technikos forma</h2>
+  @if (User.Identity.IsAuthenticated)
+  {
+    if (User.IsInRole("Technikos vadovas") || User.IsInRole("Gamybos vadovas") || User.IsInRole("Gamybos meistras"))
+    {
+      <p>
+        <a href='#' class="btn btn-primary" style="margin-left:1%;" data-toggle="modal" data-target="#AddTechPriet">
+          Pridėti technikos prietaisą prie laisvos technikos formos
+        </a>
+      </p>
+    }
+  }
+  <table class="table table-striped table-hover">
+    <thead class="border-bottom">
+      <tr>
+        <th>
+          Technikos prietaiso pavadinimas
+        </th>
+        <th>
+          Prietaiso kiekis
+        </th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach (var item in Model.TechnikosPrietaisas)
+      {
+        <tr>
+          <td>
+            @Html.DisplayFor(modelItem => item.PrietaisoPavadinimas)
+          </td>
+          <td>
+            @Html.DisplayFor(modelItem => item.LaisvasKiekis) vnt.
+          </td>
+          @if (User.Identity.IsAuthenticated)
+          {
+            if (User.IsInRole("Technikos vadovas") || User.IsInRole("Gamybos vadovas") || User.IsInRole("Gamybos meistras"))
+            {
+          <td>
+            <a href='#' class="btn btn-primary" data-toggle="modal" data-target=".techEdit_@item.TechnikosPrietaisoId">
+              Redaguoti technikos prietaisą
+            </a>
+            <a href='#' class="btn btn-primary" data-toggle="modal" data-target=".techDelete_@item.TechnikosPrietaisoId">
+              Ištrinti technikos prietaisą
+            </a>
+          </td>
+            }
+          }
+            </tr>
+            <div class="modal fade techEdit_@item.TechnikosPrietaisoId" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-body">
+                    <form asp-action="EditRes" method="post">
+                      @{ decimal tpd = item.TechnikosPrietaisoId;
+                        var lk = item.LaisvasKiekis;
+                        var fid2 = item.FormosId;
+                        string tpdstr = item.PrietaisoPavadinimas;
+                      }
+                      <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                      <input type="hidden" asp-for="@fid2" />
+                      <input asp-for="@tpd" hidden />
+                      <div class="form-group">
+                        <label class="control-label">Technikos prietaisas</label>
+                        <input asp-for="@tpdstr" class="form-control" readonly />
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label">Technikos prietaiso kiekis</label>
+                        <input asp-for="@lk" class="form-control" placeholder="Pvz:5" />
+                        <span asp-validation-for="@lk" class="text-danger"></span>
+                      </div>
+                      <center>
+                        <div class="form-group">
+                          <input type="submit" value="Redaguoti" class="btn btn-primary" />
+                        </div>
+                      </center>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Grįžti</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal fade techDelete_@item.TechnikosPrietaisoId" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ar ištrinti ingredientą iš laisvos technikos formos?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">×</span>
+                    </button>
+                  </div>
+                  <div class="modal-body"></div>
+                  <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Grįžti</button>
+                    <a class="btn btn-primary" href='@Url.Action("DeletefromForm", "LaisviResursais",
+                                            new
+                                            {
+                                              tpd3 = item.TechnikosPrietaisoId,
+                                              lk3 = item.LaisvasKiekis,
+                                              fid4 = item.FormosId
+                                            })'>Ištrinti</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+          <div class="modal fade" id="AddTechPriet" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-body">
+                  <form asp-action="AddRes" method="post">
+                    @{ decimal tpd2 = 0;
+                      var lk2 = 0;
+                      var fid3 = Model.FormosId;
+                    }
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="@fid3" />
+                    <div class="form-group">
+                      <label class="control-label">Pasirinkti technikos prietaisą</label>
+                      <select asp-for="@tpd2" class="form-control" asp-items="ViewBag.TechnikosPrietaisoId"></select>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label">Technikos prietaiso kiekis</label>
+                      <input asp-for="@lk2" class="form-control" placeholder="Pvz:5" />
+                      <span asp-validation-for="@lk2" class="text-danger"></span>
+                    </div>
+                    <center>
+                      <div class="form-group">
+                        <input type="submit" value="Pridėti" class="btn btn-primary" />
+                      </div>
+                    </center>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button class="btn btn-secondary" type="button" data-dismiss="modal">Grįžti</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </tbody>
+  </table>
+  <!--JS bootstrap-->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>
+
+@section Scripts{
+  @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

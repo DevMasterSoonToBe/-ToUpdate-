@@ -1,0 +1,40 @@
+﻿@model AlausDaryklosGamybosValdymoSistema.Models.TechnikosPrietaisoRezervacija
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>TechnikosPrietaisoRezervacija</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PrietaisoKiekis)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PrietaisoKiekis)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.KlientoUzsakymo)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.KlientoUzsakymo.Busena)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TechnikosPrietaiso)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TechnikosPrietaiso.PrietaisoPavadinimas)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="KlientoUzsakymoId" />
+        <input type="hidden" asp-for="TechnikosPrietaisoId" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

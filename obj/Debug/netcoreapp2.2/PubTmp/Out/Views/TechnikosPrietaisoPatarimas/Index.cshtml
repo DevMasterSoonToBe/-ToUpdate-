@@ -1,0 +1,225 @@
+@model IEnumerable<AlausDaryklosGamybosValdymoSistema.Models.TechnikosPrietaisoPatarimas>
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<Vartotojas> SignInManager
+@{
+  ViewData["Title"] = "Index";
+}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="~/css/RedaguotiPrasymus.css">>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <!--Datatable -->
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+  <!-- JS validation-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+    });
+  </script>
+</head>
+<body style="font-family: 'Open Sans', 'Arial', 'sans-serif';background-color:rgba(0, 0, 0, 0.03);font-size:15px;">
+  <div class="main">
+    <center><h2 style="margin:1%; font-size:30px;"> Technikos prietaisų patarimai gamybos instrukcijai</h2></center>
+    @if (User.Identity.IsAuthenticated)
+    {
+      if (User.IsInRole("Technikos vadovas") || User.IsInRole("Gamybos vadovas"))
+      {
+        <p>
+          <a href='@Url.Action("Create", "TechnikosPrietaisoPatarimas", new
+            {
+              id = ViewBag.KlientoUzsakymoId,
+              id2 = ViewBag.InstrukcijosId,
+              a1 = ViewBag.InstrukcijosBusena,
+              a2 = ViewBag.InstrukcijosTerminas,
+              a3 = ViewBag.InstrukcijosBrandinimoLaikas,
+              a4 = ViewBag.RecepturaParuosta,
+              a5 = ViewBag.TechnikaParuosta
+            })' class="btn btn-secondary" style="margin-left:1%; font-size:15px;">
+            Pridėti naują technikos prietaisą
+          </a>
+        </p>
+      }
+    }
+    <span class="counter pull-right"></span>
+    <table id="TechPatarimai" class="table table-striped table-hover table-bordered">
+      <thead>
+        <tr>
+          <th>
+            Technikos prietaiso pavadinimas
+          </th>
+          <th>
+            Technikos prietaiso kiekis
+          </th>
+          <th>
+            Technikos prietaiso komentaras
+          </th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @foreach (var item in Model)
+        {
+          <tr>
+            <td>
+              @Html.DisplayFor(modelItem => item.TechnikosPrietaiso.PrietaisoPavadinimas)
+            </td>
+            <td>
+              @Html.DisplayFor(modelItem => item.PrietaisoKiekis) vnt
+            </td>
+            <td>
+              @Html.DisplayFor(modelItem => item.PrietaisoKomentaras)
+            </td>
+            <td>
+              <a href='#' data-toggle="modal" data-target=".techedit_@item.TechnikosPrietaisoId" class="btn btn-secondary" style="font-size:15px;">
+                Redaguoti ingredientą
+              </a>
+              <a href='#' data-toggle="modal" data-target=".techdel_@item.TechnikosPrietaisoId" class="btn btn-secondary" style="font-size:15px;">
+                Ištrinti ingredientą
+              </a>
+            </td>
+          </tr>
+          <div class="modal fade techedit_@item.TechnikosPrietaisoId" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-body">
+                  <form asp-action="Edit" method="POST">
+                    @{
+                      decimal ti1 = item.TechnikosPrietaisoId;
+                      string tipav = item.TechnikosPrietaiso.PrietaisoPavadinimas;
+                      decimal kui = item.KlientoUzsakymoId;
+                      decimal ini = item.InstrukcijosId;
+                      string tko = item.PrietaisoKomentaras;
+                      var tk = item.PrietaisoKiekis;
+                    }
+
+                    <input type="hidden" asp-for="@kui" />
+                    <input type="hidden" asp-for="@ini" />
+                    <input type="hidden" asp-for="@ti1" />
+                    <div class="form-group">
+                      <label class="control-label" style="font-size:15px;">Technikos prietaisas</label>
+                      <input asp-for="@tipav" style="font-size:15px;" class="form-control" readonly />
+                    </div>
+                    <div class="form-group">
+                      <label style="font-size:15px;">Technikos prietaiso kiekis (vnt). Pvz: 5</label>
+                      <input asp-for="@tk" class="form-control" style="font-size:15px;" data-val="true" data-val-range="Technikos prietaiso kiekis negali būti minusinis!"
+                             data-val-range-min="0" data-val-required="Kiekis negali būti tuščias!" />
+                      <span class="text-danger field-validation-valid"
+                            data-valmsg-for="tk" data-valmsg-replace="true"></span>
+                    </div>
+                    <div class="form-group">
+                      <label style="font-size:15px;">Technikos prietaiso komentaras</label>
+                      <input asp-for="@tko" class="form-control" style="font-size:15px;" data-val="true" data-val-length="Technikos prietaiso komentaras negali turėti daugiau nei 1000 simbolių!"
+                             data-val-length-max="1000" />
+                      <span class="text-danger field-validation-valid"
+                            data-valmsg-for="tko" data-valmsg-replace="true"></span>
+                    </div>
+                    <center>
+                      <div class="form-group">
+                        <input type="submit" value="Redaguoti" class="btn btn-primary" style="font-size:15px;" />
+                      </div>
+                    </center>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button class="btn btn-secondary" type="button" data-dismiss="modal" style="font-size:15px;">Grįžti</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal fade techdel_@item.TechnikosPrietaisoId" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel" style="font-size:25px;">Ar tikrai norite ištrinti šį ingredientą?</h5>
+                  <button class="close" type="button" data-dismiss="modal" aria-label="Close" style="font-size:15px;">
+                    <span aria-hidden="true">×</span>
+                  </button>
+                </div>
+                <div class="modal-footer">
+                  <button class="btn btn-secondary" type="button" data-dismiss="modal" style="font-size:15px;">Grįžti</button>
+                  <a class="btn btn-primary" href='@Url.Action("DeleteConfirmed", "TechnikosPrietaisoPatarimas",
+                                            new
+                                            {
+                                              id = item.KlientoUzsakymoId,
+                                              id2 = ViewBag.InstrukcijosId,
+                                              id3 = item.TechnikosPrietaisoId,
+                                              a1 = item.PrietaisoKiekis,
+                                              a2 = item.PrietaisoKomentaras
+                                            })' style="font-size:15px;">Ištrinti</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+      </tbody>
+    </table>
+    <!--JS bootstrap-->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $.noConflict();
+        $('#TechPatarimai').DataTable({
+          "language": {
+            "lengthMenu": "Rodyti _MENU_ įrašų per puslapį",
+            "zeroRecords": "Įrašų nėra",
+            "info": "Rodomas puslapis _PAGE_ iš _PAGES_",
+            "infoEmpty": "Įrašų nėra",
+            "loadingRecords": "Ieškoma...",
+            "processing": "Dirbama...",
+            "search": "Ieškoti:",
+            "infoFiltered": "(išfiltruota iš _MAX_ įrašų)",
+            "paginate": {
+              "first": "Pirmas",
+              "last": "Paskutinis",
+              "next": "Kitas",
+              "previous": "Grįžti"
+            }
+          }
+        });
+      });
+    </script>
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel" style="font-size:25px;">Ar tikrai norite atsijungti?</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close" style="font-size:25px;">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal" style="font-size:15px;">Grįžti</button>
+            <form asp-area="Identity" asp-page="/Account/Logout">
+              <button class="btn btn-primary" type="submit" style="font-size:15px;">Atsijungti</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="background: #242424; width:100%; position:absolute; border-radius:0; margin-bottom:0;
+bottom:-6%;">
+      <a class="btn header_btn" href='@Url.Action("Details", "KlientoUzsakymoAplankas", new {id = ViewBag.KlientoUzsakymoId })' style="font-size:25px;
+  text-decoration-color:aqua; border-radius:0; width:45%;height:auto; position:relative; bottom:0; left:25%;margin-bottom:0;">
+        Kliento užsakymo aplankas
+      </a>
+    </div>
+    </div>
+</body>
+</html>
+
+@section Scripts {
+  @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

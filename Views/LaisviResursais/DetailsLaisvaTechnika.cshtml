@@ -1,0 +1,101 @@
+@model AlausDaryklosGamybosValdymoSistema.Models.LaisviResursai
+
+@{
+  ViewData["Title"] = "DetailsLaisvaTechnika";
+}
+<!doctype html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="~/css/RedaguotiPrasymus.css">>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <!--Datatable -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
+</head>
+<body style="font-family: 'Open Sans', 'Arial', 'sans-serif';background-color:rgba(0, 0, 0, 0.03); font-size:15px;">
+  <h2 style="margin:1%; font-size:30px;">Laisvos technikos forma</h2>
+  <table class="table table-striped table-hover" id="LaisvaTechnika">
+    <thead class="border-bottom">
+      <tr>
+        <th>
+          Technikos prietaiso pavadinimas
+        </th>
+        <th>
+          Prietaiso kiekis
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach (var item in Model.TechnikosPrietaisas)
+      {
+        if (item.LaisvasKiekis != null)
+        {
+          <tr>
+            <td>
+              @Html.DisplayFor(modelItem => item.PrietaisoPavadinimas)
+            </td>
+            <td>
+              @Html.DisplayFor(modelItem => item.LaisvasKiekis) vnt.
+            </td>
+          </tr>
+        }
+      }
+    </tbody>
+  </table>
+  <!--JS bootstrap-->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $.noConflict();
+      $('#LaisvaTechnika').DataTable({
+        "language": {
+          "lengthMenu": "Rodyti _MENU_ įrašų per puslapį",
+          "zeroRecords": "Įrašų nėra",
+          "info": "Rodomas puslapis _PAGE_ iš _PAGES_",
+          "infoEmpty": "Įrašų nėra",
+          "loadingRecords": "Ieškoma...",
+          "processing": "Dirbama...",
+          "search": "Ieškoti:",
+          "infoFiltered": "(išfiltruota iš _MAX_ įrašų)",
+          "paginate": {
+            "first": "Pirmas",
+            "last": "Paskutinis",
+            "next": "Kitas",
+            "previous": "Grįžti"
+          }
+        }
+      });
+    });
+  </script>
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel" style="font-size: 25px;">Ar tikrai norite atsijungti?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal" style="margin-right:1%;font-size:15px;">Grįžti</button>
+          <form asp-area="Identity" asp-page="/Account/Logout">
+            <button class="btn btn-primary" type="submit" style="font-size:15px;">Atsijungti</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+
+@section Scripts{
+  @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

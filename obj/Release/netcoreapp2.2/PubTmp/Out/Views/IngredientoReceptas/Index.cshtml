@@ -1,0 +1,208 @@
+@model IEnumerable<AlausDaryklosGamybosValdymoSistema.Models.IngredientoReceptas>
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<Vartotojas> SignInManager
+@{
+  ViewData["Title"] = "Index";
+}
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="~/css/RedaguotiPrasymus.css">>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
+<html>
+<body  style="font-family: 'Open Sans', Arial, sans-serif;background-color:rgba(0, 0, 0, 0.03);">
+  <h2>Gamybos instrukcijos receptūra</h2>
+  @if (User.Identity.IsAuthenticated)
+  {
+    if (User.IsInRole("Technologas") || User.IsInRole("Gamybos vadovas"))
+    {
+      <p>
+        <a href='@Url.Action("Create", "IngredientoReceptas", new
+            {
+              id = ViewBag.KlientoUzsakymoId,
+              id2 = ViewBag.InstrukcijosId,
+              a1 = ViewBag.InstrukcijosBusena,
+              a3 = ViewBag.InstrukcijosBrandinimoLaikas
+            })'>
+          <button type="button" class="btn btn-secondary btn-sm">Pridėti naują ingredientą</button>
+        </a>
+      </p>
+    }
+  }
+      <table class="table">
+        <thead>
+          <tr>
+            <th>
+              Ingrediento pavadinimas
+            </th>
+            <th>
+              Ingrediento kiekis
+            </th>
+            <th>
+              Virimo laikas
+            </th>
+            <th>
+              Fermentacijos laikas
+            </th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          @foreach (var item in Model)
+          {
+            <tr>
+              <td>
+                @Html.DisplayFor(modelItem => item.Ingrediento.IngredientoPavadinimas)
+              </td>
+              <td>
+                @Html.DisplayFor(modelItem => item.IngredientoKiekis) (kg/l)
+              </td>
+              <td>
+                @Html.DisplayFor(modelItem => item.VirimoLaikas)
+              </td>
+              <td>
+                @Html.DisplayFor(modelItem => item.FermentacijosLaikas)
+              </td>
+              <td>
+                <a href='#' data-toggle="modal" data-target=".receedit_@item.IngredientoId">
+                  <button type="button" class="btn btn-secondary btn-sm">Redaguoti ingredientą</button>
+                </a>
+                <a href='#' data-toggle="modal" data-target=".recedel_@item.IngredientoId">
+                  <button type="button" class="btn btn-secondary btn-sm">Ištrinti ingredientą</button>
+                </a>
+              </td>
+            </tr>
+            <div class="modal fade receedit_@item.IngredientoId" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-body">
+                    <form asp-action="Edit">
+                      @{
+                        decimal ii1 = item.IngredientoId;
+                        string ingrpav = item.Ingrediento.IngredientoPavadinimas;
+                        decimal kui = item.KlientoUzsakymoId;
+                        decimal ini = item.InstrukcijosId;
+                        string vl = item.VirimoLaikas;
+                        string fl = item.FermentacijosLaikas;
+                        var ik = item.IngredientoKiekis;
+                      }
+                      <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                      <input type="hidden" asp-for="@kui" />
+                      <input type="hidden" asp-for="@ini" />
+                      <input type="hidden" asp-for="@ii1" />
+                      <div class="form-group">
+                        <label class="control-label">Ingredientas</label>
+                        <input asp-for="@ingrpav" class="form-control" readonly />
+                      </div>
+                      <div class="form-group">
+                        <label>Ingrediento kiekis (kg/l). Pvz: 5</label>
+                        <input asp-for="@ik" class="form-control" />
+                        <span asp-validation-for="@ik" class="text-danger"></span>
+                      </div>
+                      <div class="form-group">
+                        <label>Virimo laikas su šiuo ingredientu</label>
+                        <input asp-for="@vl" class="form-control" />
+                        <span asp-validation-for="@vl" class="text-danger"></span>
+                      </div>
+                      <div class="form-group">
+                        <label>Fermentacijos laikas su šiuo ingredientu</label>
+                        <input asp-for="@fl" class="form-control" />
+                        <span asp-validation-for="@fl" class="text-danger"></span>
+                      </div>
+                      <center>
+                        <div class="form-group">
+                          <input type="submit" value="Redaguoti" class="btn btn-primary" />
+                        </div>
+                      </center>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Grįžti</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal fade recedel_@item.IngredientoId" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ar tikrai norite ištrinti šį ingredientą?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">×</span>
+                    </button>
+                  </div>
+                  <div class="modal-body"></div>
+                  <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Grįžti</button>
+                    <a class="btn btn-primary" href='@Url.Action("DeleteConfirmed", "IngredientoReceptas",
+                                            new
+                                            {
+                                              id = item.KlientoUzsakymoId,
+                                              id2 = ViewBag.InstrukcijosId,
+                                              id3 = item.IngredientoId,
+                                              a1 = item.IngredientoKiekis,
+                                              a2 = item.VirimoLaikas,
+                                              a3 = item.FermentacijosLaikas
+                                            })'>Ištrinti</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+        </tbody>
+      </table>
+      @if (ViewBag.InstrukcijosBrandinimoLaikas != null)
+      {
+        <center><h4 style="margin:2%">Redaguoti Bendrą produkcijos brandinimo laiką</h4></center>
+        <form method="POST" asp-controller="GamybosInstrukcijas" class="register-form" asp-action="EditBrandinimoLaikas" id="register-form">
+          <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+          @{
+            var IB2 = ViewBag.InstrukcijosBusena;
+            var GT2 = ViewBag.InstrukcijosTerminas;
+            var RP2 = ViewBag.RecepturaParuosta;
+            var TP2 = ViewBag.TechnikaParuosta;
+            var BL2 = ViewBag.InstrukcijosBrandinimoLaikas;
+            var kui4 = ViewBag.KlientoUzsakymoId;
+            var Ini4 = ViewBag.InstrukcijosId;
+          }
+          <input type="hidden" asp-for="@kui4" />
+          <input type="hidden" asp-for="@Ini4" />
+          <input type="hidden" asp-for="@IB2" />
+          <input type="hidden" asp-for="@GT2" />
+          <input type="hidden" asp-for="@RP2" />
+          <input type="hidden" asp-for="@TP2" />
+
+          <div class="form-group">
+            <input asp-for="@BL2" class="form-control" placeholder="Pvz:3 savaitės" />
+            <span asp-validation-for="@BL2" class="text-danger"></span>
+          </div><nobr>
+            <input type="submit" id="brandlaik" style="margin:2%" class="form-submit" value="Redaguoti" />
+          </nobr>
+        </form>
+      }
+      <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Ar tikrai norite atsijungti?</h5>
+              <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-secondary" type="button" data-dismiss="modal">Grįžti</button>
+              <form asp-area="Identity" asp-page="/Account/Logout">
+                <button class="btn btn-primary" type="submit">Atsijungti</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </body>
+</html>
+
+@section Scripts {
+  @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

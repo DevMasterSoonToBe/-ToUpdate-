@@ -1,0 +1,46 @@
+@model AlausDaryklosGamybosValdymoSistema.Models.IngredientoReceptas
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<h4>IngredientoReceptas</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+      <form asp-action="Edit">
+        @{
+            var kui = ViewBag.KlientoUzsakymoId;
+            var ini = Model.InstrukcijosId;
+            var ii = Model.IngredientoId;
+        }
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="@kui" />
+        <input type="hidden" asp-for="@ini" />
+        <input type="hidden" asp-for="@ii" />
+        <div class="form-group">
+          <label asp-for="IngredientoKiekis" class="control-label"></label>
+          <input asp-for="IngredientoKiekis" class="form-control" />
+          <span asp-validation-for="IngredientoKiekis" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+          <label asp-for="VirimoLaikas" class="control-label"></label>
+          <input asp-for="VirimoLaikas" class="form-control" />
+          <span asp-validation-for="VirimoLaikas" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+          <label asp-for="FermentacijosLaikas" class="control-label"></label>
+          <input asp-for="FermentacijosLaikas" class="form-control" />
+          <span asp-validation-for="FermentacijosLaikas" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+          <input type="submit" value="Save" class="btn btn-default" />
+        </div>
+      </form>
+    </div>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

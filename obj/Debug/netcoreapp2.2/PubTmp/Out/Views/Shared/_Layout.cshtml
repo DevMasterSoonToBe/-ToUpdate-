@@ -1,0 +1,363 @@
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<Vartotojas> SignInManager
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title hidden>@ViewData["Title"] - AlausDaryklosGamybosValdymoSistema</title>
+  <script src="~/js/dist/build.js"></script>
+  <environment include="Development">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link href="~/KlientoUzsakymoAplankasDetails/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  </environment>
+  <environment exclude="Development">
+    <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
+          asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+          asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+    <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+  </environment>
+</head>
+<body>
+  <style>
+    .bg-dark {
+      background-color: #343a40 !important;
+    }
+
+    .navbar {
+      position: relative;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      align-items: center;
+      -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+      justify-content: space-between;
+      padding: 0.5rem 1rem;
+    }
+
+    .navbar-dark, .navbar-brand {
+      color: #fff;
+    }
+
+    a {
+      color: #007bff;
+      text-decoration: none;
+      background-color: transparent;
+    }
+
+    *, *::before, *::after {
+      /* -webkit-box-sizing: border-box; */
+      box-sizing: border-box;
+    }
+
+    media (min-width: 768px)
+    .mr-md-3, .mx-md-3 {
+      margin-right: 1rem !important;
+    }
+
+    media (min-width: 768px)
+    .mb-md-0, .my-md-0 {
+      margin-bottom: 0 !important;
+    }
+
+    media (min-width: 768px)
+    .mt-md-0, .my-md-0 {
+      margin-top: 0 !important;
+    }
+
+    .ml-auto, .mx-auto {
+      margin-left: auto !important;
+    }
+
+    media (min-width: 768px)
+    .d-md-inline-block {
+      display: inline-block !important;
+    }
+
+    media (min-width: 768px)
+    .ml-md-0, .mx-md-0 {
+      margin-left: 0 !important;
+    }
+
+    .navbar-nav {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+      flex-direction: column;
+      padding-left: 0;
+      margin-bottom: 0;
+      list-style: none;
+      height: 100%;
+    }
+
+    ol, ul, dl {
+      margin-top: 0;
+      margin-bottom: 1rem;
+    }
+
+    .navbar-nav .nav-item .nav-link:focus {
+      outline: none;
+    }
+
+    .navbar-dark .navbar-nav .nav-link:hover, .navbar-dark .navbar-nav .nav-link:focus {
+      color: rgba(255, 255, 255, 0.75);
+    }
+
+    .navbar-dark .navbar-nav .nav-link {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .navbar-expand .navbar-nav .nav-link {
+      padding-right: 0.5rem;
+      padding-left: 0.5rem;
+    }
+
+    .fa, .fas {
+      font-weight: 900;
+    }
+
+    .fa, .far, .fas {
+      font-family: "Font Awesome 5 Free";
+    }
+
+    .fa-fw {
+      text-align: center;
+      width: 1.25em;
+    }
+
+    .fa, .fab, .fal, .far, .fas {
+      -moz-osx-font-smoothing: grayscale;
+      -webkit-font-smoothing: antialiased;
+      display: inline-block;
+      font-style: normal;
+      font-variant: normal;
+      text-rendering: auto;
+      line-height: 1;
+    }
+
+    .navbar-expand .navbar-nav .dropdown-menu {
+      position: absolute;
+    }
+
+    .dropdown-menu.show {
+      display: block;
+    }
+
+    .dropdown-menu-right {
+      right: 0;
+      left: auto;
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      z-index: 1000;
+      display: none;
+      float: left;
+      padding: 0.5rem 0;
+      margin: 0.125rem 0 0;
+      color: #212529;
+      text-align: left;
+      list-style: none;
+      background-color: #fff;
+      background-clip: padding-box;
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      border-radius: 8%;
+      line-height: 1.5;
+      font-weight: 400;
+    }
+
+    .dropdown-divider {
+      height: 0;
+      margin: 0.5rem 0;
+      overflow: hidden;
+      border-top: 1px solid #e9ecef;
+    }
+
+    p {
+      margin-top: 0;
+      margin-bottom: 1rem;
+    }
+
+    *, *::before, *::after {
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+    }
+
+    .dropdown-item {
+      display: block;
+      width: 100%;
+      padding: 0.25rem 1.5rem;
+      clear: both;
+      font-weight: 400;
+      color: #212529;
+      text-align: inherit;
+      white-space: nowrap;
+      background-color: transparent;
+      border: 0;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    media (min-width: 768px)
+    img {
+      margin-left: 0 !important;
+    }
+
+    a {
+      text-decoration-color: none;
+    }
+
+    .btn-light:hover {
+      background-color: aqua;
+    }
+
+    .header_btn:hover {
+      background-color: rgba(255, 255, 255, 0.95);
+      color: black;
+    }
+
+    .header_btn {
+      background-color: transparent;
+      color: white;
+    }
+
+    .dropdown-toggle::after {
+      display: none;
+    }
+  </style>
+  @if (User.Identity.IsAuthenticated)
+  {
+    if (User.IsInRole("Generalinis direktorius"))
+    {
+      <script type="text/javascript">
+        var e = "Generalinis direktorius";
+      </script>}
+    if (User.IsInRole("Gamybos vadovas"))
+    {
+      <script type="text/javascript">
+        var e = "Gamybos vadovas";
+      </script> }
+    if (User.IsInRole("Technologas"))
+    {
+      <script type="text/javascript">
+        var e = "Technologas";
+      </script>}
+    if (User.IsInRole("Technikos vadovas"))
+    {
+      <script type="text/javascript">
+        var e = "Technikos vadovas";
+      </script>
+    }
+    if (User.IsInRole("Gamybos meistras"))
+    {
+      <script type="text/javascript">
+        var e = "Gamybos meistras";
+      </script>
+    }
+    if (User.IsInRole("Darbuotojas"))
+    {
+      <script type="text/javascript">
+        var e = "Darbuotojas";
+      </script>
+    }
+    if (User.IsInRole("Buhalteris"))
+    {
+      <script type="text/javascript">
+        var e = "Buhalteris";
+      </script>
+    }
+  }
+      <header style="position:absolute; width:100%; top:0;">
+        <div class="main-menu">
+          <nav class="navbar navbar-expand navbar-dark bg-dark static-top navbar-static-top" style="margin-bottom:0;">
+            <button type="button" class="btn header_btn" onclick="history.back()" style="font-size:20px;
+text-decoration-color:aqua;position:absolute;top:0;left:0; border-radius:0; width:auto;height:100%;">
+              Grįžti
+            </button>
+            <div class="col-md-4" style="margin-left:20%; object-fit:cover;">
+              <a class="navbar-brand mr-1" href='@Url.Action("Index", "KlientoUzsakymoAplankas")'><img src="~/IndexKlientoUzsakymoAplankas/logo_transparent.png" style="width:15%;height:auto;-o-object-fit:cover;" /></a>
+            </div>
+            <!-- Navbar Search -->
+            <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0" hidden>
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2" hidden>
+              </div>
+            </form>
+            <ul class="navbar-nav ml-auto ml-md-0 no-arrow">
+              <li class="nav-item dropdown no-arrow">
+                <a class="nav-link no-arrow" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="fas fa-user-circle no-arrow fa-fw" style="font-size:20px;"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" style="border-radius:8%;" aria-labelledby="userDropdown">
+                  @if (SignInManager.IsSignedIn(User))
+                  {
+                    <p class="dropdown-item" style="font-size:15px;">
+                      Rolė -
+                      <script type="text/javascript">
+                        document.write(e)
+                      </script>
+                    </p>
+                  }
+                  <div class="dropdown-divider"></div>
+
+                  <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal" style="font-size:15px;color: #007bff;
+    text-decoration: none;
+    background-color: transparent;
+    display: block;
+    width: 100%;
+    padding: 0.25rem 1.5rem;
+    clear: both;
+    font-weight: 400;
+    color: #212529;
+    text-align: inherit;
+    white-space: nowrap;
+    background-color: transparent;
+    border: 0;">Atsijungti</a>
+                </div>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </header>
+  <div>
+    @RenderBody()
+    <footer>
+      <p hidden>&copy; 2019 - AlausDaryklosGamybosValdymoSistema</p>
+    </footer>
+  </div>
+  <environment include="Development">
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+  </environment>
+  <environment exclude="Development">
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
+            asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+            asp-fallback-test="window.jQuery"
+            crossorigin="anonymous"
+            integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
+    </script>
+    <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
+            asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+            asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+            crossorigin="anonymous"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
+    </script>
+    <script src="~/js/site.min.js" asp-append-version="true"></script>
+  </environment>
+ @RenderSection("Scripts", required: false)
+</body>
+</html>

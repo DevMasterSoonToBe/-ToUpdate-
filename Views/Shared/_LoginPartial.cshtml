@@ -1,0 +1,77 @@
+@using Microsoft.AspNetCore.Identity
+@using AlausDaryklosGamybosValdymoSistema.Models
+@inject SignInManager<Vartotojas> SignInManager
+@inject UserManager<Vartotojas> UserManager
+@inject UserManager<Vartotojas> RoleManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })" method="post" id="logoutForm" class="navbar-right">
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Sveiki, @UserManager.GetUserName(User)!</a>
+            </li>
+            <li>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    if (User.IsInRole("Generalinis direktorius"))
+                    {
+                        <script type="text/javascript">
+                            var k = "Generalinis direktorius";
+                        </script>}
+                    if (User.IsInRole("Gamybos vadovas"))
+                    {
+                        <script type="text/javascript">
+                            var k = "Gamybos vadovas";
+                        </script> }
+                    if (User.IsInRole("Technologas"))
+                    {
+                        <script type="text/javascript">
+                            var k = "Technologas";
+                        </script>}
+                    if (User.IsInRole("Technikos vadovas"))
+                    {
+                        <script type="text/javascript">
+                            var k = "Technikos vadovas";
+                        </script>
+                    }
+                    if (User.IsInRole("Gamybos meistras"))
+                    {
+                        <script type="text/javascript">
+                            var k = "Gamybos meistras";
+                        </script>
+                    }
+                    if (User.IsInRole("Darbuotojas"))
+                    {
+                        <script type="text/javascript">
+                            var k = "Darbuotojas";
+                        </script>
+                    }
+                    if (User.IsInRole("Buhalteris"))
+                    {
+                        <script type="text/javascript">
+                            var k = "Buhalteris";
+                        </script>
+                    }
+
+                }
+                <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
+                    Rolė -
+                    <script type="text/javascript">
+                        document.write(k)
+                    </script>
+                </a>
+            </li>
+            <li>
+                <button type="submit" class="btn btn-link navbar-btn navbar-link" style="margin-right:1%;">Logout</button>
+            </li>
+        </ul>
+    </form>
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li><a asp-area="Identity" asp-page="/Account/Register">Register</a></li>
+        <li><a asp-area="Identity" asp-page="/Account/Login">Login</a></li>
+    </ul>
+}

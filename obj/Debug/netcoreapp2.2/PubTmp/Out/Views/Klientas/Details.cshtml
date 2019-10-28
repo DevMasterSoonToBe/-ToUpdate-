@@ -1,0 +1,24 @@
+﻿@model AlausDaryklosGamybosValdymoSistema.Models.Klientas
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Klientas</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.KlientoPavadinimas)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.KlientoPavadinimas)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.KlientoId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

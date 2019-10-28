@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sitemanifest>
+  <IisApp path="C:\Users\kipri\source\repos\AlausDaryklosGamybosValdymoSistema\AlausDaryklosGamybosValdymoSistema\obj\Release\netcoreapp2.0\PubTmp\Out\" />
+  <dbfullsql path="C:\Users\kipri\source\repos\AlausDaryklosGamybosValdymoSistema\AlausDaryklosGamybosValdymoSistema\obj\Release\netcoreapp2.0\PubTmp\EFSQLScripts\AlausDaryklosGamybosValdymoSistema.Models.Alaus_daryklos_gamybos_valdymas_DBContext.sql" />
+</sitemanifest>

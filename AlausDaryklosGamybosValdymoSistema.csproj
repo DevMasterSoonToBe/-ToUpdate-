@@ -1,0 +1,125 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <StartupObject></StartupObject>
+    <UserSecretsId>7d6b74ad-582b-4b02-b687-4518bfd4a229</UserSecretsId>
+    <Configurations>Debug;Release</Configurations>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>Builds\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <PreserveCompilationContext>true</PreserveCompilationContext>
+    <MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Views\Pareigybes\**" />
+    <Compile Remove="Views\Vartotojas\**" />
+    <Content Remove="Views\Pareigybes\**" />
+    <Content Remove="Views\Vartotojas\**" />
+    <EmbeddedResource Remove="Views\Pareigybes\**" />
+    <EmbeddedResource Remove="Views\Vartotojas\**" />
+    <None Remove="Views\Pareigybes\**" />
+    <None Remove="Views\Vartotojas\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EntityFramework" Version="6.2.0" />
+    <PackageReference Include="EntityFramework.SqlServerCompact" Version="6.2.0" />
+    <PackageReference Include="IdeaTech.System.Web.Mvc.Extensions" Version="1.0.7" />
+    <PackageReference Include="Microsoft.AspNet.Identity.Core" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNet.Identity.EntityFramework" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNet.Identity.Owin" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.7" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.2.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="2.8.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.Design" Version="1.1.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Owin.Host.SystemWeb" Version="4.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration" Version="2.2.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2" />
+    <PackageReference Include="ReflectionIT.Mvc.Paging" Version="3.3.0" />
+    <PackageReference Include="SweetAlert" Version="1.0.0" />
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.0.12" />
+    <PackageReference Include="X.PagedList.Mvc.Core" Version="7.6.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Areas\Identity\Pages\Account\Login.cshtml" />
+    <None Include="Areas\Identity\Pages\Account\Logout.cshtml" />
+    <None Include="Areas\Identity\Pages\Account\Manage\Index.cshtml" />
+    <None Include="Areas\Identity\Pages\Account\Manage\_ManageNav.cshtml" />
+    <None Include="Areas\Identity\Pages\Account\Manage\_ViewImports.cshtml" />
+    <None Include="Areas\Identity\Pages\Account\Register.cshtml" />
+    <None Include="Areas\Identity\Pages\Account\_ViewImports.cshtml" />
+    <None Include="Areas\Identity\Pages\_ValidationScriptsPartial.cshtml" />
+    <None Include="Areas\Identity\Pages\_ViewImports.cshtml" />
+    <None Include="Areas\Identity\Pages\_ViewStart.cshtml" />
+    <None Include="wwwroot\DviFormos\css\style.css.map" />
+    <None Include="wwwroot\DviFormos\fonts\material-icon\fonts\Material-Design-Iconic-Font.svg" />
+    <None Include="wwwroot\DviFormos\fonts\material-icon\fonts\Material-Design-Iconic-Font.woff2" />
+    <None Include="wwwroot\DviFormos\fonts\poppins\poppins-v5-latin-300.svg" />
+    <None Include="wwwroot\DviFormos\fonts\poppins\poppins-v5-latin-300.woff2" />
+    <None Include="wwwroot\DviFormos\fonts\poppins\poppins-v5-latin-300italic.svg" />
+    <None Include="wwwroot\DviFormos\fonts\poppins\poppins-v5-latin-300italic.woff2" />
+    <None Include="wwwroot\DviFormos\fonts\poppins\poppins-v5-latin-500.svg" />
+    <None Include="wwwroot\DviFormos\fonts\poppins\poppins-v5-latin-500.woff2" />
+    <None Include="wwwroot\DviFormos\fonts\poppins\poppins-v5-latin-500italic.svg" />
+    <None Include="wwwroot\DviFormos\fonts\poppins\poppins-v5-latin-500italic.woff2" />
+    <None Include="wwwroot\DviFormos\fonts\poppins\poppins-v5-latin-600.svg" />
+    <None Include="wwwroot\DviFormos\fonts\poppins\poppins-v5-latin-600.woff2" />
+    <None Include="wwwroot\DviFormos\fonts\poppins\poppins-v5-latin-700.svg" />
+    <None Include="wwwroot\DviFormos\fonts\poppins\poppins-v5-latin-700.woff2" />
+    <None Include="wwwroot\DviFormos\fonts\poppins\poppins-v5-latin-700italic.svg" />
+    <None Include="wwwroot\DviFormos\fonts\poppins\poppins-v5-latin-700italic.woff2" />
+    <None Include="wwwroot\DviFormos\fonts\poppins\poppins-v5-latin-800.svg" />
+    <None Include="wwwroot\DviFormos\fonts\poppins\poppins-v5-latin-800.woff2" />
+    <None Include="wwwroot\DviFormos\fonts\poppins\poppins-v5-latin-800italic.svg" />
+    <None Include="wwwroot\DviFormos\fonts\poppins\poppins-v5-latin-800italic.woff2" />
+    <None Include="wwwroot\DviFormos\fonts\poppins\poppins-v5-latin-900.svg" />
+    <None Include="wwwroot\DviFormos\fonts\poppins\poppins-v5-latin-900.woff2" />
+    <None Include="wwwroot\DviFormos\fonts\poppins\poppins-v5-latin-italic.svg" />
+    <None Include="wwwroot\DviFormos\fonts\poppins\poppins-v5-latin-italic.woff2" />
+    <None Include="wwwroot\DviFormos\fonts\poppins\poppins-v5-latin-regular.svg" />
+    <None Include="wwwroot\DviFormos\fonts\poppins\poppins-v5-latin-regular.woff2" />
+    <None Include="wwwroot\DviFormos\fonts\poppins\roboto-condensed-v16-latin-700.svg" />
+    <None Include="wwwroot\DviFormos\fonts\poppins\roboto-condensed-v16-latin-700.woff2" />
+    <None Include="wwwroot\DviFormos\fonts\poppins\roboto-condensed-v16-latin-700italic.svg" />
+    <None Include="wwwroot\DviFormos\fonts\poppins\roboto-condensed-v16-latin-700italic.woff2" />
+    <None Include="wwwroot\DviFormos\fonts\poppins\roboto-condensed-v16-latin-italic.svg" />
+    <None Include="wwwroot\DviFormos\fonts\poppins\roboto-condensed-v16-latin-italic.woff2" />
+    <None Include="wwwroot\DviFormos\fonts\poppins\roboto-condensed-v16-latin-regular.svg" />
+    <None Include="wwwroot\DviFormos\fonts\poppins\roboto-condensed-v16-latin-regular.woff2" />
+    <None Include="wwwroot\DviFormos\js\main.js" />
+    <None Include="wwwroot\DviFormos\vendor\jquery\jquery-ui.min.js" />
+    <None Include="wwwroot\DviFormos\vendor\jquery\jquery.min.js" />
+    <None Include="wwwroot\IndexKlientoUzsakymoAplankas\css\bootstrap-theme.css.map" />
+    <None Include="wwwroot\IndexKlientoUzsakymoAplankas\css\bootstrap.css.map" />
+    <None Include="wwwroot\IndexKlientoUzsakymoAplankas\fonts\fontawesome-webfont.svg" />
+    <None Include="wwwroot\IndexKlientoUzsakymoAplankas\fonts\glyphicons-halflings-regular.svg" />
+    <None Include="wwwroot\IndexKlientoUzsakymoAplankas\js\animate.js" />
+    <None Include="wwwroot\IndexKlientoUzsakymoAplankas\js\bootstrap.js" />
+    <None Include="wwwroot\IndexKlientoUzsakymoAplankas\js\bootstrap.min.js" />
+    <None Include="wwwroot\IndexKlientoUzsakymoAplankas\js\fancybox\Descr.WD3" />
+    <None Include="wwwroot\IndexKlientoUzsakymoAplankas\js\fancybox\jquery.fancybox.pack.js" />
+    <None Include="wwwroot\IndexKlientoUzsakymoAplankas\js\functions.js" />
+    <None Include="wwwroot\IndexKlientoUzsakymoAplankas\js\jquery.isotope.min.js" />
+    <None Include="wwwroot\IndexKlientoUzsakymoAplankas\js\wow.min.js" />
+    <None Include="wwwroot\js\src\App.vue" />
+    <None Include="wwwroot\js\src\assets\logo.png" />
+    <None Include="wwwroot\js\src\main.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Files\" />
+  </ItemGroup>
+
+</Project>

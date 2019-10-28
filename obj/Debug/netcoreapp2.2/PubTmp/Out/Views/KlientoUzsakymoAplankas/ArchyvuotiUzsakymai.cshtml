@@ -1,0 +1,26 @@
+﻿
+@model IEnumerable<AlausDaryklosGamybosValdymoSistema.Models.KlientoUzsakymoAplankas>
+
+@{
+    ViewData["Title"] = "ArchyvuotiUzsakymai";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="~/css/Archyvuoti Kliento uzsakymai.css">
+</head>
+<body>
+    <header>
+        <center><h2>LOGO</h2></center>
+    </header>
+    <div class="Kliento_Uzsakymo_Aplankai">
+        @foreach (var item in Model)
+        {
+
+            <a asp-action="Details" asp-route-id="@item.KlientoUzsakymoId"><span class="glyphicon glyphicon-file" id="Bigger_Boostrap_Gl_File"></span></a><br>
+            <p>@Html.DisplayFor(modelItem => item.Kliento.KlientoPavadinimas) --- @Html.DisplayFor(modelItem => item.Terminas)</p>
+        }
+    </div>
+</body>
+</html>

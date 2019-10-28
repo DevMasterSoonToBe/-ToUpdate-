@@ -1,0 +1,188 @@
+@model IEnumerable<AlausDaryklosGamybosValdymoSistema.Models.TechnikosPrietaisoPrasymas>
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<Vartotojas> SignInManager
+@{
+  ViewData["Title"] = "Index";
+}
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="~/css/RedaguotiPrasymus.css">>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <!--JS sweet alert-->
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</head>
+<html>
+<body  style="font-family: 'Open Sans', Arial, sans-serif;background-color:rgba(0, 0, 0, 0.03);">
+  <h2>Prašymas technikai užsakyti</h2>
+  @if (User.Identity.IsAuthenticated)
+  {
+    if (User.IsInRole("Technikos vadovas") || User.IsInRole("Gamybos vadovas"))
+    {
+      <p>
+        <a href='#' data-toggle="modal" data-target="#AddTechPras">
+          <button type="button" class="btn btn-secondary btn-sm">Pridėti technikos prietaisą prie prašymo</button>
+        </a>
+      </p>
+    }
+  }
+  <table class="table">
+    <thead>
+      <tr>
+        <th>
+          Technikos prietaiso pavadinimas
+        </th>
+        <th>
+          Technikos prietaiso kiekis
+        </th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach (var item in Model)
+      {
+        <tr>
+          <td>
+            @Html.DisplayFor(modelItem => item.TechnikosPrietaiso.PrietaisoPavadinimas)
+          </td>
+          <td>
+            @Html.DisplayFor(modelItem => item.PrietaisoKiekis) (kg/l)
+          </td>
+          @if (User.Identity.IsAuthenticated)
+          {
+            if (User.IsInRole("Technikos vadovas") || User.IsInRole("Gamybos vadovas"))
+            {
+              <td>
+                <a href='#' data-toggle="modal" data-target=".EditTech_@item.TechnikosPrietaisoId">
+                  <button type="button" class="btn btn-secondary btn-sm">Redaguoti ingredientą</button>
+                </a>
+                <a href='#' data-toggle="modal" data-target=".DeleteTech_@item.TechnikosPrietaisoId">
+                  <button type="button" class="btn btn-secondary btn-sm">Ištrinti ingredientą</button>
+                </a>
+              </td>
+            }
+          }
+        </tr>
+        <div class="modal fade EditTech_@item.TechnikosPrietaisoId" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-body">
+                <form asp-action="Edit" method="post">
+                  @{ decimal tid = item.TechnikosPrietaisoId;
+                    var techk = item.PrietaisoKiekis;
+                    var kui = ViewBag.KlientoUzsakymoId;
+                    string techp = item.TechnikosPrietaiso.PrietaisoPavadinimas;
+                  }
+                  <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                  <input asp-for="@tid" hidden />
+                  <input asp-for="@kui" hidden />
+                  <div class="form-group">
+                    <label class="control-label">Pasirinkti ingredientą</label>
+                    <input asp-for="@techp" class="form-control" readonly />
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label">Ingrediento kiekis</label>
+                    <input asp-for="@techk" class="form-control" placeholder="Pvz:5" />
+                    <span asp-validation-for="@techk" class="text-danger"></span>
+                  </div>
+                  <center>
+                    <div class="form-group">
+                      <input type="submit" value="Redaguoti" class="btn btn-primary" />
+                    </div>
+                  </center>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Grįžti</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal fade DeleteTech_@item.TechnikosPrietaisoId" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Ar ištrinti ingredientą iš laisvų žaliavų formos?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span>
+                </button>
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Grįžti</button>
+                <a class="btn btn-primary" href='@Url.Action("DeleteConfirmed", "TechnikosPrietaisoPrasymas",
+                                            new
+                                            {
+                                              tid2 = item.TechnikosPrietaisoId,
+                                              techk2 = item.PrietaisoKiekis,
+                                              kui2 = ViewBag.KlientoUzsakymoId
+                                            })'>Ištrinti</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+      <div class="modal fade" id="AddTechPras" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-body">
+              <form asp-controller="TechnikosPrietaisoPrasymas" asp-action="CreateFROMINDEX" method="POST">
+                @{
+                  var kuiTPPR = ViewBag.KlientoUzsakymoId;
+                  decimal PRTID = 0;
+                  string PRTPB = "S";
+                  var PRTK = 0;
+
+                }
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="@PRTPB" />
+                <input type="hidden" asp-for="@kuiTPPR" />
+                <center><h4>Prašymas technikai</h4></center>
+                <div class="form-group">
+                  <label class="control-label">Pasirinkti technikos prietaisą</label>
+                  <select asp-for="@PRTID" class="form-control" asp-items="ViewBag.TechnikaPrasymui"></select>
+                </div>
+                <div class="form-group">
+                  <label class="control-label">Technikos prietaiso kiekis</label>
+                  <input asp-for="@PRTK" class="form-control" placeholder="Pvz:5" />
+                  <span asp-validation-for="@PRTK" class="text-danger"></span>
+                </div>
+                <center>
+                  <div class="form-group">
+                    <input type="submit" value="Pridėti technikos prietaisą prie technikos prašymo" class="btn btn-primary" />
+                  </div>
+                </center>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-secondary" type="button" data-dismiss="modal">Grįžti</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Ar tikrai norite atsijungti?</h5>
+              <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-secondary" type="button" data-dismiss="modal">Grįžti</button>
+              <form asp-area="Identity" asp-page="/Account/Logout">
+                <button class="btn btn-primary" type="submit">Atsijungti</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </tbody>
+  </table>
+</body>
+</html>
+
+@section Scripts{
+  @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

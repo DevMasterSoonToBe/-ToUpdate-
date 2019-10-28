@@ -1,0 +1,283 @@
+@model AlausDaryklosGamybosValdymoSistema.Models.IngredientoReceptas
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<Vartotojas> SignInManager
+@{
+  ViewData["Title"] = "Create";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Receptūros kūrimas bei pildymas</title>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+      // Brandinimo laikas pridetas prie recepturos
+      /* $("#brandlaik").click(function () {
+         $("#brandlaikalert").show("fade");
+         setTimeout(function () {
+           $("#brandlaikalert").show("fade");
+         }, 5000)
+       });
+       $("#linkClose").click(function () {
+         $("#brandlaikalert").hide("fade");
+       });*/
+
+      // Ingredientas pridetas prie recepturos
+      /* $("#ingrrecept").click(function () {
+         //$.post( $("#updateunit").attr("action"),
+         // $("#updateunit :input").serializeArray(),function(info){
+         $("#result").html('Successfully updated record!');
+         $("#result").addClass("alert alert-success offset4 span4");
+         //});
+       });
+       $("#updateunit").submit(function () {
+         return false;
+       });
+
+       function clearInput() {
+         $("#updateunit :input").each(function () {
+           $(this).val('');
+         });
+       }
+
+
+
+       /*$("#ingrrecept").click(function () {
+         $("#receptalert").show('fade');
+
+
+         setTimeout(function () {
+           $("#receptalert").hide('fade');
+         }, 3000)
+       });
+
+
+       $("#linkClose").click(function () {
+         $("#receptalert").hide('fade');
+       });*/
+      // Ingredientas pridetas
+      /* $("#ingr").click(function () {
+         $("#ingralert").show("fade");
+         setTimeout(function () {
+           $("#ingralert").show("fade");
+         }, 5000)
+       });
+       $("#linkClose").click(function () {
+         $("#ingralert").hide("fade");
+       });*/
+    });
+  </script>
+  <!-- Font Icon -->
+  <link rel="stylesheet" href="~/DviFormos/fonts/material-icon/css/material-design-iconic-font.min.css">
+
+  <!-- Main css -->
+  <link rel="stylesheet" href="~/DviFormos/css/style.css">
+</head>
+<body style="font-family: 'Open Sans', Arial, sans-serif;background-color:rgba(0, 0, 0, 0.03);">
+  <div class="main" style="text-align:center;">
+    <section class="signup">
+
+      <center><div id="result"></div></center>
+      <!-- Recepturos forma
+  <div id="brandlaikalert" class="alert alert-success collapse">
+    <a href="#" class="close" id="linkClose">&times;</a>
+    <strong>Brandinimo laikas receptūrai pridėtas!</strong>
+  </div>
+  <div id="receptalert" class="alert alert-success collapse">
+    <a href="#" class="close" id="linkClose">&times;</a>
+    <strong>Ingridientas pridėtas prie receptūros!</strong>
+  </div>-->
+      @if (ViewBag.AlertMsgdecimal != null)
+      {
+        <script type="text/javascript">
+          swal({
+            title: "Ingredientas pridėtas prie receptūros!",
+            icon: "success",
+            button: "Gerai"
+          });
+        </script>
+      }
+      @if (ViewBag.AlertMsgdecimal == 2)
+      {
+        <script type="text/javascript">
+          swal({
+            title: "Ingredientas jau egzistuoja receptūroje!",
+            icon: "error",
+            button: "Gerai"
+          });
+        </script>
+      }
+      <div class="container" style="width:1500px; text-align:center;">
+        <center><h2 style="margin:1%;font-family: 'Open Sans', Arial, sans-serif;">Receptūros pildymas</h2></center>
+        <hr>
+        <center><h4 style="margin:2%">Pridėti ingredientą prie receptūros</h4></center>
+        <form method="POST" class="register-form" asp-action="Create" id="register-form">
+          <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+          @{
+            var kui = ViewBag.KlientoUzsakymoId;
+            var Ini = ViewBag.InstrukcijosId;
+            string a3 = ViewBag.InstrukcijosBrandinimoLaikas;
+          }
+          <input type="hidden" asp-for="@a3" />
+          <div class="form-group" hidden>
+            <label asp-for="KlientoUzsakymoId" class="control-label"></label>
+            <Input asp-for="@kui" class="form-control" />
+          </div>
+          <div class="form-group" hidden>
+            <label asp-for="InstrukcijosId" class="control-label"></label>
+            <Input asp-for="@Ini" class="form-control" />
+          </div>
+          <div class="form-group">
+            <select asp-for="IngredientoId" class="form-control" asp-items="ViewBag.IngredientoId"></select>
+          </div>
+          <div class="form-group">
+            <input asp-for="IngredientoKiekis" class="form-control" placeholder="Ingrediento kiekis (kg/l). Pvz:5" />
+            <span asp-validation-for="IngredientoKiekis" class="text-danger"></span>
+          </div>
+          <div class="form-group">
+            <input asp-for="VirimoLaikas" class="form-control" placeholder="Virimo laikas su šiuo ingredientu. Pvz: 2 valandos" />
+            <span asp-validation-for="VirimoLaikas" class="text-danger"></span>
+          </div>
+          <div class="form-group">
+            <input asp-for="FermentacijosLaikas" class="form-control" placeholder="Fermentacijos laikas su šiuo ingredientu. Pvz: 2 dienos" />
+            <span asp-validation-for="FermentacijosLaikas" class="text-danger"></span>
+          </div>
+          <center>
+            <div class="form-group form-button">
+              <input type="submit" id="ingrrecept" class="form-submit" value="Pridėti ingredientą prie receptūros" />
+            </div>
+          </center>
+        </form>
+        @if (ViewBag.InstrukcijosBrandinimoLaikas == null)
+        {
+          <hr>
+          <center><h4 style="margin:2%">Bendras produkcijos brandinimo laikas</h4></center>
+          <form method="POST" asp-controller="GamybosInstrukcijas" class="register-form" asp-action="AddBrandinimoLaikas" id="register-form">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @{
+              var IB = ViewBag.InstrukcijosBusena;
+              var GT = ViewBag.InstrukcijosTerminas;
+              var RP = ViewBag.RecepturaParuosta;
+              var TP = ViewBag.TechnikaParuosta;
+              var BL = "";
+              var kui3 = ViewBag.KlientoUzsakymoId;
+              var Ini3 = ViewBag.InstrukcijosId;
+            }
+            <input type="hidden" asp-for="@kui3" />
+            <input type="hidden" asp-for="@Ini3" />
+            <input type="hidden" asp-for="@IB" />
+            <input type="hidden" asp-for="@GT" />
+            <input type="hidden" asp-for="@RP" />
+            <input type="hidden" asp-for="@TP" />
+
+            <div class="form-group">
+              <input asp-for="@BL" class="form-control" placeholder="Pvz:3 savaitės" />
+              <span asp-validation-for="@BL" class="text-danger"></span>
+            </div><nobr>
+              <input type="submit" id="brandlaik" style="margin:2%" class="form-submit" value="Pridėti" />
+            </nobr>
+          </form>
+        }
+                @if (ViewBag.InstrukcijosBusena != "U")
+                {
+        <hr>
+        <center style="margin-bottom:3%">
+          <a href='#' data-toggle="modal" data-target="#RecepturaDone"><button type="button" class="form-button">Receptūra - užpildyta</button></a>
+        </center>
+                }
+      </div>
+    </section>
+    <div class="modal fade" id="RecepturaDone" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Ar tikrai norite užbaigti receptūros pildymą?</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Grįžti</button>
+            <a class="btn btn-primary" href='@Url.Action("RecepturaDone", "Ingredientoreceptas", new { id = ViewBag.KlientoUzsakymoId, id2 = ViewBag.InstrukcijosId,
+               a1 = ViewBag.InstrukcijosBusena,
+               a2 = ViewBag.InstrukcijosTerminas,
+               a3 = ViewBag.InstrukcijosBrandinimoLaikas,
+               a4 = ViewBag.RecepturaParuosta,
+               a5 = ViewBag.TechnikaParuosta})'>Receptūra - užpildyta</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Ingrediento forma -->
+    <section class="sign-in">
+      <div class="container" style=" width:1500px">
+        <center><h2 style="margin:5%; font-family: 'Open Sans', Arial, sans-serif;">Pridėti ingredientą jei jo nėra duomenų bazėje</h2></center>
+        <form asp-controller="Ingredientas" asp-action="Create" class="register-form" method="POST" id="login-form">
+          @{
+            var kui2 = ViewBag.KlientoUzsakymoId;
+            string ingrr = "";
+            string a33 = ViewBag.InstrukcijosBrandinimoLaikas;
+          }
+          <input type="hidden" asp-for="@a33" />
+          <div class="form-group" hidden>
+            <label asp-for="KlientoUzsakymoId" class="control-label"></label>
+            <Input asp-for="@kui2" class="form-control" />
+          </div>
+          @{
+            var Ini2 = ViewBag.InstrukcijosId;
+          }
+          <div class="form-group" hidden>
+            <label asp-for="InstrukcijosId" class="control-label"></label>
+            <Input asp-for="@Ini2" class="form-control" />
+          </div>
+          <div class="form-group">
+            <input asp-for="@ingrr" class="form-control" placeholder="Ingrediento pavadinimas" required maxlength="50" />
+            <span asp-validation-for="@ingrr" class="text-danger"></span>
+          </div>
+          <div class="form-group" hidden>
+            <label asp-for="Ingrediento.LaisvasKiekis" class="control-label"></label>
+            <input asp-for="Ingrediento.LaisvasKiekis" class="form-control" />
+            <span asp-validation-for="Ingrediento.LaisvasKiekis" class="text-danger"></span>
+          </div>
+          <center style="margin-bottom:3%">
+            <div class="form-group form-button">
+              <input type="submit" id="ingr" class="form-submit" value="Pridėti ingredientą" />
+            </div>
+          </center>
+        </form>
+      </div>
+    </section>
+  </div>
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Ar tikrai norite atsijungti?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Grįžti</button>
+          <form asp-area="Identity" asp-page="/Account/Logout">
+            <button class="btn btn-primary" type="submit">Atsijungti</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- JS -->
+  <script src="~/DviFormos/vendor/jquery/jquery.min.js"></script>
+  <script src="~/DviFormos/js/main.js"></script>
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+</html>
+
+
+
+@section Scripts {
+  @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

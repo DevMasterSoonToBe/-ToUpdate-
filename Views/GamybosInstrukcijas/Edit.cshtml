@@ -1,0 +1,45 @@
+﻿@model AlausDaryklosGamybosValdymoSistema.Models.GamybosInstrukcija
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<h4>GamybosInstrukcija</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="KlientoUzsakymoId" />
+            <input type="hidden" asp-for="InstrukcijosId" />
+            <div class="form-group">
+                <label asp-for="Busena" class="control-label"></label>
+                <input asp-for="Busena" class="form-control" />
+                <span asp-validation-for="Busena" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GamybosTerminas" class="control-label"></label>
+                <input asp-for="GamybosTerminas" class="form-control" />
+                <span asp-validation-for="GamybosTerminas" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BrandinimoLaikas" class="control-label"></label>
+                <input asp-for="BrandinimoLaikas" class="form-control" />
+                <span asp-validation-for="BrandinimoLaikas" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

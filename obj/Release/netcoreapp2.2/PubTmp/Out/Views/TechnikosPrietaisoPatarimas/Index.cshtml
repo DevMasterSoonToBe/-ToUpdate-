@@ -1,0 +1,166 @@
+@model IEnumerable<AlausDaryklosGamybosValdymoSistema.Models.TechnikosPrietaisoPatarimas>
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<Vartotojas> SignInManager
+@{
+  ViewData["Title"] = "Index";
+}
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="~/css/RedaguotiPrasymus.css">>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
+<html>
+<body  style="font-family: 'Open Sans', Arial, sans-serif;background-color:rgba(0, 0, 0, 0.03);">
+  <h2> Technikos prietaisų patarimai gamybos instrukcijai</h2>
+  @if (User.Identity.IsAuthenticated)
+  {
+    if (User.IsInRole("Technikos vadovas") || User.IsInRole("Gamybos vadovas"))
+    {
+      <p>
+        <a href='@Url.Action("Create", "TechnikosPrietaisoPatarimas", new
+            {
+              id = ViewBag.KlientoUzsakymoId,
+              id2 = ViewBag.InstrukcijosId,
+              a1 = ViewBag.InstrukcijosBusena,
+              a3 = ViewBag.InstrukcijosBrandinimoLaikas
+            })'>
+          <button type="button" class="btn btn-secondary btn-sm">Pridėti naują technikos prietaisą</button>
+        </a>
+      </p>
+    }
+  }
+      <table class="table">
+        <thead>
+          <tr>
+            <th>
+              Technikos prietaiso pavadinimas
+            </th>
+            <th>
+              Technikos prietaiso kiekis
+            </th>
+            <th>
+              Technikos prietaiso komentaras
+            </th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          @foreach (var item in Model)
+          {
+            <tr>
+              <td>
+                @Html.DisplayFor(modelItem => item.TechnikosPrietaiso.PrietaisoPavadinimas)
+              </td>
+              <td>
+                @Html.DisplayFor(modelItem => item.PrietaisoKiekis) vnt
+              </td>
+              <td>
+                @Html.DisplayFor(modelItem => item.PrietaisoKomentaras)
+              </td>
+              <td>
+                <a href='#' data-toggle="modal" data-target=".techedit_@item.TechnikosPrietaisoId">
+                  <button type="button" class="btn btn-secondary btn-sm">Redaguoti ingredientą</button>
+                </a>
+                <a href='#' data-toggle="modal" data-target=".techdel_@item.TechnikosPrietaisoId">
+                  <button type="button" class="btn btn-secondary btn-sm">Ištrinti ingredientą</button>
+                </a>
+              </td>
+            </tr>
+            <div class="modal fade techedit_@item.TechnikosPrietaisoId" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-body">
+                    <form asp-action="Edit">
+                      @{
+                        decimal ti1 = item.TechnikosPrietaisoId;
+                        string tipav = item.TechnikosPrietaiso.PrietaisoPavadinimas;
+                        decimal kui = item.KlientoUzsakymoId;
+                        decimal ini = item.InstrukcijosId;
+                        string tko = item.PrietaisoKomentaras;
+                        var tk = item.PrietaisoKiekis;
+                      }
+                      <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                      <input type="hidden" asp-for="@kui" />
+                      <input type="hidden" asp-for="@ini" />
+                      <input type="hidden" asp-for="@ti1" />
+                      <div class="form-group">
+                        <label class="control-label">Technikos prietaisas</label>
+                        <input asp-for="@tipav" class="form-control" readonly />
+                      </div>
+                      <div class="form-group">
+                        <label>Technikos prietaiso kiekis (vnt). Pvz: 5</label>
+                        <input asp-for="@tk" class="form-control" />
+                        <span asp-validation-for="@tk" class="text-danger"></span>
+                      </div>
+                      <div class="form-group">
+                        <label>Technikos prietaiso komentaras</label>
+                        <input asp-for="@tko" class="form-control" />
+                        <span asp-validation-for="@tko" class="text-danger"></span>
+                      </div>
+                      <center>
+                        <div class="form-group">
+                          <input type="submit" value="Redaguoti" class="btn btn-primary" />
+                        </div>
+                      </center>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Grįžti</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal fade techdel_@item.TechnikosPrietaisoId" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ar tikrai norite ištrinti šį ingredientą?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">×</span>
+                    </button>
+                  </div>
+                  <div class="modal-body"></div>
+                  <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Grįžti</button>
+                    <a class="btn btn-primary" href='@Url.Action("DeleteConfirmed", "TechnikosPrietaisoPatarimas",
+                                            new
+                                            {
+                                              id = item.KlientoUzsakymoId,
+                                              id2 = ViewBag.InstrukcijosId,
+                                              id3 = item.TechnikosPrietaisoId,
+                                              a1 = item.PrietaisoKiekis,
+                                              a2 = item.PrietaisoKomentaras
+                                            })'>Ištrinti</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+        </tbody>
+      </table>
+      <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Ar tikrai norite atsijungti?</h5>
+              <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-secondary" type="button" data-dismiss="modal">Grįžti</button>
+              <form asp-area="Identity" asp-page="/Account/Logout">
+                <button class="btn btn-primary" type="submit">Atsijungti</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </body>
+</html>
+
+@section Scripts {
+  @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

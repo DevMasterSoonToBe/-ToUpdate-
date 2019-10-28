@@ -1,0 +1,42 @@
+﻿@model AlausDaryklosGamybosValdymoSistema.Models.IngredientoPrasymas
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>IngredientoPrasymas</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.IngredientoKiekis)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IngredientoKiekis)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Busena)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Busena)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Ingrediento)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ingrediento.IngredientoPavadinimas)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.KlientoUzsakymo)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.KlientoUzsakymo.Busena)
+        </dd>
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>

@@ -1,0 +1,271 @@
+@model IEnumerable<AlausDaryklosGamybosValdymoSistema.Models.IngredientoRezervacija>
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<Vartotojas> SignInManager
+@{
+  ViewData["Title"] = "Index";
+}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="~/css/RedaguotiPrasymus.css">>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <!--Datatable -->
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+  <!--JS sweet alert-->
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <!-- JS validation-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+</head>
+<body style="font-family: 'Open Sans', 'Arial', 'sans-serif';background-color:rgba(0, 0, 0, 0.03);font-size:15px;">
+  <div class="main">
+  @if (ViewBag.IngredientoReserveAlert == 1)
+  {
+    <script type="text/javascript">
+      swal({
+        title: "Ingrediento prie laisvų žaliavų nėra!",
+        icon: "error",
+        button: "Gerai"
+      });
+    </script>
+  }
+  @if (ViewBag.IngredientoReserveAlert == 2)
+  {
+    <script type="text/javascript">
+      swal({
+        title: "Prašote daugiau nei yra laisvų žaliavų formoje!",
+        icon: "error",
+        button: "Gerai"
+      });
+    </script>
+  }
+  @if (ViewBag.IngredientoReserveAlert == 3)
+  {
+    <script type="text/javascript">
+      swal({
+        title: "Ingredientas rezervuotas!",
+        icon: "success",
+        button: "Gerai"
+      });
+    </script>
+  }
+  <center>
+    <h2 style="margin:1%; font-size:30px;">Rezervuoti ingredientai</h2>
+  </center>
+  @if (User.Identity.IsAuthenticated)
+  {
+    if (User.IsInRole("Technologas"))
+    {
+      <p>
+        <a href='#' class="btn btn-secondary btn-sm" data-toggle="modal" style="margin-left:1%; font-size:15px;" data-target="#AddIngrPras">
+          Rezervuoti ingredientą
+        </a>
+      </p>
+    }
+  }
+  <span class="counter pull-right"></span>
+  <table class="table table-striped table-hover table-bordered" id="IngrRez">
+    <thead>
+      <tr>
+        <th>
+          Ingrediento pavadinimas
+        </th>
+        <th>
+          Ingrediento kiekis
+        </th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach (var item in Model)
+      {
+        <tr>
+          <td>
+            @Html.DisplayFor(modelItem => item.Ingrediento.IngredientoPavadinimas)
+          </td>
+          <td>
+            @Html.DisplayFor(modelItem => item.IngredientoKiekis) (kg/l)
+          </td>
+          @if (User.Identity.IsAuthenticated)
+          {
+            if (User.IsInRole("Technologas"))
+            {
+              <td>
+                <a href='#' data-toggle="modal" style="font-size:15px;" class="btn btn-secondary" data-target=".EditIngr_@item.IngredientoId">
+                  Redaguoti ingredientą
+                </a>
+                <a href='#' data-toggle="modal" style="font-size:15px;" class="btn btn-secondary" data-target=".DeleteIngr_@item.IngredientoId">
+                  Ištrinti ingredientą
+                </a>
+              </td>
+            }
+          }
+        </tr>
+        <div class="modal fade EditIngr_@item.IngredientoId" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-body">
+                <form asp-action="Edit" method="post">
+                  @{ decimal iid = item.IngredientoId;
+                    var ingrk = item.IngredientoKiekis;
+                    var kui = ViewBag.KlientoUzsakymoId;
+                    string ingrp = item.Ingrediento.IngredientoPavadinimas;
+                  }
+
+                  <input asp-for="@iid" hidden />
+                  <input asp-for="@kui" hidden />
+                  <div class="form-group">
+                    <label class="control-label" style="font-size:15px;">Ingredientas</label>
+                    <input asp-for="@ingrp" class="form-control" style="font-size:15px;" readonly />
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label" style="font-size:15px;">Ingrediento kiekis</label>
+                    <input asp-for="@ingrk" style="font-size:15px;" class="form-control" placeholder="Pvz:5" data-val="true" data-val-range="Rezervuojamas kiekis negali būti minusinis!"
+                           data-val-range-min="0" data-val-required="Kiekis negali būti tuščias!" />
+                    <span class="text-danger field-validation-valid"
+                          data-valmsg-for="ingrk" data-valmsg-replace="true"></span>
+                  </div>
+                  <center>
+                    <div class="form-group">
+                      <input type="submit" style="font-size:15px;" value="Redaguoti" class="btn btn-primary" />
+                    </div>
+                  </center>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal" style="font-size:15px;">Grįžti</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal fade DeleteIngr_@item.IngredientoId" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel" style="font-size:25px;">Ar ištrinti ingredientą iš laisvų žaliavų formos?</h5>
+                <button class="close" type="button" data-dismiss="modal" style="font-size:15px;" aria-label="Close">
+                  <span aria-hidden="true" style="font-size:15px;">×</span>
+                </button>
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal" style="font-size:15px;">Grįžti</button>
+                <a class="btn btn-primary" style="font-size:15px;" href='@Url.Action("DeleteConfirmed", "IngredientoRezervacija",
+                                            new
+                                            {
+                                              iid2 = item.IngredientoId,
+                                              ingrk2 = item.IngredientoKiekis,
+                                              kui2 = ViewBag.KlientoUzsakymoId
+                                            })'>Ištrinti</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+      <div class="modal fade" id="AddIngrPras" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-body">
+              <form asp-controller="IngredientoRezervacija" asp-action="CreateFROMINDEX" method="POST">
+                @{
+                  decimal iidR = 0;
+                  var lkR = 0;
+                  var kuiInR = ViewBag.KlientoUzsakymoId;
+
+                }
+
+                <input type="hidden" asp-for="@kuiInR" />
+                <center><h4 style="font-size:20px;">Ingrediento rezervacija</h4></center>
+                <div class="form-group">
+                  <label class="control-label" style="font-size:15px;">Pasirinkti ingredientą</label>
+                  <select asp-for="@iidR" style="font-size:15px;" class="form-control" asp-items="ViewBag.IngredientaiRezervacijoms"></select>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" style="font-size:15px;">Ingrediento kiekis</label>
+                  <input asp-for="@lkR" style="font-size:15px;" class="form-control" placeholder="pvz:5" data-val="true" data-val-range="Rezervuojamas kiekis negali būti minusinis!"
+                         data-val-range-min="0" data-val-required="Kiekis negali būti tuščias!" />
+                  <span class="text-danger field-validation-valid"
+                        data-valmsg-for="lkR" data-valmsg-replace="true"></span>
+                </div>
+                <center>
+                  <div class="form-group">
+                    <input type="submit" style="font-size:15px;" value="Rezervuoti ingredientą" class="btn btn-primary" />
+                  </div>
+                </center>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-secondary" type="button" style="font-size:15px;" data-dismiss="modal">Grįžti</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </tbody>
+  </table>
+  <!--JS bootstrap-->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $.noConflict();
+      $('#IngrRez').DataTable({
+        "language": {
+          "lengthMenu": "Rodyti _MENU_ įrašų per puslapį",
+          "zeroRecords": "Įrašų nėra",
+          "info": "Rodomas puslapis _PAGE_ iš _PAGES_",
+          "infoEmpty": "Įrašų nėra",
+          "loadingRecords": "Ieškoma...",
+          "processing": "Dirbama...",
+          "search": "Ieškoti:",
+          "infoFiltered": "(išfiltruota iš _MAX_ įrašų)",
+          "paginate": {
+            "first": "Pirmas",
+            "last": "Paskutinis",
+            "next": "Kitas",
+            "previous": "Grįžti"
+          }
+        }
+      });
+    });
+  </script>
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel" style="font-size:25px;">Ar tikrai norite atsijungti?</h5>
+          <button class="close" type="button" style="font-size:15px;" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true" style="font-size:15px;">×</span>
+          </button>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal" style="font-size:15px;">Grįžti</button>
+          <form asp-area="Identity" asp-page="/Account/Logout">
+            <button class="btn btn-primary" type="submit" style="font-size:15px;">Atsijungti</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="background: #242424; width:100%; position:absolute; border-radius:0; margin-bottom:0;
+bottom:-6%;">
+    <a class="btn header_btn" href='@Url.Action("Details", "KlientoUzsakymoAplankas", new {id = ViewBag.KlientoUzsakymoId })' style="font-size:25px;
+  text-decoration-color:aqua; border-radius:0; width:45%;height:auto; position:relative;left:25%; bottom:0;">
+      Kliento užsakymo aplankas
+    </a>
+  </div>
+  </div>
+</body>
+</html>
+
+@section Scripts{
+  @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

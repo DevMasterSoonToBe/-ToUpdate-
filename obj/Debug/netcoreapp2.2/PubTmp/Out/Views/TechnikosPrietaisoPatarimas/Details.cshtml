@@ -1,0 +1,42 @@
+﻿@model AlausDaryklosGamybosValdymoSistema.Models.TechnikosPrietaisoPatarimas
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>TechnikosPrietaisoPatarimas</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PrietaisoKomentaras)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PrietaisoKomentaras)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PrietaisoKiekis)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PrietaisoKiekis)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.GamybosInstrukcija)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.GamybosInstrukcija.Busena)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TechnikosPrietaiso)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TechnikosPrietaiso.PrietaisoPavadinimas)
+        </dd>
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>

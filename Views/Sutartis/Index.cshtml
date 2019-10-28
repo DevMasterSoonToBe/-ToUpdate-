@@ -1,0 +1,248 @@
+@model IEnumerable<AlausDaryklosGamybosValdymoSistema.Models.Sutartis>
+
+@{
+  ViewData["Title"] = "Index";
+}
+
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="~/css/RedaguotiPrasymus.css">>
+
+  <!--Datatable -->
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+</head>
+<body style="font-family: 'Open Sans', 'Arial', 'sans-serif';background-color:rgba(0, 0, 0, 0.03); font-size:15px;">
+  <center><h2 style="margin:1%; font-size:30px;">Tiekėjų sutartys</h2></center>
+  <style>
+    .sutartisikona:hover {
+      -webkit-transform: scale(1.2); /* Chrome */
+      -moz-transform: scale(1.2); /* Firefox */
+      -ms-transform: scale(1.2); /* IE */
+      -o-transform: scale(1.2); /* Opera */
+      transform: scale(1.2);
+    }
+  </style>
+  @if (User.Identity.IsAuthenticated)
+  {
+    if (User.IsInRole("Generalinis direktorius"))
+    {
+      <p>
+        <a href='@Url.Action("Create", "Sutartis")' class="btn btn-secondary btn-sm" style="margin-left:1%; font-size:15px;">
+          Pridėti tiekėjo sutartį
+        </a>
+      </p>
+    }
+  }
+  <table id="TiekejuSutartys" class="table table-striped table-hover table-bordered">
+    <thead>
+      <tr>
+        <th scope="row">
+          Tiekėjo pavadinimas
+        </th>
+        <th scope="row">
+          Tiekėjo tipas
+        </th>
+        <th scope="row">
+          Tiekėjo įmonės kodas
+        </th>
+        <th scope="row">
+          Tiekėjo kontaktinis numeris
+        </th>
+        <th scope="row">
+          Tiekėjo adresas
+        </th>
+        <th scope="row">
+          Sutarties terminas
+        </th>
+        <th scope="row">
+          Sutartis
+        </th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach (var item in Model)
+      {
+        if (item.TiekejoId != null)
+        {
+          <tr>
+            <td>
+              @Html.DisplayFor(modelItem => item.Tiekejo.TiekejoPavadinimas)
+            </td>
+            @if (item.Tiekejo.TiekejoTtipas == "Ž")
+            {
+              <td>
+                Žaliavų
+              </td>
+            }
+            @if (item.Tiekejo.TiekejoTtipas == "T")
+            {
+              <td>
+                Technikos
+              </td>
+            }
+            <td>
+              @Html.DisplayFor(modelItem => item.Tiekejo.ImonesKodas)
+            </td>
+            <td>
+              @Html.DisplayFor(modelItem => item.Tiekejo.KontaktinisNR)
+            </td>
+            <td>
+              @Html.DisplayFor(modelItem => item.Tiekejo.Adresas)
+            </td>
+            <td>
+              @Html.DisplayFor(modelItem => item.SutartiesTerminas)
+            </td>
+            <td>
+              <a asp-controller="Sutartis" asp-action="Siusti" asp-route-filename="@item.FailoPavadinimas">
+                <i class="fa fa-file sutartisikona" style="font-size:75px;color:black;"></i><br>
+              </a>
+              @Html.DisplayFor(modelItem => item.FailoPavadinimas)
+            </td>
+
+            @if (User.Identity.IsAuthenticated)
+            {
+              if (User.IsInRole("Generalinis direktorius"))
+              {
+                <td>
+                  <a href='#' data-toggle="modal" class="btn btn-secondary btn-sm" style="font-size:15px;" data-target=".EditTiekejas_@item.SutartiesId">
+                    Redaguoti sutartį
+                  </a>
+                  <a href='#' data-toggle="modal" class="btn btn-secondary btn-sm" style="font-size:15px;" data-target=".DeleteTiekejas_@item.SutartiesId">
+                    Ištrinti sutartį
+                  </a>
+                </td>
+              }
+            }
+
+          </tr>
+          <div class="modal fade EditTiekejas_@item.SutartiesId" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-body">
+                  <form asp-action="EditTiekejasSutartis" method="post" enctype="multipart/form-data">
+                    @{
+                      var kui = ViewBag.KlientoUzsakymoId;
+                      string tiekejasp = item.Tiekejo.TiekejoPavadinimas;
+                      DateTime sutartispas = item.SutartiesPasirasymoData;
+                      DateTime sutartister = item.SutartiesTerminas;
+                      var ti = item.TiekejoId;
+                    }
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input asp-for="@kui" hidden />
+                    <input asp-for="@ti" hidden />
+                    <div class="form-group">
+                      <label class="control-label" style="font-size:15px;">Tiekėjas</label>
+                      <input asp-for="@tiekejasp" style="font-size:15px;" class="form-control" readonly />
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label" style="font-size:15px;">Tiekėjo sutartis(failas)</label>
+                      <input type="file" name="files" class="form-control" style="font-size:15px;" id="files" />
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label" style="font-size:15px;">Sutarties pasirašymo data</label>
+                      <input asp-for="@sutartispas" class="form-control" type="date" style="font-size:15px;" />
+                      <span asp-validation-for="@sutartispas" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label" style="font-size:15px;">Sutarties terminas</label>
+                      <input asp-for="@sutartister" style="font-size:15px;" class="form-control" type="date" />
+                      <span asp-validation-for="@sutartister" class="text-danger"></span>
+                    </div>
+                    <center>
+                      <div class="form-group">
+                        <input type="submit" value="Redaguoti" style="font-size:15px;" class="btn btn-primary" />
+                      </div>
+                    </center>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button class="btn btn-secondary" type="button" data-dismiss="modal" style="font-size:15px;">Grįžti</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal fade DeleteTiekejas_@item.SutartiesId" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel" style="font-size:25px;">Ar ištrinti tiekėjų sutartį iš sistemos?</h5>
+                  <button class="close" type="button" data-dismiss="modal" style="font-size:15px;" aria-label="Close">
+                    <span aria-hidden="true" style="font-size:15px;">×</span>
+                  </button>
+                </div>
+                <div class="modal-footer">
+                  <button class="btn btn-secondary" type="button" style="font-size:15px;" data-dismiss="modal">Grįžti</button>
+                  <a class="btn btn-primary" style="font-size:15px;" href='@Url.Action("DeleteConfirmed", "Sutartis",
+                          new
+                          {
+                            sid = item.SutartiesId
+                          })'>Ištrinti</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+      }
+    </tbody>
+  </table>
+  <!--JS bootstrap-->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $.noConflict();
+      $('#TiekejuSutartys').DataTable({
+        "language": {
+          "lengthMenu": "Rodyti _MENU_ įrašų per puslapį",
+          "zeroRecords": "Įrašų nėra",
+          "info": "Rodomas puslapis _PAGE_ iš _PAGES_",
+          "infoEmpty": "Įrašų nėra",
+          "loadingRecords": "Ieškoma...",
+          "processing": "Dirbama...",
+          "search": "Ieškoti:",
+          "infoFiltered": "(išfiltruota iš _MAX_ įrašų)",
+          "paginate": {
+            "first": "Pirmas",
+            "last": "Paskutinis",
+            "next": "Kitas",
+            "previous": "Grįžti"
+          }
+        }
+      });
+    });
+  </script>
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel" style="font-size: 25px;">Ar tikrai norite atsijungti?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal" style="margin-right:1%;font-size:15px;">Grįžti</button>
+          <form asp-area="Identity" asp-page="/Account/Logout">
+            <button class="btn btn-primary" type="submit" style="font-size:15px;">Atsijungti</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+
+@section Scripts{
+  @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,20 @@
+﻿body {
+    text-align:center;
+}
+
+.forms {
+    float: left;
+    width: 50%;
+    text-align:center;
+}
+.prasymukurimas::after {
+    display: table;
+    clear: both;
+    margin-top:10%;
+}
+input, select{
+    width: 100%;
+}
+h4{
+    margin-top: 5%;
+}

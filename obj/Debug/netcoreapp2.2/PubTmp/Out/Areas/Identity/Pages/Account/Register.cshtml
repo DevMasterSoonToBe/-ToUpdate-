@@ -1,0 +1,168 @@
+@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Registracija";
+    Layout = null;
+}
+
+<!--
+<div class="row">
+  <div class="col-md-4">
+    <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+      <h4>Create a new account.</h4>
+      <hr />
+      <div asp-validation-summary="All" class="text-danger"></div>
+      <div class="form-group">
+        <label asp-for="Input.UserName"></label>
+        <input asp-for="Input.UserName" class="form-control" />
+        <span asp-validation-for="Input.UserName" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+        <label asp-for="Input.Email"></label>
+        <input asp-for="Input.Email" class="form-control" />
+        <span asp-validation-for="Input.Email" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+        <label asp-for="Input.Vardas"></label>
+        <input asp-for="Input.Vardas" class="form-control" />
+        <span asp-validation-for="Input.Vardas" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+        <label asp-for="Input.Pavarde"></label>
+        <input asp-for="Input.Pavarde" class="form-control" />
+        <span asp-validation-for="Input.Pavarde" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+        <label asp-for="Input.Name"></label>
+        <select asp-for="Input.Name">
+          <option value="Generalinis direktorius">Generalinis direktorius</option>
+          <option value="Gamybos vadovas">Gamybos vadovas</option>
+          <option value="Technologas">Technologas</option>
+          <option value="Technikos vadovas">Technikos vadovas</option>
+          <option value="Gamybos meistras">Gamybos meistras</option>
+          <option value="Darbuotojas">Darbuotojas</option>
+          <option value="Buhalteris">Buhalteris</option>
+        </select>
+        <span asp-validation-for="Input.Name" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+        <label asp-for="Input.Password"></label>
+        <input asp-for="Input.Password" class="form-control" />
+        <span asp-validation-for="Input.Password" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+        <label asp-for="Input.ConfirmPassword"></label>
+        <input asp-for="Input.ConfirmPassword" class="form-control" />
+        <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+      </div>
+      <button type="submit" class="btn btn-default">Register</button>
+    </form>
+  </div>
+</div>
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <!-- Custom fonts for this template-->
+  <link href="~/KlientoUzsakymoAplankasDetails/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <!-- Custom styles for this template-->
+  <link href="~/KlientoUzsakymoAplankasDetails/css/sb-admin.css" rel="stylesheet">
+</head>
+<body class="bg-dark">
+  <div class="container">
+    <div class="card card-register mx-auto mt-5">
+      <div class="card-header">Priregistruoti naują vartotoją</div>
+      <div class="card-body">
+        <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+          <div asp-validation-summary="All" class="text-danger"></div>
+          <div class="form-group">
+                <div class="form-label-group">
+                  <input asp-for="Input.UserName" class="form-control" placeholder="Prisijungimo vardas" autofocus="autofocus" />
+                  <label asp-for="Input.UserName">Prisijungimo vardas</label>
+                  <span asp-validation-for="Input.UserName" class="text-danger"></span>
+                </div>
+          </div>
+          <div class="form-group">
+            <div class="form-row">
+              <div class="col-md-6">
+                <label>Vardas</label>
+                <div class="form-label-group">
+                  <input asp-for="Input.Vardas" class="form-control" placeholder="Vartotojo vardas" />
+                  <span asp-validation-for="Input.Vardas" class="text-danger"></span>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label>Pavardė</label>
+                <div class="form-label-group">
+                  <input asp-for="Input.Pavarde" class="form-control" placeholder="Vartotojo pavardė" />
+                  <span asp-validation-for="Input.Pavarde" class="text-danger"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Elektroninis paštas</label>
+            <div class="form-label-group">
+              <input asp-for="Input.Email" class="form-control" placeholder="elektroninis paštas" />
+              <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Rolė</label>
+            <div class="form-label-group">
+              <select asp-for="Input.Name" class="form-control">
+                <option value="Generalinis direktorius">Generalinis direktorius</option>
+                <option value="Gamybos vadovas">Gamybos vadovas</option>
+                <option value="Technologas">Technologas</option>
+                <option value="Technikos vadovas">Technikos vadovas</option>
+                <option value="Gamybos meistras">Gamybos meistras</option>
+                <option value="Darbuotojas">Darbuotojas</option>
+                <option value="Buhalteris">Buhalteris</option>
+              </select>
+              <span asp-validation-for="Input.Name" class="text-danger"></span>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-row">
+              <div class="col-md-6">
+                <label>Slaptažodis</label>
+                <div class="form-label-group">
+                  <input asp-for="Input.Password" class="form-control" />
+                  <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label>Patvirtinti slaptažodį</label>
+                <div class="form-label-group">
+                  <input asp-for="Input.ConfirmPassword" class="form-control" />
+                  <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <button class="btn btn-primary btn-block">Priregistruoti</button>
+          </div>
+        </form>
+        <div class="text-center">
+          <a class="d-block small mt-3" asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl">Prisijungimo puslapis</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Bootstrap core JavaScript-->
+  <script src="~/KlientoUzsakymoAplankasDetails/vendor/jquery/jquery.min.js"></script>
+  <script src="~/KlientoUzsakymoAplankasDetails/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- Core plugin JavaScript-->
+  <script src="~/KlientoUzsakymoAplankasDetails/vendor/jquery-easing/jquery.easing.min.js"></script>
+</body>
+</html>
+
+@section Scripts {
+  <partial name="_ValidationScriptsPartial" />
+}

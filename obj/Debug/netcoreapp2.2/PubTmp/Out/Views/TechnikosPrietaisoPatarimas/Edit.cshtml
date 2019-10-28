@@ -1,0 +1,42 @@
+@model AlausDaryklosGamybosValdymoSistema.Models.TechnikosPrietaisoPatarimas
+
+@{
+  ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<h4>IngredientoReceptas</h4>
+<hr />
+<div class="row">
+  <div class="col-md-4">
+    <form asp-action="Edit">
+      @{
+        var kui = ViewBag.KlientoUzsakymoId;
+        var ini = Model.InstrukcijosId;
+        var ii = Model.TechnikosPrietaisoId;
+      }
+      <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+      <input type="hidden" asp-for="@kui" />
+      <input type="hidden" asp-for="@ini" />
+      <input type="hidden" asp-for="@ii" />
+      <div class="form-group">
+        <label asp-for="PrietaisoKiekis" class="control-label"></label>
+        <input asp-for="PrietaisoKiekis" class="form-control" />
+        <span asp-validation-for="PrietaisoKiekis" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+        <label asp-for="PrietaisoKomentaras" class="control-label"></label>
+        <input asp-for="PrietaisoKomentaras" class="form-control" />
+        <span asp-validation-for="PrietaisoKomentaras" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+        <input type="submit" value="Išsaugoti" class="btn btn-default" />
+      </div>
+    </form>
+  </div>
+</div>
+
+@section Scripts {
+  @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

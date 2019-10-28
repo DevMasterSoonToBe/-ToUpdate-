@@ -1,0 +1,354 @@
+@model AlausDaryklosGamybosValdymoSistema.Models.TechnikosPrietaisoPatarimas
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<Vartotojas> SignInManager
+@{
+  ViewData["Title"] = "Create";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Technikos patarimų kūrimas bei pildymas</title>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+  <!-- JS validation-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+      // Brandinimo laikas pridetas prie recepturos
+      /* $("#brandlaik").click(function () {
+         $("#brandlaikalert").show("fade");
+         setTimeout(function () {
+           $("#brandlaikalert").show("fade");
+         }, 5000)
+       });
+       $("#linkClose").click(function () {
+         $("#brandlaikalert").hide("fade");
+       });*/
+
+      // Ingredientas pridetas prie recepturos
+      /* $("#ingrrecept").click(function () {
+         //$.post( $("#updateunit").attr("action"),
+         // $("#updateunit :input").serializeArray(),function(info){
+         $("#result").html('Successfully updated record!');
+         $("#result").addClass("alert alert-success offset4 span4");
+         //});
+       });
+       $("#updateunit").submit(function () {
+         return false;
+       });
+
+       function clearInput() {
+         $("#updateunit :input").each(function () {
+           $(this).val('');
+         });
+       }
+
+
+
+       /*$("#ingrrecept").click(function () {
+         $("#receptalert").show('fade');
+
+
+         setTimeout(function () {
+           $("#receptalert").hide('fade');
+         }, 3000)
+       });
+
+
+       $("#linkClose").click(function () {
+         $("#receptalert").hide('fade');
+       });*/
+      // Ingredientas pridetas
+      /* $("#ingr").click(function () {
+         $("#ingralert").show("fade");
+         setTimeout(function () {
+           $("#ingralert").show("fade");
+         }, 5000)
+       });
+       $("#linkClose").click(function () {
+         $("#ingralert").hide("fade");
+       });*/
+    });
+  </script>
+  <!-- Font Icon -->
+  <link rel="stylesheet" href="~/DviFormos/fonts/material-icon/css/material-design-iconic-font.min.css">
+
+  <!-- Main css -->
+  <link rel="stylesheet" href="~/DviFormos/css/style.css">
+</head>
+<body style="font-family: 'Open Sans', Arial, sans-serif;background-color:rgba(0, 0, 0, 0.03);">
+  <div class="main" style="text-align:center;position:relative;">
+    <section class="signup">
+
+      <center><div id="result"></div></center>
+      <!-- Recepturos forma
+    <div id="brandlaikalert" class="alert alert-success collapse">
+      <a href="#" class="close" id="linkClose">&times;</a>
+      <strong>Brandinimo laikas receptūrai pridėtas!</strong>
+    </div>
+    <div id="receptalert" class="alert alert-success collapse">
+      <a href="#" class="close" id="linkClose">&times;</a>
+      <strong>Ingridientas pridėtas prie receptūros!</strong>
+    </div>-->
+      @if (ViewBag.AlertMsgdecimal != null)
+      {
+        <script type="text/javascript">
+          swal({
+            title: "Technikos prietaisas pridėtas prie technikos patarimų!",
+            icon: "success",
+            button: "Gerai"
+          });
+        </script>
+      }
+      @if (ViewBag.AlertMsgdecimal == 2)
+      {
+        <script type="text/javascript">
+          swal({
+            title: "Technikos prietaisas jau technikos patarimuose!",
+            icon: "error",
+            button: "Gerai"
+          });
+        </script>
+      }
+      @if (ViewBag.Techaddalert == 1)
+      {
+        <script type="text/javascript">
+          swal({
+            title: "Technikos prietaisas pridėtas į duomenų bazę!",
+            icon: "success",
+            button: "Gerai"
+          });
+        </script>
+      }
+      <style>
+        .modal-header {
+          display: -webkit-box;
+          display: -ms-flexbox;
+          display: flex;
+          -webkit-box-align: start;
+          -ms-flex-align: start;
+          align-items: flex-start;
+          -webkit-box-pack: justify;
+          -ms-flex-pack: justify;
+          justify-content: space-between;
+          padding: 1rem 1rem;
+          border-bottom: 1px solid #e9ecef;
+          border-top-left-radius: 0.3rem;
+          border-top-right-radius: 0.3rem;
+        }
+
+        .modal-content {
+          position: relative;
+          display: -webkit-box;
+          display: -ms-flexbox;
+          display: flex;
+          -webkit-box-orient: vertical;
+          -webkit-box-direction: normal;
+          -ms-flex-direction: column;
+          flex-direction: column;
+          width: 100%;
+          pointer-events: auto;
+          background-color: #fff;
+          background-clip: padding-box;
+          border: 1px solid rgba(0, 0, 0, 0.2);
+          border-radius: 0.3rem;
+          outline: 0;
+        }
+
+        .modal-title {
+          margin-bottom: 0;
+          line-height: 1.5;
+        }
+
+        h5, .h5 {
+          font-size: 1.25rem;
+        }
+
+        h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+          margin-bottom: 0.5rem;
+          font-weight: 500;
+          line-height: 1.2;
+          color: inherit;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+          margin-top: 0;
+          margin-bottom: 0.5rem;
+        }
+
+        .modal-footer {
+          display: -webkit-box;
+          display: -ms-flexbox;
+          display: flex;
+          -webkit-box-align: center;
+          -ms-flex-align: center;
+          align-items: center;
+          -webkit-box-pack: end;
+          -ms-flex-pack: end;
+          justify-content: flex-end;
+          padding: 1rem;
+          border-top: 1px solid #e9ecef;
+          border-bottom-right-radius: 0.3rem;
+          border-bottom-left-radius: 0.3rem;
+        }
+      </style>
+      <div class="container" style="width:1500px; text-align:center;">
+        <center><h2 style="margin:1%;font-family: 'Open Sans', 'Arial', 'sans-serif';">Technikos patarimų instrukcijai pildymas</h2></center>
+        <hr>
+        <center><h4 style="margin:2%">Pridėti technikos prietaisą prie technikos patarimų</h4></center>
+        <form method="POST" class="register-form" asp-action="Create" id="register-form">
+          <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+          @{
+            var kui = ViewBag.KlientoUzsakymoId;
+            var Ini = ViewBag.InstrukcijosId;
+            string a3 = ViewBag.InstrukcijosBrandinimoLaikas;
+            var IB = ViewBag.InstrukcijosBusena;
+            DateTime GT = ViewBag.InstrukcijosTerminas;
+            var RP = ViewBag.RecepturaParuosta;
+            var TP = ViewBag.TechnikaParuosta;
+          }
+          <input type="hidden" asp-for="@a3" />
+          <input type="hidden" asp-for="@IB" />
+          <input type="hidden" asp-for="@GT" />
+          <input type="hidden" asp-for="@RP" />
+          <input type="hidden" asp-for="@TP" />
+          <div class="form-group" hidden>
+            <label asp-for="KlientoUzsakymoId" class="control-label"></label>
+            <Input asp-for="@kui" class="form-control" />
+          </div>
+          <div class="form-group" hidden>
+            <label asp-for="InstrukcijosId" class="control-label"></label>
+            <Input asp-for="@Ini" class="form-control" />
+          </div>
+          <div class="form-group">
+            <select asp-for="TechnikosPrietaisoId" class="form-control" asp-items="ViewBag.TechnikosPrietaisoId"></select>
+          </div>
+          <div class="form-group">
+            <input asp-for="PrietaisoKiekis" class="form-control" placeholder="Technikos prietaiso kiekis (vnt). Pvz:5" />
+            <span asp-validation-for="PrietaisoKiekis" class="text-danger"></span>
+          </div>
+          <div class="form-group">
+            <textarea asp-for="PrietaisoKomentaras" class="form-control" placeholder="Technikos prietaiso komentaras. Pvz: su šiuo prietaisu brandinimo laikas produkcijos gali būti ir trumpesnis"></textarea>
+            <span asp-validation-for="PrietaisoKomentaras" class="text-danger"></span>
+          </div>
+          <center>
+            <div class="form-group form-button">
+              <input type="submit" class="form-submit" value="Pridėti prietaisą prie technikos patarimų" />
+            </div>
+          </center>
+        </form>
+        <hr>
+        @if (ViewBag.InstrukcijosBusena != "U")
+        {
+          <center style="margin-bottom:3%">
+            <a href='#' data-toggle="modal" data-target="#TechnikaDone"><button type="button" class="form-button">Technikos patarimai - užpildyti</button></a>
+          </center>
+        }
+      </div>
+    </section>
+    <div class="modal fade" id="TechnikaDone" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel" style="font-size: 25px;">Ar tikrai norite užbaigti technikos patarimų pildymą?</h5>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Grįžti</button>
+            <a class="btn btn-primary" href='@Url.Action("TechnikaDone", "TechnikosPrietaisoPatarimas", new { id = ViewBag.KlientoUzsakymoId, id2 = ViewBag.InstrukcijosId,
+               a1 = ViewBag.InstrukcijosBusena,
+               a2 = ViewBag.InstrukcijosTerminas,
+               a3 = ViewBag.InstrukcijosBrandinimoLaikas,
+               a4 = ViewBag.RecepturaParuosta,
+               a5 = ViewBag.TechnikaParuosta})'>Technikos patarimai - užpildyti</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Prietaiso forma -->
+    <section class="sign-in">
+      <div class="container" style=" width:1500px">
+        <center><h2 style="margin:5%; font-family: 'Open Sans', Arial, sans-serif;">Pridėti technikos prietaisą jei jo nėra duomenų bazėje</h2></center>
+        <form asp-action="CreateTechPriet" class="register-form" method="POST" id="login-form">
+          @{
+            var kui2 = ViewBag.KlientoUzsakymoId;
+            string techp = "";
+            string a33 = ViewBag.InstrukcijosBrandinimoLaikas;
+            var IB3 = ViewBag.InstrukcijosBusena;
+            DateTime GT3 = ViewBag.InstrukcijosTerminas;
+            var RP3 = ViewBag.RecepturaParuosta;
+            var TP3 = ViewBag.TechnikaParuosta;
+          }
+          <input type="hidden" asp-for="@a33" />
+          <input type="hidden" asp-for="@IB3" />
+          <input type="hidden" asp-for="@GT3" />
+          <input type="hidden" asp-for="@RP3" />
+          <input type="hidden" asp-for="@TP3" />
+          <div class="form-group" hidden>
+            <label asp-for="KlientoUzsakymoId" class="control-label"></label>
+            <Input asp-for="@kui2" class="form-control" />
+          </div>
+          @{
+            var Ini2 = ViewBag.InstrukcijosId;
+          }
+          <div class="form-group" hidden>
+            <label asp-for="InstrukcijosId" class="control-label"></label>
+            <Input asp-for="@Ini2" class="form-control" />
+          </div>
+          <div class="form-group">
+            <input asp-for="@techp" class="form-control" placeholder="Technikos prietaiso pavadinimas" data-val="true" data-val-length="Technikos prietaiso pavadinimas negali būti daugiau nei 50 simbolių!"
+                   data-val-length-max="50" data-val-required="Prietaiso pavadinimas negali būti tuščias!" />
+            <span class="text-danger field-validation-valid"
+                  data-valmsg-for="techp" data-valmsg-replace="true"></span>
+          </div>
+          <div class="form-group" hidden>
+            <label asp-for="TechnikosPrietaiso.LaisvasKiekis" class="control-label"></label>
+            <input asp-for="TechnikosPrietaiso.LaisvasKiekis" class="form-control" />
+            <span asp-validation-for="TechnikosPrietaiso.LaisvasKiekis" class="text-danger"></span>
+          </div>
+          <center style="margin-bottom:3%">
+            <div class="form-group form-button">
+              <input type="submit" id="ingr" class="form-submit" value="Pridėti technikos prietaisą" />
+            </div>
+          </center>
+        </form>
+      </div>
+    </section>
+    <div style="background: #242424; width:100%; position:absolute; border-radius:0; margin-bottom:0;
+bottom:-6%;">
+      <a class="btn header_btn" href='@Url.Action("Details", "KlientoUzsakymoAplankas", new {id = ViewBag.KlientoUzsakymoId })' style="font-size:25px;
+  text-decoration-color:aqua; border-radius:0; width:45%;height:auto; position:relative; bottom:0;">
+        Kliento užsakymo aplankas
+      </a>
+    </div>
+  </div>
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel" style="font-size: 25px;">Ar tikrai norite atsijungti?</h5>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal" style="margin-right:1%;">Grįžti</button>
+          <form asp-area="Identity" asp-page="/Account/Logout">
+            <button class="btn btn-primary" type="submit">Atsijungti</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- JS -->
+  <script src="~/DviFormos/vendor/jquery/jquery.min.js"></script>
+  <script src="~/DviFormos/js/main.js"></script>
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+</html>
+
+
+
+@section Scripts {
+  @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

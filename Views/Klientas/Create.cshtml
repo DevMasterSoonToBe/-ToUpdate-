@@ -1,0 +1,37 @@
+﻿@model AlausDaryklosGamybosValdymoSistema.Models.Klientas
+
+@{
+    ViewData["Title"] = "Create";
+}
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+    <header>
+        <center><h2>LOGO</h2></center> <a asp-controller="KLientoUzsakymoAplankasController" asp-action="Index"><button type="button" class="btn btn-default" style="float:right">Grįžti atgal</button></a>
+    </header>
+    <h3>Pirma irasykite kliento pavadinima jei jis dar neegzistuoja sistemoje</h3>
+    <h4>Nauja klientas</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="KlientoPavadinimas" class="control-label"></label>
+                    <input asp-for="KlientoPavadinimas" class="form-control" />
+                    <span asp-validation-for="KlientoPavadinimas" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Sukurti" class="btn btn-default" style="margin-left:2%" />
+                </div>
+            </form>
+            <a href='@Url.Action("Redirect", "Klientas")'><button type="button" class="btn btn-default">Klientas jau egzistuoja sistemoje</button></a>
+        </div>
+    </div>
+</body>
+</html>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

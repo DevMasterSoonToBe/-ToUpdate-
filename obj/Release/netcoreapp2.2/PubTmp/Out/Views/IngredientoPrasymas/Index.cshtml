@@ -1,0 +1,188 @@
+@model IEnumerable<AlausDaryklosGamybosValdymoSistema.Models.IngredientoPrasymas>
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<Vartotojas> SignInManager
+@{
+  ViewData["Title"] = "Index";
+}
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="~/css/RedaguotiPrasymus.css">>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <!--JS sweet alert-->
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</head>
+<html>
+<body  style="font-family: 'Open Sans', Arial, sans-serif;background-color:rgba(0, 0, 0, 0.03);">
+  <h2>Prašymas žaliavoms užsakyti</h2>
+  @if (User.Identity.IsAuthenticated)
+  {
+    if (User.IsInRole("Technologas") || User.IsInRole("Gamybos vadovas"))
+    {
+      <p>
+        <a href='#' data-toggle="modal" data-target="#AddIngrPras">
+          <button type="button" class="btn btn-secondary btn-sm">Pridėti ingredientą prie prašymo</button>
+        </a>
+      </p>
+    }
+  }
+  <table class="table">
+    <thead>
+      <tr>
+        <th>
+          Ingrediento pavadinimas
+        </th>
+        <th>
+          Ingrediento kiekis
+        </th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach (var item in Model)
+      {
+        <tr>
+          <td>
+            @Html.DisplayFor(modelItem => item.Ingrediento.IngredientoPavadinimas)
+          </td>
+          <td>
+            @Html.DisplayFor(modelItem => item.IngredientoKiekis) (kg/l)
+          </td>
+          @if (User.Identity.IsAuthenticated)
+          {
+            if (User.IsInRole("Technologas") || User.IsInRole("Gamybos vadovas"))
+            {
+              <td>
+                <a href='#' data-toggle="modal" data-target=".EditIngr_@item.IngredientoId">
+                  <button type="button" class="btn btn-secondary btn-sm">Redaguoti ingredientą</button>
+                </a>
+                <a href='#' data-toggle="modal" data-target=".DeleteIngr_@item.IngredientoId">
+                  <button type="button" class="btn btn-secondary btn-sm">Ištrinti ingredientą</button>
+                </a>
+              </td>
+            }
+          }
+        </tr>
+        <div class="modal fade EditIngr_@item.IngredientoId" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-body">
+                <form asp-action="Edit" method="post">
+                  @{ decimal iid = item.IngredientoId;
+                    var ingrk = item.IngredientoKiekis;
+                    var kui = ViewBag.KlientoUzsakymoId;
+                    string ingrp = item.Ingrediento.IngredientoPavadinimas;
+                  }
+                  <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                  <input asp-for="@iid" hidden />
+                  <input asp-for="@kui" hidden />
+                  <div class="form-group">
+                    <label class="control-label">Pasirinkti ingredientą</label>
+                    <input asp-for="@ingrp" class="form-control" readonly />
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label">Ingrediento kiekis</label>
+                    <input asp-for="@ingrk" class="form-control" placeholder="Pvz:5" />
+                    <span asp-validation-for="@ingrk" class="text-danger"></span>
+                  </div>
+                  <center>
+                    <div class="form-group">
+                      <input type="submit" value="Redaguoti" class="btn btn-primary" />
+                    </div>
+                  </center>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Grįžti</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal fade DeleteIngr_@item.IngredientoId" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Ar ištrinti ingredientą iš laisvų žaliavų formos?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span>
+                </button>
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Grįžti</button>
+                <a class="btn btn-primary" href='@Url.Action("DeleteConfirmed", "IngredientoPrasymas",
+                                            new
+                                            {
+                                              iid2 = item.IngredientoId,
+                                              ingrk2 = item.IngredientoKiekis,
+                                              kui2 = ViewBag.KlientoUzsakymoId
+                                            })'>Ištrinti</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+      <div class="modal fade" id="AddIngrPras" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-body">
+              <form asp-controller="IngredientoPrasymas" asp-action="CreateFROMINDEX" method="POST">
+                @{
+                  var kuiInPR = ViewBag.KlientoUzsakymoId;
+                  decimal PRIID = 0;
+                  string PRIPB = "";
+                  var PRIK = 0;
+
+                }
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="@kuiInPR" />
+                <input type="hidden" asp-for="@PRIPB" value="S" />
+                <center><h4>Prašymas žaliavoms</h4></center>
+                <div class="form-group">
+                  <label class="control-label">Pasirinkti ingredientą</label>
+                  <select asp-for="@PRIID" class="form-control" asp-items="ViewBag.IngredientaiPrasymui"></select>
+                </div>
+                <div class="form-group">
+                  <label class="control-label">Ingrediento kiekis</label>
+                  <input asp-for="@PRIK" class="form-control" placeholder="pvz:5" />
+                  <span asp-validation-for="@PRIK" class="text-danger"></span>
+                </div>
+                <center>
+                  <div class="form-group">
+                    <input type="submit" value="Pridėti ingredientą prie žaliavų prašymo" class="btn btn-primary" />
+                  </div>
+                </center>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-secondary" type="button" data-dismiss="modal">Grįžti</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Ar tikrai norite atsijungti?</h5>
+              <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-secondary" type="button" data-dismiss="modal">Grįžti</button>
+              <form asp-area="Identity" asp-page="/Account/Logout">
+                <button class="btn btn-primary" type="submit">Atsijungti</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </tbody>
+  </table>
+</body>
+</html>
+
+@section Scripts{
+  @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

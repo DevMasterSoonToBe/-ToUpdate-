@@ -1,0 +1,2475 @@
+@model AlausDaryklosGamybosValdymoSistema.Models.KlientoUzsakymoAplankas
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<Vartotojas> SignInManager
+@using System.ComponentModel.DataAnnotations;
+@{
+    ViewData["Title"] = "Details";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="~/css/Gen Direktoriaus kliento uzsakymo aplankas(KlientoUzsakymoAplankasDetails).css">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <!-- Custom fonts for this template-->
+  <link href="~/KlientoUzsakymoAplankasDetails/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <!-- Page level plugin CSS-->
+  <link href="~/KlientoUzsakymoAplankasDetails/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+  <!-- Custom styles for this template-->
+  <link href="~/KlientoUzsakymoAplankasDetails/css/sb-admin.css" rel="stylesheet">
+  <!-- JS validation-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+  <!-- JS sweet alert-->
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <!--Datatable -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
+</head>
+<body id="page-top">
+  @if (ViewBag.AlertIngrPrasymas != null)
+  {
+    <script type="text/javascript">
+      swal({
+        title: "Ingredientas pridėtas prie prašymo!",
+        icon: "success",
+        button: "Gerai"
+      });
+    </script>
+  }
+  @if (ViewBag.AlertIngrPrasymas == 2)
+  {
+    <script type="text/javascript">
+      swal({
+        title: "Ingredientas jau egzistuoja prašyme!",
+        icon: "error",
+        button: "Gerai"
+      });
+    </script>
+  }
+  @if (ViewBag.AlertTechPrasymas != null)
+  {
+    <script type="text/javascript">
+      swal({
+        title: "Technikos prietaisas pridėtas prie prašymo!",
+        icon: "success",
+        button: "Gerai"
+      });
+    </script>
+  }
+  @if (ViewBag.AlertTechPrasymas == 2)
+  {
+    <script type="text/javascript">
+      swal({
+        title: "Technikos prietaisas jau egzistuoja prašyme!",
+        icon: "error",
+        button: "Gerai"
+      });
+    </script>
+  }
+  @if (ViewBag.IngrFormaAdd == 1)
+  {
+    <script type="text/javascript">
+      swal({
+        title: "Ingredientas pridėtas prie laisvų žaliavų!",
+        icon: "success",
+        button: "Gerai"
+      });
+    </script>
+  }
+  @if (ViewBag.TechFormaAdd == 1)
+  {
+    <script type="text/javascript">
+      swal({
+        title: "Technikos prietaisas pridėtas prie laisvos technikos!",
+        icon: "success",
+        button: "Gerai"
+      });
+    </script>
+  }
+  @if (ViewBag.AlertIngrReserve == 1)
+  {
+    <script type="text/javascript">
+      swal({
+        title: "Ingrediento prie laisvų žaliavų nėra!",
+        icon: "error",
+        button: "Gerai"
+      });
+    </script>
+  }
+  @if (ViewBag.AlertIngrReserve == 2)
+  {
+    <script type="text/javascript">
+      swal({
+        title: "Prašote daugiau nei yra laisvų žaliavų formoje!",
+        icon: "error",
+        button: "Gerai"
+      });
+    </script>
+  }
+  @if (ViewBag.AlertIngrReserve == 3)
+  {
+    <script type="text/javascript">
+      swal({
+        title: "Ingredientas rezervuotas!",
+        icon: "success",
+        button: "Gerai"
+      });
+    </script>
+  }
+  @if (ViewBag.AlertTechReserve == 1)
+  {
+    <script type="text/javascript">
+      swal({
+        title: "Technikos prietaiso prie laisvos technikos nėra!",
+        icon: "error",
+        button: "Gerai"
+      });
+    </script>
+  }
+  @if (ViewBag.AlertTechReserve == 2)
+  {
+    <script type="text/javascript">
+      swal({
+        title: "Prašote daugiau nei yra laisvos technikos formoje!",
+        icon: "error",
+        button: "Gerai"
+      });
+    </script>
+  }
+  @if (ViewBag.AlertTechReserve == 3)
+  {
+    <script type="text/javascript">
+      swal({
+        title: "Technikos prietaisas rezervuotas!",
+        icon: "success",
+        button: "Gerai"
+      });
+    </script>
+  }
+  @if (ViewBag.SutartisAlert == 1)
+  {
+    <script type="text/javascript">
+      swal({
+        title: "Sutartis įkelta!",
+        icon: "success",
+        button: "Gerai"
+      });
+    </script>
+  }
+  @if (ViewBag.SutartisAlert == 2)
+  {
+    <script type="text/javascript">
+      swal({
+        title: "Sutartis turi būti .docx arba .pdf formato!",
+        icon: "error",
+        button: "Gerai"
+      });
+    </script>
+  }
+  @if (ViewBag.SutartisAlert == 3)
+  {
+    <script type="text/javascript">
+      swal({
+        title: "Sutartis pakeista!",
+        icon: "success",
+        button: "Gerai"
+      });
+    </script>
+  }
+  @if (ViewBag.ArchyvuotasAplankas == 1)
+  {
+    <script type="text/javascript">
+      swal({
+        title: "Užsakymo aplankas archyvuotas!",
+        icon: "success",
+        button: "Gerai"
+      });
+    </script>
+  }
+  @if (ViewBag.brandlaikalert == 1)
+  {
+    <script type="text/javascript">
+      swal({
+        title: "Brandinimo laikas pridėtas!",
+        icon: "success",
+        button: "Gerai"
+      });
+    </script>
+  }
+  @if (ViewBag.brandlaikalert == 2)
+  {
+    <script type="text/javascript">
+      swal({
+        title: "Brandinimo laikas pakeistas!",
+        icon: "success",
+        button: "Gerai"
+      });
+    </script>
+  }
+  @if (ViewBag.AlertIngrPrasymasBusena == 1)
+  {
+    <script type="text/javascript">
+      swal({
+        title: "Žaliavų prašymo būsena pakeista!",
+        icon: "success",
+        button: "Gerai"
+      });
+    </script>
+  }
+  @if (ViewBag.AlertTechPrasymasBusena == 1)
+  {
+    <script type="text/javascript">
+      swal({
+        title: "Technikos prašymo būsena pakeista!",
+        icon: "success",
+        button: "Gerai"
+      });
+    </script>
+  }
+  @if (ViewBag.GIBusena == 1)
+  {
+    <script type="text/javascript">
+      swal({
+        title: "Gamybos instrukcijos būsena pakeista!",
+        icon: "success",
+        button: "Gerai"
+      });
+    </script>
+  }
+  @if (ViewBag.GIAlertas == 1)
+  {
+    <script type="text/javascript">
+      swal({
+        title: "Gamybos instrukcija sukurta!",
+        icon: "success",
+        button: "Gerai"
+      });
+    </script>
+  }
+  @if (ViewBag.GIAlertas == 2)
+  {
+    <script type="text/javascript">
+      swal({
+        title: "Gamybos terminas pakeistas!",
+        icon: "success",
+        button: "Gerai"
+      });
+    </script>
+  }
+  @if (ViewBag.Laisivresursaialert == 2)
+  {
+    <script type="text/javascript">
+      swal({
+        title: "Pasirinkta forma jau pridėta šiam užsakymui!",
+        icon: "error",
+        button: "Gerai"
+      });
+    </script>
+  }
+  @if (ViewBag.Laisivresursaialert == 1)
+  {
+    <script type="text/javascript">
+      swal({
+        title: "Forma pridėta!",
+        icon: "success",
+        button: "Gerai"
+      });
+    </script>
+  }
+  <style>
+    .sutartisikona:hover {
+      -webkit-transform: scale(1.2); /* Chrome */
+      -moz-transform: scale(1.2); /* Firefox */
+      -ms-transform: scale(1.2); /* IE */
+      -o-transform: scale(1.2); /* Opera */
+      transform: scale(1.2);
+    }
+  </style>
+  <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
+    <a class="navbar-brand mr-1" href='@Url.Action("Index", "KlientoUzsakymoAplankas")'>Pagrindinis puslapis</a>
+    <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
+      <i class="fas fa-bars"></i>
+    </button>
+    <!-- Navbar Search -->
+    <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0" hidden>
+      <div class="input-group" hidden>
+        <input type="text" class="form-control" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+        <div class="input-group-append">
+          <button class="btn btn-primary" type="button">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+      </div>
+    </form>
+    <ul class="navbar-nav ml-auto ml-md-0">
+      <li class="nav-item dropdown no-arrow">
+        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fas fa-user-circle fa-fw" style="font-size:20px;"></i>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" style="border-radius:8%;" aria-labelledby="userDropdown">
+          @if (User.Identity.IsAuthenticated)
+          {
+            if (User.IsInRole("Generalinis direktorius"))
+            {
+              <script type="text/javascript">
+                var k = "Generalinis direktorius";
+              </script>}
+            if (User.IsInRole("Gamybos vadovas"))
+            {
+              <script type="text/javascript">
+                var k = "Gamybos vadovas";
+              </script> }
+            if (User.IsInRole("Technologas"))
+            {
+              <script type="text/javascript">
+                var k = "Technologas";
+              </script>}
+            if (User.IsInRole("Technikos vadovas"))
+            {
+              <script type="text/javascript">
+                var k = "Technikos vadovas";
+              </script>
+            }
+            if (User.IsInRole("Gamybos meistras"))
+            {
+              <script type="text/javascript">
+                var k = "Gamybos meistras";
+              </script>
+            }
+            if (User.IsInRole("Darbuotojas"))
+            {
+              <script type="text/javascript">
+                var k = "Darbuotojas";
+              </script>
+            }
+            if (User.IsInRole("Buhalteris"))
+            {
+              <script type="text/javascript">
+                var k = "Buhalteris";
+              </script>
+            }
+
+          }
+          @if (SignInManager.IsSignedIn(User))
+          {
+            <p class="dropdown-item">
+              Rolė -
+              <script type="text/javascript">
+                document.write(k)
+              </script>
+            </p>
+          }
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Atsijungti</a>
+        </div>
+      </li>
+    </ul>
+  </nav>
+
+  <div id="wrapper">
+    <!-- Sidebar -->
+    <ul class="sidebar navbar-nav" style="width:30%;">
+      <!--<li class="nav-item active">
+    <a class="nav-link" href="index.html">
+      <i class="fas fa-fw fa-tachometer-alt"></i>
+      <span>Dashboard</span>
+    </a>
+  </li>-->
+      @if (Model.Sutartis == null)
+      {
+        if (User.Identity.IsAuthenticated)
+        {
+          if (User.IsInRole("Generalinis direktorius"))
+          {
+            <li class="nav-item" style="margin-top:2%;">
+              <a href='#' data-toggle="modal" data-target="#UploadSutartis" class="nav-link" role="button" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-fw fa-file-alt"></i>
+                <span>Įkelti kliento sutartį</span>
+              </a>
+            </li>
+          }
+        }
+      }
+      @if (Model.Sutartis != null)
+      {
+        if (User.Identity.IsAuthenticated)
+        {
+          if (User.IsInRole("Generalinis direktorius"))
+          {
+            <li class="nav-item" style="margin-top:2%;">
+              <a href='#' data-toggle="modal" data-target="#EditSutartis" class="nav-link" role="button" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-fw fa-file-alt"></i>
+                <span>Redaguoti kliento sutartį</span>
+              </a>
+            </li>
+          }
+        }
+      }
+      @if (Model.GamybosInstrukcija != null)
+      {
+        if (Model.GamybosInstrukcija.Busena == "B")
+        {
+          if (User.Identity.IsAuthenticated)
+          {
+            if (User.IsInRole("Generalinis direktorius"))
+            {
+              if (Model.Archyvavimo_Komentaras == null) { 
+    <li class="nav-item" style="margin-top:2%;">
+      <a href='#' data-toggle="modal" data-target="#ArchyvuotiUzsakymas" class="nav-link" role="button" aria-haspopup="true" aria-expanded="false">
+        <i class="fas fa-fw fa-file-alt"></i>
+        <span>Archyvuoti kliento užsakymą</span>
+      </a>
+    </li>
+              }
+            }
+          }
+        }
+        if (ViewBag.IsIngrPrasymai > 0)
+        {
+          if (Model.IngredientoPrasymas.First(h => h.KlientoUzsakymoId == Model.KlientoUzsakymoId).Busena == "N")
+          {
+            if (Model.Archyvavimo_Komentaras == null)
+            {
+    <li class="nav-item" style="margin-top:2%;">
+      <a href='#' data-toggle="modal" data-target="#ArchyvuotiUzsakymas" class="nav-link" role="button" aria-haspopup="true" aria-expanded="false">
+        <i class="fas fa-fw fa-file-alt"></i>
+        <span>Archyvuoti kliento užsakymą</span>
+      </a>
+    </li>
+            }
+          }
+        }
+        if (ViewBag.IsTechPrasymai > 0)
+        {
+          if (Model.TechnikosPrietaisoPrasymas.First(h => h.KlientoUzsakymoId == Model.KlientoUzsakymoId).Busena == "N")
+          {
+            if (Model.Archyvavimo_Komentaras == null)
+            {
+    <li class="nav-item" style="margin-top:2%;">
+      <a href='#' data-toggle="modal" data-target="#ArchyvuotiUzsakymas" class="nav-link" role="button" aria-haspopup="true" aria-expanded="false">
+        <i class="fas fa-fw fa-file-alt"></i>
+        <span>Archyvuoti kliento užsakymą</span>
+      </a>
+    </li>
+            }
+          }
+        }
+      }
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fas fa-fw fa-folder"></i>
+          <span>Gamybos koordinavimas</span>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+
+          <h6 class="dropdown-header wrappingNavs">Gamybos koordinavimo veiksmai:</h6>
+          @if (Model.Sutartis != null)
+          {
+            if (Model.GamybosInstrukcija == null)
+            {
+              if (User.Identity.IsAuthenticated)
+              {
+                if (User.IsInRole("Gamybos vadovas"))
+                {
+
+                  <a href='#' id="gamyboskoordinavimoveiksmai" data-toggle="modal" data-target="#CreateGamybosInstrukcija" class="dropdown-item wrappingNavs">
+                    <span class="wrappingNavs">Kurti gamybos instrukciją</span>
+                  </a>
+                }
+              }
+            }
+          }
+          @if (Model.GamybosInstrukcija != null)
+          {
+            if (User.Identity.IsAuthenticated)
+            {
+              if (User.IsInRole("Gamybos vadovas"))
+              {
+
+                <a href='#' data-toggle="modal" data-target="#EditGamybosTerminas" class="dropdown-item">
+                  <span>Redaguoti gamybos instrukciją</span>
+                </a>
+              }
+            }
+          }
+          @if (Model.GamybosInstrukcija != null && Model.GamybosInstrukcija.Busena == "S")
+          {
+            if (User.Identity.IsAuthenticated)
+            {
+              if (User.IsInRole("Technologas"))
+              {
+                <a class="dropdown-item" href='@Url.Action("Create", "IngredientoReceptas", new
+                                          {
+                                            id = Model.KlientoUzsakymoId,
+                                            id2 = Model.GamybosInstrukcija.InstrukcijosId,
+                                            a1 = Model.GamybosInstrukcija.Busena,
+                                            a2 = Model.GamybosInstrukcija.GamybosTerminas,
+                                            a3 = Model.GamybosInstrukcija.BrandinimoLaikas,
+                                            a4 = Model.GamybosInstrukcija.RecepturaParuosta,
+                                            a5 = Model.GamybosInstrukcija.TechnikosPatarimaiParuosti
+                                          })'><span>Kurti/pildyti receptūrą gamybos instrukcijai</span></a>
+              }
+            }
+            <script type="text/javascript">
+              $('.dropdown-item').flowtype({
+                fontRatio: 3.6
+              });</script>
+            if (User.Identity.IsAuthenticated)
+            {
+              if (User.IsInRole("Technikos vadovas"))
+              {
+                <a class="dropdown-item" href='@Url.Action("Create", "TechnikosPrietaisoPatarimas", new
+                                          {
+                                            id = Model.KlientoUzsakymoId,
+                                            id2 = Model.GamybosInstrukcija.InstrukcijosId,
+                                            a1 = Model.GamybosInstrukcija.Busena,
+                                            a2 = Model.GamybosInstrukcija.GamybosTerminas,
+                                            a3 = Model.GamybosInstrukcija.BrandinimoLaikas,
+                                            a4 = Model.GamybosInstrukcija.RecepturaParuosta,
+                                            a5 = Model.GamybosInstrukcija.TechnikosPatarimaiParuosti
+                                          })'>Kurti/pildyti technikos patarimus gamybos instrukcijai</a>
+              }
+            }
+          }
+          @if (Model.GamybosInstrukcija != null)
+          {
+            if ((Model.GamybosInstrukcija.Busena != "P") && (Model.GamybosInstrukcija.Busena != "B"))
+            {
+              if (User.Identity.IsAuthenticated)
+              {
+                if (User.IsInRole("Technologas"))
+                {
+                  <a class="dropdown-item" href='@Url.Action("Index", "IngredientoReceptas", new
+                                          {
+                                            id = Model.KlientoUzsakymoId,
+                                            id2 = Model.GamybosInstrukcija.InstrukcijosId,
+                                            a11 = Model.GamybosInstrukcija.Busena,
+                                            a22 = Model.GamybosInstrukcija.GamybosTerminas,
+                                            brandl = Model.GamybosInstrukcija.BrandinimoLaikas,
+                                            a44 = Model.GamybosInstrukcija.RecepturaParuosta,
+                                            a55 = Model.GamybosInstrukcija.TechnikosPatarimaiParuosti
+                                          })'><span>Redaguoti receptūrą gamybos instrukcijai</span></a>
+                }
+              }
+            }
+            if ((Model.GamybosInstrukcija.Busena != "P") && (Model.GamybosInstrukcija.Busena != "B") && (Model.GamybosInstrukcija.RecepturaParuosta != "N"))
+            {
+              if (User.Identity.IsAuthenticated)
+              {
+                if (User.IsInRole("Gamybos vadovas"))
+                {
+                  <a class="dropdown-item" href='@Url.Action("Index", "IngredientoReceptas", new
+                                          {
+                                            id = Model.KlientoUzsakymoId,
+                                            id2 = Model.GamybosInstrukcija.InstrukcijosId,
+                                            a11 = Model.GamybosInstrukcija.Busena,
+                                            a22 = Model.GamybosInstrukcija.GamybosTerminas,
+                                            brandl = Model.GamybosInstrukcija.BrandinimoLaikas,
+                                            a44 = Model.GamybosInstrukcija.RecepturaParuosta,
+                                            a55 = Model.GamybosInstrukcija.TechnikosPatarimaiParuosti
+                                          })'><span>Redaguoti receptūrą gamybos instrukcijai</span></a>
+                }
+              }
+            }
+            if ((Model.GamybosInstrukcija.Busena != "B") && (Model.GamybosInstrukcija.RecepturaParuosta != "N"))
+            {
+              if (((ViewBag.ArAtliktiTechPrasymai > 0) && (ViewBag.ArAtliktiIngrPrasymai > 0)) || ((Model.PrasymasTechnikaiReikalingas == "N") && (Model.PrasymasZaliavomsReikalingas == "N"))
+                || ((Model.PrasymasTechnikaiReikalingas == "N") && (ViewBag.ArAtliktiIngrPrasymai > 0)) || ((Model.PrasymasZaliavomsReikalingas == "N") && (ViewBag.ArAtliktiTechPrasymai > 0)))
+              {
+                if (User.Identity.IsAuthenticated)
+                {
+                  if (User.IsInRole("Gamybos meistras"))
+                  {
+                    <a class="dropdown-item" href='@Url.Action("Index", "IngredientoReceptas", new
+                                              {
+                                                id = Model.KlientoUzsakymoId,
+                                                id2 = Model.GamybosInstrukcija.InstrukcijosId,
+                                                a11 = Model.GamybosInstrukcija.Busena,
+                                                a22 = Model.GamybosInstrukcija.GamybosTerminas,
+                                                brandl = Model.GamybosInstrukcija.BrandinimoLaikas,
+                                                a44 = Model.GamybosInstrukcija.RecepturaParuosta,
+                                                a55 = Model.GamybosInstrukcija.TechnikosPatarimaiParuosti
+                                              })'><span>Redaguoti receptūrą gamybos instrukcijai</span></a>
+                  }
+                }
+              }
+            }
+          }
+          @if (Model.GamybosInstrukcija != null)
+          {
+            if ((Model.GamybosInstrukcija.Busena != "P") && (Model.GamybosInstrukcija.Busena != "B"))
+            {
+              if (User.Identity.IsAuthenticated)
+              {
+                if (User.IsInRole("Technikos vadovas"))
+                {
+                  <a class="dropdown-item" href='@Url.Action("Index", "TechnikosPrietaisoPatarimas", new { id = Model.KlientoUzsakymoId, id2 = Model.GamybosInstrukcija.InstrukcijosId, a11 = Model.GamybosInstrukcija.Busena,
+                                            a22 = Model.GamybosInstrukcija.GamybosTerminas,
+                                            brandl = Model.GamybosInstrukcija.BrandinimoLaikas,
+                                            a44 = Model.GamybosInstrukcija.RecepturaParuosta,
+                                            a55 = Model.GamybosInstrukcija.TechnikosPatarimaiParuosti })'><span>Redaguoti technikos patarimus gamybos instrukcijai</span></a>
+                }
+              }
+            }
+            if ((Model.GamybosInstrukcija.Busena != "P") && (Model.GamybosInstrukcija.Busena != "B") && (Model.GamybosInstrukcija.TechnikosPatarimaiParuosti != "N"))
+            {
+              if (User.Identity.IsAuthenticated)
+              {
+                if (User.IsInRole("Gamybos vadovas"))
+                {
+                  <a class="dropdown-item" href='@Url.Action("Index", "TechnikosPrietaisoPatarimas", new { id = Model.KlientoUzsakymoId, id2 = Model.GamybosInstrukcija.InstrukcijosId, a11 = Model.GamybosInstrukcija.Busena,
+                                            a22 = Model.GamybosInstrukcija.GamybosTerminas,
+                                            brandl = Model.GamybosInstrukcija.BrandinimoLaikas,
+                                            a44 = Model.GamybosInstrukcija.RecepturaParuosta,
+                                            a55 = Model.GamybosInstrukcija.TechnikosPatarimaiParuosti })'><span>Redaguoti technikos patarimus gamybos instrukcijai</span></a>
+                }
+              }
+            }
+            if ((Model.GamybosInstrukcija.Busena != "B") && (Model.GamybosInstrukcija.TechnikosPatarimaiParuosti != "N"))
+            {
+              if (((ViewBag.ArAtliktiTechPrasymai > 0) && (ViewBag.ArAtliktiIngrPrasymai > 0)) || ((Model.PrasymasTechnikaiReikalingas == "N") && (Model.PrasymasZaliavomsReikalingas == "N"))
+               || ((Model.PrasymasTechnikaiReikalingas == "N") && (ViewBag.ArAtliktiIngrPrasymai > 0)) || ((Model.PrasymasZaliavomsReikalingas == "N") && (ViewBag.ArAtliktiTechPrasymai > 0)))
+              {
+                if (User.Identity.IsAuthenticated)
+                {
+                  if (User.IsInRole("Gamybos meistras"))
+                  {
+                    <a class="dropdown-item" href='@Url.Action("Index", "TechnikosPrietaisoPatarimas", new
+                                              {
+                                                id = Model.KlientoUzsakymoId,
+                                                id2 = Model.GamybosInstrukcija.InstrukcijosId,
+                                                a11 = Model.GamybosInstrukcija.Busena,
+                                                a22 = Model.GamybosInstrukcija.GamybosTerminas,
+                                                brandl = Model.GamybosInstrukcija.BrandinimoLaikas,
+                                                a44 = Model.GamybosInstrukcija.RecepturaParuosta,
+                                                a55 = Model.GamybosInstrukcija.TechnikosPatarimaiParuosti
+                                              })'><span>Redaguoti technikos patarimus gamybos instrukcijai</span></a>
+                  }
+                }
+              }
+            }
+          }
+          @if (Model.GamybosInstrukcija != null)
+          {
+            if ((Model.GamybosInstrukcija.Busena == "U") || (Model.GamybosInstrukcija.Busena == "P") || (Model.GamybosInstrukcija.Busena == "B"))
+            {
+              if (((ViewBag.ArAtliktiTechPrasymai > 0) && (ViewBag.ArAtliktiIngrPrasymai > 0)) || ((Model.PrasymasTechnikaiReikalingas == "N") && (Model.PrasymasZaliavomsReikalingas == "N"))
+                 || ((Model.PrasymasTechnikaiReikalingas == "N") && (ViewBag.ArAtliktiIngrPrasymai > 0)) || ((Model.PrasymasZaliavomsReikalingas == "N") && (ViewBag.ArAtliktiTechPrasymai > 0)))
+              {
+                if (User.Identity.IsAuthenticated)
+                {
+                  if (User.IsInRole("Gamybos meistras"))
+                  {
+                    <a class="dropdown-item" href='#' data-toggle="modal" data-target="#ChangeStateGI"><span>Keisti gamybos instrukcijos būseną</span></a>
+                  }
+                }
+              }
+            }
+          }
+          <!--<div class="dropdown-divider"></div>
+      <h6 class="dropdown-header">Other Pages:</h6>
+      <a class="dropdown-item" href="404.html">404 Page</a>
+      <a class="dropdown-item" href="blank.html">Blank Page</a>
+          -->
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fas fa-fw fa-folder"></i>
+          <span>Resursų valdymas</span>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+          <h6 class="dropdown-header"><span>Resursų valdymo veiksmai:</span></h6>
+          @foreach (var item in Model.LaisviResursaiUzsakymui)
+          {
+            if (ViewBag.IsFormaZ > 0 && item.LaisvuResursuTipas == "Ž")
+            {
+              if (Model.GamybosInstrukcija != null)
+              {
+                if (Model.GamybosInstrukcija.RecepturaParuosta == "T")
+                {
+                  if (item.KlientoUzsakymoId == Model.KlientoUzsakymoId)
+                  {
+                    if (User.Identity.IsAuthenticated)
+                    {
+                      if (User.IsInRole("Technologas"))
+                      {
+                        <a class="dropdown-item" href='#' data-toggle="modal" data-target="#RezervuotiLaisviResursai">
+                          <span>Rezervuoti laisvas žaliavas</span>
+                        </a>
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+          @foreach (var item in Model.LaisviResursaiUzsakymui)
+          {
+            if (ViewBag.IsFormaT > 0 && item.LaisvuResursuTipas == "T")
+            {
+              if (Model.GamybosInstrukcija != null)
+              {
+                if (Model.GamybosInstrukcija.TechnikosPatarimaiParuosti == "T")
+                {
+                  if (item.KlientoUzsakymoId == Model.KlientoUzsakymoId)
+                  {
+                    if (User.Identity.IsAuthenticated)
+                    {
+                      if (User.IsInRole("Technikos vadovas"))
+                      {
+                        <a class="dropdown-item" href='#' data-toggle="modal" data-target="#RezervuotiLaisviResursai">
+                          <span>Rezervuoti laisvus technikos prietaisus</span>
+                        </a>
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+          @foreach (var item in Model.IngredientoRezervacija)
+          {
+            if (User.Identity.IsAuthenticated)
+            {
+              if (User.IsInRole("Technologas"))
+              {
+                <a class="dropdown-item" href='@Url.Action("Index", "IngredientoRezervacija", new { id = Model.KlientoUzsakymoId })'><span>Redaguoti ingredientų rezervacijas</span></a>
+              }
+            }
+            break;
+          }
+          @foreach (var item in Model.TechnikosPrietaisoRezervacija)
+          {
+            if (User.Identity.IsAuthenticated)
+            {
+              if (User.IsInRole("Technikos vadovas"))
+              {
+                <a class="dropdown-item" href='@Url.Action("Index", "TechnikosPrietaisoRezervacija", new { id = Model.KlientoUzsakymoId })'><span>Redaguoti technikos prietaisų rezervacijas</span></a>
+              }
+            }
+            break;
+          }
+          @if (Model.GamybosInstrukcija != null && (Model.GamybosInstrukcija.RecepturaParuosta == "T"))
+          {
+            if (User.Identity.IsAuthenticated)
+            {
+              if (User.IsInRole("Technologas"))
+              {
+                <a href='#' data-toggle="modal" data-target="#CreateResPrasymas" class="dropdown-item"><span>Pildyti prašymą žaliavoms užsakyti</span></a>
+              }
+            }
+          }
+          @if (Model.GamybosInstrukcija != null && (Model.GamybosInstrukcija.TechnikosPatarimaiParuosti == "T"))
+          {
+            if (User.Identity.IsAuthenticated)
+            {
+              if (User.IsInRole("Technikos vadovas"))
+              {
+                <a href='#' data-toggle="modal" data-target="#CreateResPrasymas" class="dropdown-item"><span>Pildyti prašymą technikai užsakyti</span></a>
+              }
+            }
+          }
+          @foreach (var item in Model.IngredientoPrasymas)
+          {
+            if (item.Busena == "S" || item.Busena == "Y")
+            {
+              if (User.Identity.IsAuthenticated)
+              {
+                if (User.IsInRole("Technologas"))
+                {
+                  <a class="dropdown-item" href='@Url.Action("Index", "IngredientoPrasymas", new { id = Model.KlientoUzsakymoId })'><span>Redaguoti prašymą žaliavoms užsakyti</span></a>
+                }
+              }
+            }
+            if (item.Busena == "P" || item.Busena == "Y")
+            {
+              if (User.Identity.IsAuthenticated)
+              {
+                if (User.IsInRole("Gamybos vadovas"))
+                {
+                  <a class="dropdown-item" href='@Url.Action("Index", "IngredientoPrasymas", new { id = Model.KlientoUzsakymoId })'><span>Redaguoti prašymą žaliavoms užsakyti</span></a>
+                }
+              }
+            }
+            break;
+          }
+          @foreach (var item in Model.TechnikosPrietaisoPrasymas)
+          {
+            if (User.Identity.IsAuthenticated)
+            {
+              if (User.IsInRole("Technikos vadovas"))
+              {
+                if (item.Busena == "S" || item.Busena == "Y")
+                {
+                  <a class="dropdown-item" href='@Url.Action("Index", "TechnikosPrietaisoPrasymas", new { id = Model.KlientoUzsakymoId })'><span>Redaguoti prašymą technikai užsakyti</span></a>
+                }
+              }
+              if (User.IsInRole("Gamybos vadovas"))
+              {
+                if (item.Busena == "P" || item.Busena == "Y")
+                {
+                  <a class="dropdown-item" href='@Url.Action("Index", "TechnikosPrietaisoPrasymas", new { id = Model.KlientoUzsakymoId })'><span>Redaguoti prašymą technikai užsakyti</span></a>
+                }
+              }
+            }
+            break;
+          }
+          @if (User.Identity.IsAuthenticated)
+          {
+            if (User.IsInRole("Generalinis direktorius"))
+            {
+              if (ViewBag.IsIngrPrasymai > 0 && ViewBag.IsTechPrasymai < 1)
+              {
+                if ((Model.IngredientoPrasymas.First(h => h.KlientoUzsakymoId == Model.KlientoUzsakymoId).Busena != "S" &&
+                  Model.IngredientoPrasymas.First(h => h.KlientoUzsakymoId == Model.KlientoUzsakymoId).Busena != "Y"))
+                {
+                  <a href='#' data-toggle="modal" data-target="#ChangeStatePras" class="dropdown-item"><span>Keisti prašymų resursams užsakyti būsenas</span></a>
+                }
+              }
+              else if (ViewBag.IsTechPrasymai > 0 && ViewBag.IsIngrPrasymai < 1)
+              {
+                if ((Model.TechnikosPrietaisoPrasymas.First(h => h.KlientoUzsakymoId == Model.KlientoUzsakymoId).Busena != "S" &&
+                  Model.TechnikosPrietaisoPrasymas.First(h => h.KlientoUzsakymoId == Model.KlientoUzsakymoId).Busena != "Y"))
+                {
+                  <a href='#' data-toggle="modal" data-target="#ChangeStatePras" class="dropdown-item"><span>Keisti prašymų resursams užsakyti būsenas</span></a>
+                }
+              }
+              else if (ViewBag.IsIngrPrasymai > 0 && ViewBag.IsTechPrasymai > 0)
+              {
+                if ((Model.IngredientoPrasymas.First(h => h.KlientoUzsakymoId == Model.KlientoUzsakymoId).Busena != "S" &&
+                  Model.IngredientoPrasymas.First(h => h.KlientoUzsakymoId == Model.KlientoUzsakymoId).Busena != "Y") || (Model.TechnikosPrietaisoPrasymas.First(h => h.KlientoUzsakymoId == Model.KlientoUzsakymoId).Busena != "S" &&
+                  Model.TechnikosPrietaisoPrasymas.First(h => h.KlientoUzsakymoId == Model.KlientoUzsakymoId).Busena != "Y"))
+                {
+                  <a href='#' data-toggle="modal" data-target="#ChangeStatePras" class="dropdown-item"><span>Keisti prašymų resursams užsakyti būsenas</span></a>
+                }
+              }
+            }
+            if (User.IsInRole("Gamybos vadovas"))
+            {
+              if (ViewBag.IsIngrPrasymai > 0 && ViewBag.IsTechPrasymai < 1)
+              {
+                if ((Model.IngredientoPrasymas.First(h => h.KlientoUzsakymoId == Model.KlientoUzsakymoId).Busena == "Y"))
+                {
+                  <a href='#' data-toggle="modal" data-target="#ChangeStatePras" class="dropdown-item"><span>Keisti prašymų resursams užsakyti būsenas</span></a>
+                }
+              }
+              else if (ViewBag.IsTechPrasymai > 0 && ViewBag.IsIngrPrasymai < 1)
+              {
+                if (
+                 (Model.TechnikosPrietaisoPrasymas.First(h => h.KlientoUzsakymoId == Model.KlientoUzsakymoId).Busena == "Y"))
+                {
+                  <a href='#' data-toggle="modal" data-target="#ChangeStatePras" class="dropdown-item"><span>Keisti prašymų resursams užsakyti būsenas</span></a>
+                }
+              }
+              else if (ViewBag.IsIngrPrasymai > 0 && ViewBag.IsTechPrasymai > 0)
+              {
+                if ((Model.IngredientoPrasymas.First(h => h.KlientoUzsakymoId == Model.KlientoUzsakymoId).Busena == "Y") ||
+                  (Model.TechnikosPrietaisoPrasymas.First(h => h.KlientoUzsakymoId == Model.KlientoUzsakymoId).Busena == "Y"))
+                {
+                  <a href='#' data-toggle="modal" data-target="#ChangeStatePras" class="dropdown-item"><span>Keisti prašymų resursams užsakyti būsenas</span></a>
+                }
+              }
+            }
+          }
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fas fa-fw fa-folder"></i>
+          <span>Laisvi resursai</span>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+          <h6 class="dropdown-header"><span>Laisvi resursai:</span></h6>
+          @if (User.Identity.IsAuthenticated)
+          {
+            if (User.IsInRole("Gamybos vadovas"))
+            {
+              <a class="dropdown-item" href='#' data-toggle="modal" data-target="#AddLaisviResursaiForKU">
+                <span>Pridėti laisvų resursų formą šiam užsakymui</span>
+              </a>
+            }
+          }
+          @foreach (var item in Model.LaisviResursaiUzsakymui)
+          {
+            if (ViewBag.IsFormaZ > 0 && item.LaisvuResursuTipas == "Ž")
+            {
+              if (item.KlientoUzsakymoId == Model.KlientoUzsakymoId)
+              {
+                if (User.Identity.IsAuthenticated)
+                {
+                  if (User.IsInRole("Technologas"))
+                  {
+                    <a class="dropdown-item" href='#' data-toggle="modal" data-target="#PildytiLaisviResursai">
+                      <span>Pildyti laisvas žaliavas</span>
+                    </a>
+                  }
+                }
+              }
+            }
+          }
+          @foreach (var item in Model.LaisviResursaiUzsakymui)
+          {
+            if (ViewBag.IsFormaT > 0 && item.LaisvuResursuTipas == "T")
+            {
+              if (item.KlientoUzsakymoId == Model.KlientoUzsakymoId)
+              {
+                if (User.Identity.IsAuthenticated)
+                {
+                  if (User.IsInRole("Technikos vadovas"))
+                  {
+                    <a class="dropdown-item" href='#' data-toggle="modal" data-target="#PildytiLaisviResursai">
+                      <span>Pildyti laisvus technikos prietaisus</span>
+                    </a>
+                  }
+                }
+              }
+            }
+          }
+          @foreach (var item in Model.LaisviResursaiUzsakymui)
+          {
+            if ((ViewBag.IsFormaT > 0 && item.LaisvuResursuTipas == "T") || (ViewBag.IsFormaZ > 0 && item.LaisvuResursuTipas == "Ž"))
+            {
+              if (item.KlientoUzsakymoId == Model.KlientoUzsakymoId)
+              {
+                if (User.Identity.IsAuthenticated)
+                {
+                  if (User.IsInRole("Gamybos meistras"))
+                  {
+                    <a class="dropdown-item" href='#' data-toggle="modal" data-target="#PildytiLaisviResursai">
+                      <span>Pildyti laisvus resursus</span>
+                    </a>
+                  }
+                }
+              }
+            }
+            break;
+          }
+          @foreach (var item in Model.LaisviResursaiUzsakymui)
+          {
+            if (ViewBag.IsFormaT > 0 && item.LaisvuResursuTipas == "T")
+            {
+              if (item.KlientoUzsakymoId == Model.KlientoUzsakymoId)
+              {
+                if (User.Identity.IsAuthenticated)
+                {
+                  if (User.IsInRole("Technikos vadovas") || User.IsInRole("Gamybos vadovas") || User.IsInRole("Gamybos meistras") || User.IsInRole("Technologas") || User.IsInRole("Generalinis direktorius"))
+                  {
+                    <a class="dropdown-item" href='@Url.Action("DetailsLaisvaTechnika", "LaisviResursais", new { id = Model.LaisviResursaiUzsakymui.First(h => h.LaisvuResursuTipas == "T").FormosId })'>
+                      <span>Žiūrėti laisvos technikos formą</span>
+                    </a>
+                  }
+                }
+              }
+            }
+          }
+          @foreach (var item in Model.LaisviResursaiUzsakymui)
+          {
+            if (ViewBag.IsFormaZ > 0 && item.LaisvuResursuTipas == "Ž")
+            {
+              if (item.KlientoUzsakymoId == Model.KlientoUzsakymoId)
+              {
+                if (User.Identity.IsAuthenticated)
+                {
+                  if (User.IsInRole("Technologas") || User.IsInRole("Gamybos vadovas") || User.IsInRole("Gamybos meistras") || User.IsInRole("Technikos vadovas") || User.IsInRole("Generalinis direktorius"))
+                  {
+                    <a class="dropdown-item" href='@Url.Action("DetailsLaisvosZaliavos", "LaisviResursais", new { id = Model.LaisviResursaiUzsakymui.First(h => h.LaisvuResursuTipas == "Ž").FormosId })'>
+                      <span>Žiūrėti laisvų žaliavų formą</span>
+                    </a>
+                  }
+                }
+              }
+            }
+          }
+        </div>
+      </li>
+    </ul>
+    <div id="content-wrapper">
+      <div class="container-fluid">
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="#">Kliento užsakymo aplankas</a>
+          </li>
+          <li class="breadcrumb-item active">Informacija</li>
+        </ol>
+        <!--Jei archyvuotas užsakymo aplankas-->
+        @if (Model.Archyvavimo_Komentaras != null)
+        {
+          if (User.Identity.IsAuthenticated)
+          {
+            if (User.IsInRole("Technologas") || User.IsInRole("Technikos vadovas") || User.IsInRole("Generalinis direktorius") || User.IsInRole("Gamybos vadovas")
+              || User.IsInRole("Gamybos meistras") || User.IsInRole("Buhalteris") || User.IsInRole("Darbuotojas"))
+            {
+              <div class="card mb-3">
+                <div class="card-header">
+                  <i class="fas fa-fw fa-folder"></i>
+                  Archyvavimo komentaras
+                </div>
+                <div class="card-body">
+                  <center>
+                    @if (Model.GamybosInstrukcija.Busena == "B")
+                    {
+                      <p style="display:inline-table;margin:2%;">
+                        <b>Gamybos instrukcija - Baigta</b>
+                      </p><br>
+                    }
+                    @if (ViewBag.IsIngrPrasymai > 0)
+                    {
+                      foreach (var item2 in Model.IngredientoPrasymas)
+                      {
+                        if (item2.Busena == "N")
+                        {
+                          <p style="display:inline-table;margin:2%;">
+                            <b>Žaliavų prašymas - atmestas</b>
+                          </p><br>
+                        }
+                        break;
+                      }
+                    }
+                    @if (ViewBag.IsTechPrasymai > 0)
+                    {
+                      foreach (var item2 in Model.TechnikosPrietaisoPrasymas)
+                      {
+                        if (item2.Busena == "N")
+                        {
+                          <p style="display:inline-table;margin:2%;">
+                            <b>Technikos prašymas - atmestas</b>
+                          </p><br>
+                        }
+                        break;
+                      }
+                    }
+                    <p style="display:inline-table;margin:2%;">
+                      <b>Archyvavimo laikas: </b>@if (Model.ArchyvavimoLaikas != null)
+                      {
+                        @Html.DisplayFor(modelItem => Model.ArchyvavimoLaikas)
+                      }
+                    </p><br>
+                    <p style="display:inline-table;margin:2%;">
+                      <b>Archyvavimo komentaras: </b>@if (Model.Archyvavimo_Komentaras != null)
+                      {
+                        @Html.DisplayFor(modelItem => Model.Archyvavimo_Komentaras)
+                      }
+                    </p>
+                  </center>
+                </div>
+              </div>
+            }
+          }
+        }
+        <!-- Kliento sutartis-->
+        @if (User.Identity.IsAuthenticated)
+        {
+          if (User.IsInRole("Technologas") || User.IsInRole("Technikos vadovas") || User.IsInRole("Generalinis direktorius") || User.IsInRole("Gamybos vadovas") || User.IsInRole("Gamybos meistras") || User.IsInRole("Buhalteris"))
+          {
+            <div class="card mb-3">
+              <div class="card-header">
+                <i class="fas fa-table"></i>
+                Kliento sutartis
+              </div>
+              <div class="card-body">
+                <center style="margin:2%;" class="sutartisikona">
+                  @if (Model.Sutartis != null)
+                  {
+                    <a asp-controller="Sutartis" asp-action="Siusti" asp-route-filename="@Model.Sutartis.FailoPavadinimas">
+                      <i class="fa fa-file" style="font-size:75px;color:black;"></i>
+                    </a>
+                    <p>@Html.DisplayFor(modelItem => Model.Sutartis.FailoPavadinimas)</p>
+                  }
+                </center>
+                <div class="table-responsive">
+                  <table class="table table-bordered" width="100%" cellspacing="0">
+                    <thead>
+                      <tr>
+                        <th>Sutarties pasirašymo data</th>
+                        <th>Sutarties terminas</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @if (Model.Sutartis != null)
+                      {
+                        <tr>
+                          <td>
+                            @Html.DisplayFor(modelItem => Model.Sutartis.SutartiesPasirasymoData)
+                          </td>
+                          <td>
+                            @Html.DisplayFor(modelItem => Model.Sutartis.SutartiesTerminas)
+                          </td>
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          }
+        }
+        @if (Model.GamybosInstrukcija != null)
+        {
+          @if (Model.GamybosInstrukcija.Busena.Contains('S'))
+          {
+            <script type="text/javascript">
+              var t = "Sukurta";
+            </script>
+          }
+          @if (Model.GamybosInstrukcija.RecepturaParuosta.Contains('N'))
+          {
+            <script type="text/javascript">
+              var qz = "Neparuošta";
+            </script>
+          }
+          @if (Model.GamybosInstrukcija.TechnikosPatarimaiParuosti.Contains('N'))
+          {
+            <script type="text/javascript">
+              var qt = "Neparuošti";
+            </script>
+          }
+          @if (Model.GamybosInstrukcija.RecepturaParuosta.Contains('T'))
+          {
+            <script type="text/javascript">
+              var qz = "Paruošta";
+            </script>
+          }
+          @if (Model.GamybosInstrukcija.TechnikosPatarimaiParuosti.Contains('T'))
+          {
+            <script type="text/javascript">
+              var qt = "Paruošti";
+            </script>
+          }
+          @if (Model.GamybosInstrukcija.Busena.Contains('U'))
+          {
+            <script type="text/javascript">
+              var t = "Užpildyta";
+            </script>
+          }
+          @if (Model.GamybosInstrukcija.Busena.Contains('P'))
+          {
+            <script type="text/javascript">
+              var t = "Patvirtinta";
+            </script>
+          }
+          @if (Model.GamybosInstrukcija.Busena.Contains('B'))
+          {
+            <script type="text/javascript">
+              var t = "Baigta";
+            </script>
+          }
+        }
+        <!-- Gamybos instrukcija-->
+        @if (User.Identity.IsAuthenticated)
+        {
+          if (User.IsInRole("Technologas") || User.IsInRole("Technikos vadovas") || User.IsInRole("Generalinis direktorius") || User.IsInRole("Gamybos vadovas") || User.IsInRole("Gamybos meistras") || User.IsInRole("Buhalteris") || User.IsInRole("Darbuotojas"))
+          {
+
+            <div class="card mb-3">
+              <div class="card-header">
+                <i class="fas fa-table"></i>
+                Gamybos instrukcija
+              </div>
+              <div class="card-body">
+                <center>
+                  <p style="display:inline-table;margin:2%;">
+                    <b>Gamybos terminas: </b>@if (Model.GamybosInstrukcija != null)
+                    {
+                      @Html.DisplayFor(modelItem => Model.GamybosInstrukcija.GamybosTerminas)
+                    }
+                  </p>
+                  <p style="display:inline-table;margin:2%;">
+                    <b>Gamybos instrukcijos būsena: </b>@if (Model.GamybosInstrukcija != null)
+                    {
+                      <script type="text/javascript">document.write(t);</script>}
+                  </p>
+                  <p style="display:inline-table; margin:2%;">
+                    <b>Produkcijos brandinimo laikas: </b>@if (Model.GamybosInstrukcija != null)
+                    {@Html.DisplayFor(modelItem => Model.GamybosInstrukcija.BrandinimoLaikas)}
+                  </p>
+                  <p style="display:inline-table;margin:2%;">
+                    <b>Receptūra: </b>@if (Model.GamybosInstrukcija != null)
+                    {
+                      <script type="text/javascript">document.write(qz);</script>}
+                  </p>
+                  <p style="display:inline-table;margin:2%;">
+                    <b>Technikos patarimai: </b>@if (Model.GamybosInstrukcija != null)
+                    {
+                      <script type="text/javascript">document.write(qt);</script>}
+                  </p>
+                </center>
+              </div>
+              <hr>
+              <div class="card-body">
+                <center>Naudoti techniką/technikos patarimai</center><br>
+                <div class="table-responsive">
+                  <table class="table table-bordered" id="TechnikosPatarimai" width="100%" cellspacing="0">
+                    <thead>
+                      <tr>
+                        <th>Pavadinimas</th>
+                        <th>Kiekis</th>
+                        <th>Komentaras</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @if (Model.GamybosInstrukcija != null)
+                      {
+                        @foreach (var tpp2 in Model.GamybosInstrukcija.TechnikosPrietaisoPatarimas)
+                        {
+                          <tr>
+                            <td>
+                              @Html.DisplayFor(modelItem => tpp2.TechnikosPrietaiso.PrietaisoPavadinimas)
+                            </td>
+                            <td>
+                              @Html.DisplayFor(modelItem => tpp2.PrietaisoKiekis) vnt.
+                            </td>
+                            <td>
+                              <p>@Html.DisplayFor(modelItem => tpp2.PrietaisoKomentaras)</p>
+                            </td>
+                          </tr>
+                        }
+                      }
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <hr>
+              <div class="card-body">
+                <center>Receptūra</center>
+                <div class="table-responsive">
+                  <table class="table table-bordered" id="Receptura" width="100%" cellspacing="0">
+                    <thead>
+                      <tr>
+                        <th>Pavadinimas</th>
+                        <th>Kiekis</th>
+                        <th>Virimo laikas</th>
+                        <th>Fermantacijos laikas</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @if (Model.GamybosInstrukcija != null)
+                      {
+                        @foreach (var tpp2 in Model.GamybosInstrukcija.IngredientoReceptas)
+                        {
+                          <tr>
+                            <td>
+                              @Html.DisplayFor(modelItem => tpp2.Ingrediento.IngredientoPavadinimas)
+                            </td>&nbsp
+                            <td>
+                              <p>@Html.DisplayFor(modelItem => tpp2.IngredientoKiekis) (kg/l)</p>
+                            </td>
+                            <td>
+                              <p>@Html.DisplayFor(modelItem => tpp2.VirimoLaikas)</p>
+                            </td>
+                            <td>
+                              <p>@Html.DisplayFor(modelItem => tpp2.FermentacijosLaikas)</p>
+                            </td>
+                          </tr>
+                        }
+                      }
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          }
+        }
+        @foreach (var item in Model.TechnikosPrietaisoPrasymas)
+        {
+          if (item.Busena.Contains('S'))
+          {
+            <script type="text/javascript">
+              var z = "Sukurtas";
+            </script>
+          }
+          if (item.Busena.Contains('P'))
+          {
+            <script type="text/javascript">
+              var z = "Patvirtintas";
+            </script>
+          }
+          if (item.Busena.Contains('A'))
+          {
+            <script type="text/javascript">
+              var z = "Atliktas";
+            </script>
+          }
+          if (item.Busena.Contains('Y'))
+          {
+            <script type="text/javascript">
+              var z = "Pateiktas";
+            </script>
+          }
+          if (item.Busena.Contains('N'))
+          {
+            <script type="text/javascript">
+              var z = "Atmestas";
+            </script>
+          }
+          if (item.Busena.Contains('V'))
+          {
+            <script type="text/javascript">
+              var z = "Vykdomas";
+            </script>
+          }
+        }
+        @if (Model.PrasymasTechnikaiReikalingas != null)
+        {
+          if (Model.PrasymasTechnikaiReikalingas.Contains('N'))
+          {
+            <script type="text/javascript">
+              var z = "Reikiami technikos prietaisai rezervuoti";
+            </script>
+          }
+        }
+        @foreach (var item in Model.IngredientoPrasymas)
+        {
+          if (item.Busena.Contains('S'))
+          {
+            <script type="text/javascript">
+              var l = "Sukurtas";
+            </script>
+          }
+          if (item.Busena.Contains('P'))
+          {
+            <script type="text/javascript">
+              var l = "Patvirtintas";
+            </script>
+          }
+          if (item.Busena.Contains('A'))
+          {
+            <script type="text/javascript">
+              var l = "Atliktas";
+            </script>
+          }
+          if (item.Busena.Contains('Y'))
+          {
+            <script type="text/javascript">
+              var l = "Pateiktas";
+            </script>
+          }
+          if (item.Busena.Contains('N'))
+          {
+            <script type="text/javascript">
+              var l = "Atmestas";
+            </script>
+          }
+          if (item.Busena.Contains('V'))
+          {
+            <script type="text/javascript">
+              var l = "Vykdomas";
+            </script>
+          }
+        }
+        @if (Model.PrasymasZaliavomsReikalingas != null)
+        {
+          if (Model.PrasymasZaliavomsReikalingas == "N")
+          {
+            <script type="text/javascript">
+              var l = "Reikiami ingredientai rezervuoti";
+            </script>
+          }
+        }
+        <!-- Prašymai resursams užsakyti-->
+        @if (User.Identity.IsAuthenticated)
+        {
+          if (User.IsInRole("Technologas") || User.IsInRole("Technikos vadovas") || User.IsInRole("Gamybos vadovas") || User.IsInRole("Generalinis direktorius") || User.IsInRole("Gamybos meistras") || User.IsInRole("Buhalteris"))
+          {
+            <div class="card mb-3">
+              <div class="card-header">
+                <i class="fas fa-table"></i>
+                Prašymai resursams užsakyti
+              </div>
+              <div class="card-body">
+                <center>
+                  <nobr>
+                    Prašymo technikai užsakyti būsena -
+                    <script type="text/javascript">
+                      document.write(z);
+                    </script>
+                  </nobr>
+                </center>
+                <br>
+                <div class="table-responsive">
+                  <table class="table table-bordered" id="PrietaisuPrasymas" width="100%" cellspacing="0">
+                    <thead>
+                      <tr>
+                        <th>Pavadinimas</th>
+                        <th>Kiekis</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @foreach (var tpp in Model.TechnikosPrietaisoPrasymas)
+                      {
+                        <tr>
+                          <td>
+                            @Html.DisplayFor(modelItem => tpp.TechnikosPrietaiso.PrietaisoPavadinimas)
+                          </td>&nbsp
+                          <td>
+                            <p>@Html.DisplayFor(modelItem => tpp.PrietaisoKiekis) vnt</p>
+                          </td>
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                </div>
+                <hr>
+                <center>
+                  <nobr>
+                    Prašymo žaliavoms užsakyti būsena -
+                    <script type="text/javascript">
+                      document.write(l);
+                    </script>
+                  </nobr>
+                </center>
+                <br>
+                <div class="table-responsive">
+                  <table class="table table-bordered" id="IngredientuPrasymas" width="100%" cellspacing="0">
+                    <thead>
+                      <tr>
+                        <th>Pavadinimas</th>
+                        <th>Kiekis</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @foreach (var item in Model.IngredientoPrasymas)
+                      {
+                        <tr>
+                          <td>
+                            @Html.DisplayFor(modelItem => item.Ingrediento.IngredientoPavadinimas)
+                          </td>
+                          <td>
+                            <p>@Html.DisplayFor(modelItem => item.IngredientoKiekis) kg/l</p>
+                          </td>
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          }
+        }
+        <!-- Rezervuoti resursai-->
+        @if (User.Identity.IsAuthenticated)
+        {
+          if (User.IsInRole("Technologas") || User.IsInRole("Technikos vadovas") || User.IsInRole("Gamybos vadovas") || User.IsInRole("Generalinis direktorius") || User.IsInRole("Gamybos meistras") || User.IsInRole("Buhalteris"))
+          {
+            <div class="card mb-3">
+              <div class="card-header">
+                <i class="fas fa-table"></i>
+                Rezervuoti resursai iš laisvų resursų formų
+              </div>
+              <div class="card-body">
+                <center>
+                  Rezervuoti technikos prietaisai
+                </center>
+                <br>
+                <div class="table-responsive">
+                  <table class="table table-bordered" id="RezervuotiPrietaisai" width="100%" cellspacing="0">
+                    <thead>
+                      <tr>
+                        <th>Pavadinimas</th>
+                        <th>Kiekis</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @foreach (var item in Model.TechnikosPrietaisoRezervacija)
+                      {
+                        <tr>
+                          <td>
+                            @Html.DisplayFor(modelItem => item.TechnikosPrietaiso.PrietaisoPavadinimas)
+                          </td>
+                          <td>
+                            <p>@Html.DisplayFor(modelItem => item.PrietaisoKiekis) vnt</p>
+                          </td>
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                </div>
+                <hr>
+                <center>
+                  Rezervuoti ingredientai
+                </center>
+                <br>
+                <div class="table-responsive">
+                  <table class="table table-bordered" id="RezervuotiIngredientai" width="100%" cellspacing="0">
+                    <thead>
+                      <tr>
+                        <th>Pavadinimas</th>
+                        <th>Kiekis</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @foreach (var item in Model.IngredientoRezervacija)
+                      {
+                        <tr>
+                          <td>
+                            @Html.DisplayFor(modelItem => item.Ingrediento.IngredientoPavadinimas)
+                          </td>
+                          <td>
+                            <p>@Html.DisplayFor(modelItem => item.IngredientoKiekis) kg/l</p>
+                          </td>
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          }
+        }
+        <!-- Kliento informacija-->
+        @if (User.Identity.IsAuthenticated)
+        {
+          if (!User.IsInRole("Darbuotojas"))
+          {
+            <div class="card mb-3">
+              <div class="card-header">
+                Kliento informacija
+              </div>
+              <div class="card-body">
+                <center>
+                  <p style="display:inline-table;margin:2%;">
+                    <b>Kliento pavadinimas: </b>
+                    @Html.DisplayFor(modelItem => Model.Kliento.KlientoPavadinimas)
+                  </p>
+                  <p style="display:inline-table; margin:2%;">
+                    <b>Kliento imones kodas: </b>
+                    @Html.DisplayFor(modelItem => Model.Kliento.ImonesKodas)
+                  </p>
+                  <p style="display:inline-table; margin:2%;">
+                    <b>Kliento kontaktinis numeris: </b>
+                    @Html.DisplayFor(modelItem => Model.Kliento.KontaktinisNR)
+                  </p>
+                  <p style="display:inline-table; margin:2%;">
+                    <b>Kliento adresas: </b>
+                    @Html.DisplayFor(modelItem => Model.Kliento.Adresas)
+                  </p>
+                </center>
+              </div>
+            </div>
+          }
+        }
+      </div>
+      <footer class="sticky-footer">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>Alaus daryklos gamybos valdymo sistema</span>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+  <div class="modal fade" id="UploadSutartis" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+          <form asp-controller="Sutartis" asp-action="Create" enctype="multipart/form-data" method="POST">
+            @{ var kui = Model.KlientoUzsakymoId;
+              var ki = Model.KlientoId;
+              DateTime term = Model.Terminas;
+            }
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="@kui" />
+            <input type="hidden" asp-for="Sutartis.KlientoId" value="@ki" />
+            <div class="form-group">
+              <label class="control-label">Kliento sutartis(failas)</label>
+              <input type="file" name="files" class="form-control" id="files" />
+            </div>
+            <div class="form-group">
+              <label>Sutarties pasirašymo data</label>
+              <input asp-for="Sutartis.SutartiesPasirasymoData" class="form-control" type="date" />
+              <span asp-validation-for="Sutartis.SutartiesPasirasymoData" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+              <label>Sutarties terminas</label>
+              <input asp-for="@term" class="form-control" type="date">
+              <span asp-validation-for="Sutartis.SutartiesTerminas" class="text-danger"></span>
+            </div>
+            <center>
+              <div class="form-group">
+                <input type="submit" value="Įkelti" class="btn btn-primary" />
+              </div>
+            </center>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Grįžti</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  @if (Model.Sutartis != null)
+  {
+    <div class="modal fade" id="EditSutartis" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            <form asp-controller="Sutartis" asp-action="Edit" enctype="multipart/form-data" method="POST">
+              @{ var kuiES = Model.KlientoUzsakymoId;
+                var kiES = Model.KlientoId;
+                DateTime? spdES = Model.Sutartis.SutartiesPasirasymoData;
+                DateTime? stES = Model.Sutartis.SutartiesTerminas;
+
+              }
+              <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+              <input type="hidden" asp-for="@kuiES" />
+              <input type="hidden" asp-for="@kiES" />
+              <div class="form-group">
+                <label class="control-label">Kliento sutartis(failas)</label>
+                <input type="file" name="files" class="form-control" id="files" multiple />
+              </div>
+              <div class="form-group">
+                <label>Sutarties pasirašymo data</label>
+                <input asp-for="@spdES" class="form-control" type="date" />
+                <span asp-validation-for="Sutartis.SutartiesPasirasymoData" class="text-danger"></span>
+              </div>
+              <div class="form-group">
+                <label>Sutarties terminas</label>
+                <input asp-for="@stES" class="form-control" type="date" />
+                <span asp-validation-for="Sutartis.SutartiesTerminas" class="text-danger"></span>
+              </div>
+              <center>
+                <div class="form-group">
+                  <input type="submit" value="Redaguoti" class="btn btn-primary" />
+                </div>
+              </center>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Grįžti</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+  @if (Model.GamybosInstrukcija != null)
+  {
+    @if (Model.GamybosInstrukcija.Busena == "B")
+    {
+      <div class="modal fade" id="ArchyvuotiUzsakymas" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-body">
+              <form asp-controller="KlientoUzsakymoAplankas" asp-action="Edit" method="POST">
+                @{ var kuiESUA = Model.KlientoUzsakymoId;
+                  var kiESUA = Model.KlientoId;
+                  string UAB = Model.Busena;
+                  string UAK = "";
+                }
+                <input type="hidden" asp-for="@kuiESUA" />
+                <input type="hidden" asp-for="@kiESUA" />
+                <input type="hidden" asp-for="@UAB" value="A" />
+                <div class="form-group">
+                  <label>Archyvavimo komentaras</label>
+                  <textarea asp-for="@UAK" class="form-control" placeholder="Archyvavimo informacija šiam kliento užsakymo aplankui" data-val="true" data-val-length="Archyvavimo komentaras negali turėti daugiau nei 500 simbolių!"
+                            data-val-length-max="500" data-val-required="Įvedamas archyvavimo komentaras negali būti tuščias!"></textarea>
+                  <span class="text-danger field-validation-valid"
+                        data-valmsg-for="UAK" data-valmsg-replace="true"></span>
+                </div>
+                <center>
+                  <div class="form-group">
+                    <input type="submit" value="Archyvuoti" class="btn btn-primary" />
+                  </div>
+                </center>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-secondary" type="button" data-dismiss="modal">Grįžti</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+    if (ViewBag.IsIngrPrasymai > 0)
+    {
+      if (Model.IngredientoPrasymas.First(h => h.KlientoUzsakymoId == Model.KlientoUzsakymoId).Busena == "N")
+      {
+        <div class="modal fade" id="ArchyvuotiUzsakymas" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-body">
+                <form asp-controller="KlientoUzsakymoAplankas" asp-action="Edit" method="POST">
+                  @{ var kuiESUA = Model.KlientoUzsakymoId;
+                    var kiESUA = Model.KlientoId;
+                    string UAB = Model.Busena;
+                    string UAK = "";
+                  }
+
+                  <input type="hidden" asp-for="@kuiESUA" />
+                  <input type="hidden" asp-for="@kiESUA" />
+                  <input type="hidden" asp-for="@UAB" value="A" />
+                  <div class="form-group">
+                    <label>Archyvavimo komentaras</label>
+                    <textarea asp-for="@UAK" class="form-control" placeholder="Archyvavimo informacija šiam kliento užsakymo aplankui" data-val="true" data-val-length="Archyvavimo komentaras negali turėti daugiau nei 500 simbolių!"
+                              data-val-length-max="500" data-val-required="Įvedamas archyvavimo komentaras negali būti tuščias!"></textarea>
+                    <span class="text-danger field-validation-valid"
+                          data-valmsg-for="UAK" data-valmsg-replace="true"></span>
+                  </div>
+                  <center>
+                    <div class="form-group">
+                      <input type="submit" value="Archyvuoti" class="btn btn-primary" />
+                    </div>
+                  </center>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Grįžti</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+    }
+    if (ViewBag.IsTechPrasymai > 0)
+    {
+      if (Model.TechnikosPrietaisoPrasymas.First(h => h.KlientoUzsakymoId == Model.KlientoUzsakymoId).Busena == "N")
+      {
+        <div class="modal fade" id="ArchyvuotiUzsakymas" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-body">
+                <form asp-controller="KlientoUzsakymoAplankas" asp-action="Edit" method="POST">
+                  @{ var kuiESUA = Model.KlientoUzsakymoId;
+                    var kiESUA = Model.KlientoId;
+                    string UAB = Model.Busena;
+                    string UAK = "";
+                  }
+
+                  <input type="hidden" asp-for="@kuiESUA" />
+                  <input type="hidden" asp-for="@kiESUA" />
+                  <input type="hidden" asp-for="@UAB" value="A" />
+                  <div class="form-group">
+                    <label>Archyvavimo komentaras</label>
+                    <textarea asp-for="@UAK" class="form-control" placeholder="Archyvavimo informacija šiam kliento užsakymo aplankui" data-val="true" data-val-length="Archyvavimo komentaras negali turėti daugiau nei 500 simbolių!"
+                              data-val-length-max="500" data-val-required="Įvedamas archyvavimo komentaras negali būti tuščias!"></textarea>
+                    <span class="text-danger field-validation-valid"
+                          data-valmsg-for="UAK" data-valmsg-replace="true"></span>
+                  </div>
+                  <center>
+                    <div class="form-group">
+                      <input type="submit" value="Archyvuoti" class="btn btn-primary" />
+                    </div>
+                  </center>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Grįžti</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      }
+    }
+  }
+  <div class="modal fade" id="CreateGamybosInstrukcija" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+          <form asp-controller="GamybosInstrukcijas" asp-action="Create" method="POST">
+            @{
+              var kuiGI = Model.KlientoUzsakymoId;
+            }
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="GamybosInstrukcija.Busena" value="S" />
+            <input type="hidden" asp-for="GamybosInstrukcija.RecepturaParuosta" value="N" />
+            <input type="hidden" asp-for="GamybosInstrukcija.TechnikosPatarimaiParuosti" value="N" />
+            <input type="hidden" asp-for="GamybosInstrukcija.KlientoUzsakymoId" value="@kuiGI" />
+            <input type="hidden" asp-for="@kuiGI" />
+            <div class="form-group">
+              <label class="control-label">Pateikite gamybos terminą</label>
+              <input asp-for="GamybosInstrukcija.GamybosTerminas" class="form-control" />
+              <span asp-validation-for="GamybosInstrukcija.GamybosTerminas" class="text-danger"></span>
+            </div>
+            <center>
+              <div class="form-group">
+                <input type="submit" value="Sukurti" class="btn btn-primary" />
+              </div>
+            </center>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Grįžti</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  @if (Model.GamybosInstrukcija != null)
+  {
+    <div class="modal fade" id="EditGamybosTerminas" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            <form asp-controller="GamybosInstrukcijas" asp-action="EditGamybosTerminas" method="POST">
+              @{
+                var INI = Model.GamybosInstrukcija.InstrukcijosId;
+                string IB2 = Model.GamybosInstrukcija.Busena;
+                string RP2 = Model.GamybosInstrukcija.RecepturaParuosta;
+                string TP2 = Model.GamybosInstrukcija.TechnikosPatarimaiParuosti;
+                var kuiGT = Model.KlientoUzsakymoId;
+                DateTime GT = Model.GamybosInstrukcija.GamybosTerminas;
+              }
+              <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+              <input type="hidden" asp-for="@kuiGT" />
+              <input type="hidden" asp-for="@INI" />
+              <input type="hidden" asp-for="@IB2" />
+              <input type="hidden" asp-for="@RP2" />
+              <input type="hidden" asp-for="@TP2" />
+              <div class="form-group">
+                <label asp-for="GamybosInstrukcija.GamybosTerminas" class="control-label">Pateikite gamybos terminą</label>
+                <input asp-for="@GT" class="form-control" />
+                <span asp-validation-for="GamybosInstrukcija.GamybosTerminas" class="text-danger"></span>
+              </div>
+              <center>
+                <div class="form-group">
+                  <input type="submit" value="Redaguoti" class="btn btn-primary" />
+                </div>
+              </center>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Grįžti</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+  @if (Model.GamybosInstrukcija != null)
+  {
+    <div class="modal fade" id="ChangeStateGI" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            <form asp-controller="GamybosInstrukcijas" asp-action="ChangeState" method="POST">
+              @{
+                var INI2 = Model.GamybosInstrukcija.InstrukcijosId;
+                string IB3 = Model.GamybosInstrukcija.Busena;
+                string RP3 = Model.GamybosInstrukcija.RecepturaParuosta;
+                string TP3 = Model.GamybosInstrukcija.TechnikosPatarimaiParuosti;
+                var kuiGT2 = Model.KlientoUzsakymoId;
+                DateTime GT2 = Model.GamybosInstrukcija.GamybosTerminas;
+              }
+              <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+              <input type="hidden" asp-for="@kuiGT2" />
+              <input type="hidden" asp-for="@INI2" />
+              <input type="hidden" asp-for="@RP3" />
+              <input type="hidden" asp-for="@TP3" />
+              <input type="hidden" asp-for="@GT2" />
+              <div class="form-group">
+                <label asp-for="GamybosInstrukcija.Busena" class="control-label">Gamybos instrukcijos būsena</label>
+                <select asp-for="@IB3" class="form-control">
+                  <option value="S">Sukurta</option>
+                  <option value="U">Užpildyta</option>
+                  <option value="P">Patvirtinta</option>
+                  <option value="B">Baigta</option>
+                </select>
+              </div>
+              <center>
+                <div class="form-group">
+                  <input type="submit" value="Redaguoti" class="btn btn-primary" />
+                </div>
+              </center>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Grįžti</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+
+  <div class="modal fade" id="AddLaisviResursaiForKU" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+          @if (User.Identity.IsAuthenticated)
+          {
+            if (User.IsInRole("Gamybos vadovas"))
+            {
+              <form asp-controller="ResursaiUzsakymui" asp-action="Create" method="POST">
+                @{
+                  var kuiLR2 = Model.KlientoUzsakymoId;
+                  decimal fid = 0;
+
+                }
+                <input type="hidden" asp-for="@kuiLR2" />
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                  <label class="control-label">Resursų tipas</label>
+                  <select asp-for="@fid" class="form-control" asp-items="ViewBag.FormosId"></select>
+                </div>
+                <center>
+                  <div class="form-group">
+                    <input type="submit" value="Pridėti" class="btn btn-primary" />
+                  </div>
+                </center>
+              </form>
+            }
+          }
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Grįžti</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="PildytiLaisviResursai" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+          @foreach (var item in Model.LaisviResursaiUzsakymui)
+          {
+            if (ViewBag.IsFormaZ > 0 && item.LaisvuResursuTipas == "Ž")
+            {
+              if (item.KlientoUzsakymoId == Model.KlientoUzsakymoId)
+              {
+                if (User.Identity.IsAuthenticated)
+                {
+                  if ((User.IsInRole("Technologas") || User.IsInRole("Gamybos meistras")) && ViewBag.IsFormaZ > 0)
+                  {
+                    <form asp-controller="Ingredientas" asp-action="AddtoLaisvosZaliavos" method="POST">
+                      @{
+                        decimal iid = 0;
+                        var lk = 0;
+                        decimal fid2 = Model.LaisviResursaiUzsakymui.First(h => h.LaisvuResursuTipas == "Ž").FormosId;
+                        decimal kuiIn = Model.KlientoUzsakymoId;
+
+                      }
+
+                      <input type="hidden" asp-for="@fid2" />
+                      <input type="hidden" asp-for="@kuiIn" />
+                      <center><h4>Žaliavos</h4></center>
+                      <div class="form-group">
+                        <label class="control-label">Pasirinkti ingredientą</label>
+                        <select asp-for="@iid" class="form-control" asp-items="ViewBag.IngredientoId"></select>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label">Laisvas ingrediento kiekis</label>
+                        <input asp-for="@lk" class="form-control" placeholder="pvz:5" data-val="true" data-val-range="Laisvas kiekis negali būti minusinis!"
+                               data-val-range-min="0" data-val-number="Kiekis turi būti skaičius!" data-val-required="Kiekis negali būti tuščias!" />
+                        <span class="text-danger field-validation-valid"
+                              data-valmsg-for="lk" data-valmsg-replace="true"></span>
+                      </div>
+                      <center>
+                        <div class="form-group">
+                          <input type="submit" value="Pridėti prie laisvų žaliavų" class="btn btn-primary" />
+                        </div>
+                      </center>
+                    </form>
+                    <hr>
+                  }
+                }
+              }
+            }
+          }
+          @foreach (var item in Model.LaisviResursaiUzsakymui)
+          {
+            if (ViewBag.IsFormaT > 0 && item.LaisvuResursuTipas == "T")
+            {
+              if (item.KlientoUzsakymoId == Model.KlientoUzsakymoId)
+              {
+                if (User.Identity.IsAuthenticated)
+                {
+                  if ((User.IsInRole("Technikos vadovas") || User.IsInRole("Gamybos meistras")) && ViewBag.IsFormaT > 0)
+                  {
+                    <form name="Addzaliavostolaisvaforma" asp-controller="TechnikosPrietaisas" asp-action="AddtoLaisvaTechnika" method="POST">
+                      @{
+                        decimal tpd = 0;
+                        var lk = 0;
+                        decimal fid2 = Model.LaisviResursaiUzsakymui.First(h => h.LaisvuResursuTipas == "T").FormosId;
+                        var kuiTN = Model.KlientoUzsakymoId;
+
+                      }
+                      <input type="hidden" asp-for="@fid2" />
+                      <input type="hidden" asp-for="@kuiTN" />
+                      <center><h4>Technika</h4></center>
+                      <div class="form-group">
+                        <label class="control-label">Pasirinkti technikos prietaisą</label>
+                        <select asp-for="@tpd" class="form-control" asp-items="ViewBag.TechnikosPrietaisoId"></select>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label">Technikos prietaiso kiekis</label>
+                        <input asp-for="@lk" class="form-control" placeholder="Pvz:5" data-val="true" data-val-range="Laisvas kiekis negali būti minusinis!"
+                               data-val-range-min="0" data-val-required="Kiekis negali būti tuščias!" />
+                        <span class="text-danger field-validation-valid"
+                              data-valmsg-for="lk" data-valmsg-replace="true"></span>
+                      </div>
+                      <center>
+                        <div class="form-group">
+                          <input type="submit" value="Pridėti prie laisvos technikos" class="btn btn-primary" />
+                        </div>
+                      </center>
+                    </form>
+                  }
+                }
+              }
+            }
+          }
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Grįžti</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="RezervuotiLaisviResursai" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+          @foreach (var item in Model.LaisviResursaiUzsakymui)
+          {
+            if (ViewBag.IsFormaZ > 0 && item.LaisvuResursuTipas == "Ž")
+            {
+              if (item.KlientoUzsakymoId == Model.KlientoUzsakymoId)
+              {
+                if (User.Identity.IsAuthenticated)
+                {
+                  if ((User.IsInRole("Technologas")) && ViewBag.IsFormaZ > 0)
+                  {
+                    <form asp-controller="Ingredientas" asp-action="ReserveLaisvosZaliavos" method="POST">
+                      @{
+                        decimal iidR = 0;
+                        var lkR = 0;
+                        decimal fid2R = Model.LaisviResursaiUzsakymui.First(h => h.LaisvuResursuTipas == "Ž").FormosId;
+                        var kuiInR = Model.KlientoUzsakymoId;
+
+                      }
+                      <input type="hidden" asp-for="@fid2R" />
+                      <input type="hidden" asp-for="@kuiInR" />
+                      <center><h4>Žaliavos</h4></center>
+                      <div class="form-group">
+                        <label class="control-label">Pasirinkti ingredientą</label>
+                        <select asp-for="@iidR" class="form-control" asp-items="ViewBag.IngredientaiRezervacijoms"></select>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label">Ingrediento kiekis</label>
+                        <input asp-for="@lkR" class="form-control" placeholder="pvz:5" data-val="true" data-val-range="Rezervuojamas kiekis negali būti minusinis!"
+                               data-val-range-min="0" data-val-required="Kiekis negali būti tuščias!" data-val-number="Kiekis privalo būti skaičius!" />
+                        <span class="text-danger field-validation-valid"
+                              data-valmsg-for="lkR" data-valmsg-replace="true"></span>
+                      </div>
+                      <center>
+                        <div class="form-group">
+                          <input type="submit" value="Rezervuoti laisvą ingredientą" class="btn btn-primary" />
+                        </div>
+                      </center>
+                    </form>
+                    <hr>
+                    <center style="margin-bottom:3%">
+                      <a class="btn btn-primary" href='@Url.Action("PrasymasZaliavomsNereikalingas", "KlientoUzsakymoAplankas",
+                                                    new { kui = Model.KlientoUzsakymoId, ZaliavuPrasymasNereikalingas = "N", ki = Model.KlientoId})'>Visi receptūros ingredientai rezervuoti</a>
+                    </center>
+                  }
+                }
+              }
+            }
+          }
+          @foreach (var item in Model.LaisviResursaiUzsakymui)
+          {
+            if (ViewBag.IsFormaT > 0 && item.LaisvuResursuTipas == "T")
+            {
+              if (item.KlientoUzsakymoId == Model.KlientoUzsakymoId)
+              {
+                if (User.Identity.IsAuthenticated)
+                {
+                  if ((User.IsInRole("Technikos vadovas")) && ViewBag.IsFormaT > 0)
+                  {
+                    <form asp-controller="TechnikosPrietaisas" asp-action="ReserveLaisvaTechnika" method="POST">
+                      @{
+                        decimal tpdR = 0;
+                        var lkR = 0;
+                        decimal fid2R = Model.LaisviResursaiUzsakymui.First(h => h.LaisvuResursuTipas == "T").FormosId;
+                        var kuiTNR = Model.KlientoUzsakymoId;
+
+                      }
+
+                      <input type="hidden" asp-for="@fid2R" />
+                      <input type="hidden" asp-for="@kuiTNR" />
+                      <center><h4>Technika</h4></center>
+                      <div class="form-group">
+                        <label class="control-label">Pasirinkti technikos prietaisą</label>
+                        <select asp-for="@tpdR" class="form-control" asp-items="ViewBag.PrietaisaiRezervacijoms"></select>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label">Technikos prietaiso kiekis</label>
+                        <input asp-for="@lkR" class="form-control" placeholder="Pvz:5" data-val="true" data-val-range="Rezervuojamas kiekis negali būti minusinis!"
+                               data-val-range-min="0" data-val-required="Kiekis negali būti tuščias!" />
+                        <span class="text-danger field-validation-valid"
+                              data-valmsg-for="lkR" data-valmsg-replace="true"></span>
+                      </div>
+                      <center>
+                        <div class="form-group">
+                          <input type="submit" value="Rezervuoti laisvą technikos prietaisą" class="btn btn-primary" />
+                        </div>
+                      </center>
+                    </form>
+                    <hr>
+                    <center style="margin-bottom:3%">
+                      <a class="btn btn-primary" href='@Url.Action("PrasymasTechnikaiNereikalingas", "KlientoUzsakymoAplankas",
+                                                    new { kui = Model.KlientoUzsakymoId, TechnikosPrasymasNereikalingas = "N", ki = Model.KlientoId})'>Visi gamybos instrukcijos technikos prietaisai rezervuoti</a>
+                    </center>
+                  }
+                }
+              }
+            }
+          }
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Grįžti</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="CreateResPrasymas" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+          @if (Model.GamybosInstrukcija != null && (Model.GamybosInstrukcija.RecepturaParuosta == "T"))
+          {
+            if (User.Identity.IsAuthenticated)
+            {
+              if (User.IsInRole("Technologas"))
+              {
+                <form asp-controller="IngredientoPrasymas" asp-action="Create" method="POST">
+                  @{
+                    var kuiInPR = Model.KlientoUzsakymoId;
+                    var kiInPR = Model.KlientoId;
+                    decimal PRIID = 0;
+                    string PRIPB = "";
+                    float PRIK = 0;
+
+                  }
+
+                  <input type="hidden" asp-for="@kuiInPR" />
+                  <input type="hidden" asp-for="@kiInPR" />
+                  <input type="hidden" asp-for="@PRIPB" value="S" />
+                  <center><h4>Prašymas žaliavoms</h4></center>
+                  <div class="form-group">
+                    <label class="control-label">Pasirinkti ingredientą</label>
+                    <select asp-for="@PRIID" class="form-control" asp-items="ViewBag.IngredientaiPrasymui"></select>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label">Ingrediento kiekis</label>
+                    <input asp-for="@PRIK" class="form-control" placeholder="pvz:5" data-val="true" data-val-range="Prašomo ingrediento kiekis negali būti minusinis!"
+                           data-val-range-min="0" data-val-required="Kiekis negali būti tuščias!" data-val-number="Kiekis privalo būti skaičius!" />
+                    <span class="text-danger field-validation-valid"
+                          data-valmsg-for="PRIK" data-valmsg-replace="true"></span>
+                  </div>
+                  <center>
+                    <div class="form-group">
+                      <input type="submit" value="Pridėti ingredientą prie žaliavų prašymo" class="btn btn-primary" />
+                    </div>
+                  </center>
+                </form>
+                <hr>
+                <center style="margin-bottom:3%;">
+                  <a class="btn btn-primary" style="color:white;" href='@Url.Action("ChangeState", "IngredientoPrasymas", new { kui = Model.KlientoUzsakymoId, NB = "Y"})'>Pateikti prašymą žaliavoms užsakyti</a>
+                </center>
+              }
+            }
+          }
+          @if (Model.GamybosInstrukcija != null && (Model.GamybosInstrukcija.TechnikosPatarimaiParuosti == "T"))
+          {
+            if (User.Identity.IsAuthenticated)
+            {
+              if (User.IsInRole("Technikos vadovas"))
+              {
+                <form asp-controller="TechnikosPrietaisoPrasymas" asp-action="Create" method="POST">
+                  @{
+                    var kuiTPPR = Model.KlientoUzsakymoId;
+                    var kiTPPR = Model.KlientoId;
+                    decimal PRTID = 0;
+                    string PRTPB = "S";
+                    var PRTK = 0;
+
+                  }
+
+                  <input type="hidden" asp-for="@PRTPB" />
+                  <input type="hidden" asp-for="@kuiTPPR" />
+                  <input type="hidden" asp-for="@kiTPPR" />
+                  <center><h4>Prašymas technikai</h4></center>
+                  <div class="form-group">
+                    <label class="control-label">Pasirinkti technikos prietaisą</label>
+                    <select asp-for="@PRTID" class="form-control" asp-items="ViewBag.TechnikaPrasymui"></select>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label">Technikos prietaiso kiekis</label>
+                    <input asp-for="@PRTK" class="form-control" placeholder="Pvz:5" data-val="true" data-val-range="Prašomo technikos prietaiso kiekis negali būti minusinis!"
+                           data-val-range-min="0" data-val-required="Kiekis negali būti tuščias!" />
+                    <span class="text-danger field-validation-valid"
+                          data-valmsg-for="PRTK" data-valmsg-replace="true"></span>
+                  </div>
+                  <center>
+                    <div class="form-group">
+                      <input type="submit" value="Pridėti technikos prietaisą prie technikos prašymo" class="btn btn-primary" />
+                    </div>
+                  </center>
+                </form>
+                <hr>
+                <center style="margin-bottom:3%">
+                  <a class="btn btn-primary" style="color:white;" href='@Url.Action("ChangeState", "TechnikosPrietaisoPrasymas", new { kui = Model.KlientoUzsakymoId, NB = "Y"})'>Pateikti prašymą technikai užsakyti</a>
+                </center>
+              }
+            }
+          }
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Grįžti</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="ChangeStatePras" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+          @foreach (var item in Model.IngredientoPrasymas)
+          {
+            <form asp-controller="IngredientoPrasymas" asp-action="ChangeStateFORM" method="POST">
+              @{
+                var kuiINGRPR = Model.KlientoUzsakymoId;
+                string NB = Model.IngredientoPrasymas.First(h => h.KlientoUzsakymoId == Model.KlientoUzsakymoId).Busena;
+              }
+              <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+              <input type="hidden" asp-for="@kuiINGRPR" />
+              <div class="form-group">
+                <label class="control-label">Žaliavų prašymo būsena</label>
+                <select asp-for="@NB" class="form-control">
+                  @if (User.Identity.IsAuthenticated)
+                  {
+                    if (User.IsInRole("Generalinis direktorius"))
+                    {
+                      <option value="N">Atmestas</option>
+                      <option value="V">Vykdomas</option>
+                      <option value="A">Atliktas</option>
+                    }
+                    if (User.IsInRole("Gamybos vadovas"))
+                    {
+                      <option value="P">Patvirtintas</option>
+                    }
+                  }
+                </select>
+              </div>
+              <center>
+                <div class="form-group">
+                  <input type="submit" value="Keisti būseną" class="btn btn-primary" />
+                </div>
+              </center>
+            </form>
+            break;
+            <hr>
+          }
+          @foreach (var item in Model.TechnikosPrietaisoPrasymas)
+          {
+            <form asp-controller="TechnikosPrietaisoPrasymas" asp-action="ChangeStateFORM" method="POST">
+              @{
+                var kuiTECHPR = Model.KlientoUzsakymoId;
+                string NB = Model.TechnikosPrietaisoPrasymas.First(h => h.KlientoUzsakymoId == Model.KlientoUzsakymoId).Busena;
+              }
+              <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+              <input type="hidden" asp-for="@kuiTECHPR" />
+              <div class="form-group">
+                <label class="control-label">Technikos prašymo būsena</label>
+                <select asp-for="@NB" class="form-control">
+                  @if (User.Identity.IsAuthenticated)
+                  {
+                    if (User.IsInRole("Generalinis direktorius"))
+                    {
+                      <option value="N">Atmestas</option>
+                      <option value="V">Vykdomas</option>
+                      <option value="A">Atliktas</option>
+                    }
+                    if (User.IsInRole("Gamybos vadovas"))
+                    {
+                      <option value="P">Patvirtintas</option>
+                    }
+                  }
+                </select>
+              </div>
+              <center>
+                <div class="form-group">
+                  <input type="submit" value="Keisti būseną" class="btn btn-primary" />
+                </div>
+              </center>
+            </form>
+            break;
+          }
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Grįžti</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Ar tikrai norite atsijungti?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Grįžti</button>
+          <form asp-area="Identity" asp-page="/Account/Logout">
+            <button class="btn btn-primary" type="submit">Atsijungti</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Bootstrap core JavaScript-->
+  <script src="~/KlientoUzsakymoAplankasDetails/vendor/jquery/jquery.min.js"></script>
+  <script src="~/KlientoUzsakymoAplankasDetails/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- Core plugin JavaScript-->
+  <script src="~/KlientoUzsakymoAplankasDetails/vendor/jquery-easing/jquery.easing.min.js"></script>
+  <!-- Page level plugin JavaScript-->
+  <script src="~/KlientoUzsakymoAplankasDetails/vendor/chart.js/Chart.min.js"></script>
+  <script src="~/KlientoUzsakymoAplankasDetails/vendor/datatables/jquery.dataTables.js"></script>
+  <script src="~/KlientoUzsakymoAplankasDetails/vendor/datatables/dataTables.bootstrap4.js"></script>
+  <!-- Custom scripts for all pages-->
+  <script src="~/KlientoUzsakymoAplankasDetails/js/sb-admin.min.js"></script>
+  <!-- Demo scripts for this page-->
+  <script src="~/KlientoUzsakymoAplankasDetails/js/demo/datatables-demo.js"></script>
+  <script src="~/KlientoUzsakymoAplankasDetails/js/demo/chart-area-demo.js"></script>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $.noConflict();
+      $('#TechnikosPatarimai').DataTable({
+        "language": {
+          "lengthMenu": "Rodyti _MENU_ įrašų per puslapį",
+          "zeroRecords": "Įrašų nėra",
+          "info": "Rodomas puslapis _PAGE_ iš _PAGES_",
+          "infoEmpty": "Įrašų nėra",
+          "loadingRecords": "Ieškoma...",
+          "processing": "Dirbama...",
+          "search": "Ieškoti:",
+          "infoFiltered": "(išfiltruota iš _MAX_ įrašų)",
+          "paginate": {
+            "first": "Pirmas",
+            "last": "Paskutinis",
+            "next": "Kitas",
+            "previous": "Grįžti"
+          }
+        }
+      });
+
+      $('#Receptura').DataTable({
+        "language": {
+          "lengthMenu": "Rodyti _MENU_ įrašų per puslapį",
+          "zeroRecords": "Įrašų nėra",
+          "info": "Rodomas puslapis _PAGE_ iš _PAGES_",
+          "infoEmpty": "Įrašų nėra",
+          "loadingRecords": "Ieškoma...",
+          "processing": "Dirbama...",
+          "search": "Ieškoti:",
+          "infoFiltered": "(išfiltruota iš _MAX_ įrašų)",
+          "paginate": {
+            "first": "Pirmas",
+            "last": "Paskutinis",
+            "next": "Kitas",
+            "previous": "Grįžti"
+          }
+        }
+      });
+
+
+      $('#PrietaisuPrasymas').DataTable({
+        "language": {
+          "lengthMenu": "Rodyti _MENU_ įrašų per puslapį",
+          "zeroRecords": "Įrašų nėra",
+          "info": "Rodomas puslapis _PAGE_ iš _PAGES_",
+          "infoEmpty": "Įrašų nėra",
+          "loadingRecords": "Ieškoma...",
+          "processing": "Dirbama...",
+          "search": "Ieškoti:",
+          "infoFiltered": "(išfiltruota iš _MAX_ įrašų)",
+          "paginate": {
+            "first": "Pirmas",
+            "last": "Paskutinis",
+            "next": "Kitas",
+            "previous": "Grįžti"
+          }
+        }
+      });
+
+
+      $('#IngredientuPrasymas').DataTable({
+        "language": {
+          "lengthMenu": "Rodyti _MENU_ įrašų per puslapį",
+          "zeroRecords": "Įrašų nėra",
+          "info": "Rodomas puslapis _PAGE_ iš _PAGES_",
+          "infoEmpty": "Įrašų nėra",
+          "loadingRecords": "Ieškoma...",
+          "processing": "Dirbama...",
+          "search": "Ieškoti:",
+          "infoFiltered": "(išfiltruota iš _MAX_ įrašų)",
+          "paginate": {
+            "first": "Pirmas",
+            "last": "Paskutinis",
+            "next": "Kitas",
+            "previous": "Grįžti"
+          }
+        }
+      });
+
+      $('#RezervuotiIngredientai').DataTable({
+        "language": {
+          "lengthMenu": "Rodyti _MENU_ įrašų per puslapį",
+          "zeroRecords": "Įrašų nėra",
+          "info": "Rodomas puslapis _PAGE_ iš _PAGES_",
+          "infoEmpty": "Įrašų nėra",
+          "loadingRecords": "Ieškoma...",
+          "processing": "Dirbama...",
+          "search": "Ieškoti:",
+          "infoFiltered": "(išfiltruota iš _MAX_ įrašų)",
+          "paginate": {
+            "first": "Pirmas",
+            "last": "Paskutinis",
+            "next": "Kitas",
+            "previous": "Grįžti"
+          }
+        }
+      });
+
+      $('#RezervuotiPrietaisai').DataTable({
+        "language": {
+          "lengthMenu": "Rodyti _MENU_ įrašų per puslapį",
+          "zeroRecords": "Įrašų nėra",
+          "info": "Rodomas puslapis _PAGE_ iš _PAGES_",
+          "infoEmpty": "Įrašų nėra",
+          "loadingRecords": "Ieškoma...",
+          "processing": "Dirbama...",
+          "search": "Ieškoti:",
+          "infoFiltered": "(išfiltruota iš _MAX_ įrašų)",
+          "paginate": {
+            "first": "Pirmas",
+            "last": "Paskutinis",
+            "next": "Kitas",
+            "previous": "Grįžti"
+          }
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>
+@section Scripts {
+  @{await Html.RenderPartialAsync("_ValidationScriptsPartial");
+      }
+}

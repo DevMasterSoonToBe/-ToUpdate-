@@ -1,0 +1,114 @@
+
+/*.glyphicon-plus {
+  font-size: 50px;
+  color: black;
+}*/
+#Bigger_Boostrap_Gl_File {
+    font-size: 80px;
+    color:black;
+}
+/*
+#Smaller_Boostrap_Gl_File {
+  font-size: 50px;
+  color: black;
+}*/
+
+
+ *{
+    box-sizing: border-box;
+}
+/* Remove the navbar's default margin-bottom and rounded borders */
+/* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+.row.content {
+  height: 450px
+}
+
+/* Set gray background color and 100% height */
+.sidenav {
+  padding-top: 20px;
+  background-color: #f1f1f1;
+  height: 100%;
+}
+
+/* Set black background color, white text and some padding */
+footer {
+  background-color: black;
+  color: white;
+  padding: 15px;
+}
+
+/* On small screens, set height to 'auto' for sidenav and grid */
+@media screen and (max-width: 767px) {
+  .sidenav {
+    height: auto;
+    padding: 15px;
+  }
+
+  .row.content {
+    height: auto;
+  }
+}
+/* Style the header */
+/*.header {
+    background-color: #f1f1f1;
+    padding: 20px;
+    text-align: center;
+}*/
+
+/* Style the top navigation bar */
+.bottomnav {
+  padding: 5%;
+}
+/*
+    /* Style the topnav links
+    .bottom{
+        float: left;
+        color: #f2f2f2;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+    }
+    */
+/* Create three equal columns that floats next to each other */
+.column {
+    float: left;
+    width: 25%;
+    padding: 15px;
+    display:inline-table;
+}
+.navbar {
+margin-bottom:0;
+
+}
+/*.row {
+  height:825px;
+  width:100%;
+}*/
+.sidelogo {
+  padding-top: 20%;
+  background-color: #f1f1f1;
+  height: 100%;
+}
+/*.Footer_KlientoUzsakymAplankas {
+    float: left;
+    width: 25%;
+    padding: 10px;
+}*/
+/* Clear floats after the columns */
+/*.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}*/
+
+/* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 767px) {
+  .sidelogo {
+    height: auto;
+    padding: 10%;
+  }
+
+  .row{
+    height: auto;
+  }
+}

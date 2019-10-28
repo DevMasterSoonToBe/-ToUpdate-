@@ -1,0 +1,61 @@
+
+@model IEnumerable<AlausDaryklosGamybosValdymoSistema.Models.IngredientoPrasymas>
+
+@{
+  ViewData["Title"] = "ChangeState";
+}
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="~/css/RedaguotiPrasymus.css">>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
+<html>
+<body>
+  <h2>Prašymas žaliavoms užsakyti</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>
+          Ingrediento pavadinimas
+        </th>
+        <th>
+          Ingrediento kiekis (kg/l)
+        </th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach (var item in Model)
+      {
+        <tr>
+          <td>
+            @Html.DisplayFor(modelItem => item.Ingrediento.IngredientoPavadinimas)
+          </td>
+          <td>
+            @Html.DisplayFor(modelItem => item.IngredientoKiekis)
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+  <form asp-action="ChangeState">
+    @{
+        var kui = ViewBag.KlientoUzsakymoId;
+        var NB = "";
+    }
+    <div class="form-group" hidden>
+      <Input asp-for="@kui" class="form-control"/>
+    </div>
+    <div class="form-group">
+      <label class="control-label">Prašymo būsena</label>
+      <select asp-for="@NB" class="form-control">
+        <option value="S">Sukurtas</option>
+        <option value="P">Patvirtintas</option>
+      </select>
+    </div>
+    <input type="submit" value="Keisti prašymo būseną" class="btn btn-secondary btn-sm"/>
+</form>
+</body>
+</html>

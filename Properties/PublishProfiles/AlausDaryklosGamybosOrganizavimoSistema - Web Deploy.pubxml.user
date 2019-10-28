@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAE+2NQtPdiEaArIjVuWj8hAAAAAACAAAAAAAQZgAAAAEAACAAAAAv6vaz6IUQZxtrizt1p320IZEpMgoACCewxFrFrvG8WwAAAAAOgAAAAAIAACAAAACy8L2VX7lTfUZoQNnA02/Sg9kaEV+aOVctK+73zrM5O4AAAAAGZGg26QlppAZxmM8QAj1OULnEOMO/xWTKiFllfdKwK5B+wu3HQiHEbl3kOL0AeLlusn/OUXgqLNFf0uad8/jYvEBoGwUCHSzwDUbethP/RdgsjZekrbIqmNmRQYG3Xpdl3zIB7wS0Io2T+4GUb6DbAlYlTU9wPaeE+swJsOEChkAAAABLYN2liaoJlICRndp3yRYteUfFq4k18WKflRbc9y9AuzECBW3IG31xQCtAuN8xIM9cs4vDeuD28p96MBqEz57R</EncryptedPassword>
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="AlausDaryklosGamybosValdymoSistemaContextConnection">
+      <Value>Data Source=alausdaryklosgamybosorganizavimosistemadbserver.database.windows.net%3bInitial Catalog=AlausDaryklosGamybosOrganizavimoSistema_db%3bUser ID=sqladmin%3bPassword=wataitau1R+%3bConnect Timeout=60%3bEncrypt=True%3bTrustServerCertificate=False%3bApplicationIntent=ReadWrite%3bMultiSubnetFailover=False</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+</Project>

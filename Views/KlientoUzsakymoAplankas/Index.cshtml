@@ -1,0 +1,859 @@
+<!--model IEnumerable<AlausDaryklosGamybosValdymoSistema.Models.KlientoUzsakymoAplankas> -->
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<Vartotojas> SignInManager
+@{
+  ViewData["Title"] = "Index";
+  Layout = null;
+}
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@model X.PagedList.IPagedList<AlausDaryklosGamybosValdymoSistema.Models.KlientoUzsakymoAplankas>
+
+<!DOCTYPE html>
+<html lang="en" style=" background-color:rgba(0,0,0,0.03)">
+<head>
+  <!-- <script type="text/javascript">
+     var listElement = $('.col-md-12');
+     var perPage = 4;
+     var numItems = listElement.children().size();
+     var numPages = Math.ceil(numItems / perPage);
+   </script>-->
+  <!-- <script>
+      $(document).ready(function () {
+        $('.btn-small').on('click', function () {
+          var $target = $(this).data('target');
+          if ($target != 'all') {
+            $('.filterDiv').css('display', 'none');
+            $('.filterDiv[data-status="' + $target + '"]').fadeIn('slow');
+          } else {
+            $('.filterDiv').css('display', 'none').fadeIn('slow');
+          }
+        });
+
+      });
+    </script>-->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pagrindinis langas</title>
+  <link href="~/IndexKlientoUzsakymoAplankas/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="~/IndexKlientoUzsakymoAplankas/css/font-awesome.min.css" />
+  <link href="~/KlientoUzsakymoAplankasDetails/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="~/IndexKlientoUzsakymoAplankas/css/font-awesome.css" />
+  <link href="~/IndexKlientoUzsakymoAplankas/css/default.css" rel="stylesheet" />
+  <link rel="stylesheet" href="~/IndexKlientoUzsakymoAplankas/css/animate.css" />
+  <link href="~/KlientoUzsakymoAplankasDetails/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="~/IndexKlientoUzsakymoAplankas/js/fancybox/jquery.fancybox.css" type="text/css" media="screen" />
+  <link rel="stylesheet" type="text/css" href="~/IndexKlientoUzsakymoAplankas/css/isotope.css" media="screen" />
+  <link rel="stylesheet" href="~/IndexKlientoUzsakymoAplankas/css/style.css">
+  <!------ Headeriui---------->
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+  <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+</head>
+<body style="background-color:rgba(0,0,0,0.03);">
+  @if (User.Identity.IsAuthenticated)
+  {
+    if (User.IsInRole("Generalinis direktorius"))
+    {
+      <script type="text/javascript">
+        var c = "Generalinis direktorius";
+      </script>}
+    if (User.IsInRole("Gamybos vadovas"))
+    {
+      <script type="text/javascript">
+        var c = "Gamybos vadovas";
+      </script> }
+    if (User.IsInRole("Technologas"))
+    {
+      <script type="text/javascript">
+        var c = "Technologas";
+      </script>}
+    if (User.IsInRole("Technikos vadovas"))
+    {
+      <script type="text/javascript">
+        var c = "Technikos vadovas";
+      </script>
+    }
+    if (User.IsInRole("Gamybos meistras"))
+    {
+      <script type="text/javascript">
+        var c = "Gamybos meistras";
+      </script>
+    }
+    if (User.IsInRole("Darbuotojas"))
+    {
+      <script type="text/javascript">
+        var c = "Darbuotojas";
+      </script>
+    }
+    if (User.IsInRole("Buhalteris"))
+    {
+      <script type="text/javascript">
+        var c = "Buhalteris";
+      </script>
+    }
+  }
+  <style>
+    .bg-dark {
+      background-color: #343a40 !important;
+    }
+
+    .navbar {
+      position: relative;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      align-items: center;
+      -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+      justify-content: space-between;
+      padding: 0.5rem 1rem;
+    }
+
+    .navbar-dark, .navbar-brand {
+      color: #fff;
+    }
+
+    a {
+      color: #007bff;
+      text-decoration: none;
+      background-color: transparent;
+    }
+
+    *, *::before, *::after {
+      /* -webkit-box-sizing: border-box; */
+      box-sizing: border-box;
+    }
+
+    media (min-width: 768px)
+    .mr-md-3, .mx-md-3 {
+      margin-right: 1rem !important;
+    }
+
+    media (min-width: 768px)
+    .mb-md-0, .my-md-0 {
+      margin-bottom: 0 !important;
+    }
+
+    media (min-width: 768px)
+    .mt-md-0, .my-md-0 {
+      margin-top: 0 !important;
+    }
+
+    .ml-auto, .mx-auto {
+      margin-left: auto !important;
+    }
+
+    media (min-width: 768px)
+    .d-md-inline-block {
+      display: inline-block !important;
+    }
+
+    media (min-width: 768px)
+    .ml-md-0, .mx-md-0 {
+      margin-left: 0 !important;
+    }
+
+    .navbar-nav {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+      flex-direction: column;
+      padding-left: 0;
+      margin-bottom: 0;
+      list-style: none;
+      height: 100%;
+    }
+
+    ol, ul, dl {
+      margin-top: 0;
+      margin-bottom: 1rem;
+    }
+
+    .navbar-nav .nav-item .nav-link:focus {
+      outline: none;
+    }
+
+    .navbar-dark .navbar-nav .nav-link:hover, .navbar-dark .navbar-nav .nav-link:focus {
+      color: rgba(255, 255, 255, 0.75);
+    }
+
+    .navbar-dark .navbar-nav .nav-link {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .navbar-expand .navbar-nav .nav-link {
+      padding-right: 0.5rem;
+      padding-left: 0.5rem;
+    }
+
+    .fa, .fas {
+      font-weight: 900;
+    }
+
+    .fa, .far, .fas {
+      font-family: "Font Awesome 5 Free";
+    }
+
+    .fa-fw {
+      text-align: center;
+      width: 1.25em;
+    }
+
+    .fa, .fab, .fal, .far, .fas {
+      -moz-osx-font-smoothing: grayscale;
+      -webkit-font-smoothing: antialiased;
+      display: inline-block;
+      font-style: normal;
+      font-variant: normal;
+      text-rendering: auto;
+      line-height: 1;
+    }
+
+    .navbar-expand .navbar-nav .dropdown-menu {
+      position: absolute;
+    }
+
+    .dropdown-menu.show {
+      display: block;
+    }
+
+    .dropdown-menu-right {
+      right: 0;
+      left: auto;
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      z-index: 1000;
+      display: none;
+      float: left;
+      padding: 0.5rem 0;
+      margin: 0.125rem 0 0;
+      color: #212529;
+      text-align: left;
+      list-style: none;
+      background-color: #fff;
+      background-clip: padding-box;
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      border-radius: 8%;
+      line-height: 1.5;
+      font-weight: 400;
+    }
+
+    .dropdown-divider {
+      height: 0;
+      margin: 0.5rem 0;
+      overflow: hidden;
+      border-top: 1px solid #e9ecef;
+    }
+
+    p {
+      margin-top: 0;
+      margin-bottom: 1rem;
+    }
+
+    *, *::before, *::after {
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+    }
+
+    .dropdown-item {
+      display: block;
+      width: 100%;
+      padding: 0.25rem 1.5rem;
+      clear: both;
+      font-weight: 400;
+      color: #212529;
+      text-align: inherit;
+      white-space: nowrap;
+      background-color: transparent;
+      border: 0;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    media (min-width: 768px)
+    img {
+      margin-left: 0 !important;
+    }
+
+    a {
+      text-decoration-color: none;
+    }
+
+    .btn-light:hover {
+      background-color: aqua;
+    }
+
+    .header_btn:hover {
+      background-color: rgba(255, 255, 255, 0.95);
+      color: black;
+    }
+
+    .header_btn {
+      background-color: transparent;
+      color: white;
+    }
+
+    .modal {
+      z-index: 0;
+    }
+
+    .modal-backdrop {
+      z-index: 0;
+      position: unset;
+    }
+
+    .modal-header {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: start;
+      -ms-flex-align: start;
+      align-items: flex-start;
+      -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+      justify-content: space-between;
+      padding: 1rem 1rem;
+      border-bottom: 1px solid #e9ecef;
+      border-top-left-radius: 0.3rem;
+      border-top-right-radius: 0.3rem;
+    }
+
+    .modal-content {
+      position: relative;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+      flex-direction: column;
+      width: 100%;
+      pointer-events: auto;
+      background-color: #fff;
+      background-clip: padding-box;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      border-radius: 0.3rem;
+      outline: 0;
+    }
+
+    .modal-title {
+      margin-bottom: 0;
+      line-height: 1.5;
+    }
+
+    h5, .h5 {
+      font-size: 1.25rem;
+    }
+
+    h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+      margin-bottom: 0.5rem;
+      font-family: inherit;
+      font-weight: 500;
+      line-height: 1.2;
+      color: inherit;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 0;
+      margin-bottom: 0.5rem;
+    }
+
+    .modal-footer {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      align-items: center;
+      -webkit-box-pack: end;
+      -ms-flex-pack: end;
+      justify-content: flex-end;
+      padding: 1rem;
+      border-top: 1px solid #e9ecef;
+      border-bottom-right-radius: 0.3rem;
+      border-bottom-left-radius: 0.3rem;
+    }
+    /* img:hover {
+          -webkit-transform: scale(1.2); /* Chrome
+          transform: scale(1.2);
+        }*/
+    .In_Progress:hover {
+      -webkit-transform: scale(1.2); /* Chrome */
+      -moz-transform: scale(1.2); /* Firefox */
+      -ms-transform: scale(1.2); /* IE */
+      -o-transform: scale(1.2); /* Opera */
+      transform: scale(1.2);
+    }
+
+    .Archyvai:hover {
+      -webkit-transform: scale(1.2); /* Chrome */
+      -moz-transform: scale(1.2); /* Firefox */
+      -ms-transform: scale(1.2); /* IE */
+      -o-transform: scale(1.2); /* Opera */
+      transform: scale(1.2);
+    }
+
+    .pliusuzsakymas:hover {
+      -webkit-transform: scale(1.2); /* Chrome */
+      -moz-transform: scale(1.2); /* Firefox */
+      -ms-transform: scale(1.2); /* IE */
+      -o-transform: scale(1.2); /* Opera */
+      transform: scale(1.2);
+    }
+  </style>
+  <header>
+    <div class="main-menu">
+      <nav class="navbar navbar-expand navbar-dark bg-dark static-top" style="margin-bottom:0; width:100%; min-height:10%;">
+        <button type="button" class="btn header_btn" onclick="history.back()" style="font-size:20px;
+text-decoration-color:aqua;position:absolute;top:0;left:0; border-radius:0; width:auto;height:100%;">
+          Grįžti
+        </button>
+        <div class="col-md-4" style="margin-left:20%; -o-object-fit:cover;">
+          <img src="~/IndexKlientoUzsakymoAplankas/logo_transparent.png" style="width:10%;height:auto; vertical-align:central;" />
+        </div>
+        <div class="col-md-4" style="margin-left:10%;">
+          <a href="#" data-toggle="modal" data-target="#Pagalba" class="btn  header_btn" style="font-size:20px;
+ border-radius:0; width:auto;height:100%; margin-right:0;">Pagalba</a>
+          @if (User.Identity.IsAuthenticated)
+          {
+            if (User.IsInRole("Generalinis direktorius") || User.IsInRole("Buhalteris"))
+            {
+              <a href='@Url.Action("Index", "Sutartis")' class="btn header_btn" style="font-size:20px;
+ border-radius:0; width:auto;height:100%;">Tiekėjų sutartys</a>
+            }
+          }
+          @if (User.Identity.IsAuthenticated)
+          {
+            if (!User.IsInRole("Darbuotojas"))
+            {
+              <a href="#" data-toggle="modal" data-target="#Istorija" class="btn header_btn" style="font-size:20px;
+ border-radius:0; width:auto;height:100%;">Istorija</a>
+            }
+          }
+        </div>
+
+        <!-- Navbar Search -->
+        <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0" hidden>
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+          </div>
+        </form>
+        <ul class="navbar-nav ml-auto ml-md-0">
+          <li class="nav-item dropdown no-arrow">
+            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fas fa-user-circle fa-fw" style="font-size:20px;"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" style="border-radius:8%;" aria-labelledby="userDropdown">
+              @if (SignInManager.IsSignedIn(User))
+              {
+                <p class="dropdown-item">
+                  Rolė -
+                  <script type="text/javascript">
+                    document.write(c)
+                  </script>
+                </p>
+              }
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal" style="color: #007bff;
+    text-decoration: none;
+    background-color: transparent;
+    display: block;
+    width: 100%;
+    padding: 0.25rem 1.5rem;
+    clear: both;
+    font-weight: 400;
+    color: #212529;
+    text-align: inherit;
+    white-space: nowrap;
+    background-color: transparent;
+    border: 0;">Atsijungti</a>
+            </div>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <section style="width:100%; height:100%; position:absolute; background-color:rgba(0, 0, 0, 0.03);">
+    <div class="container" style="text-align:center; width:inherit; height:100%; position:absolute; background-color:rgba(0, 0, 0, 0.03)">
+      <div class="row mar-bot40" style="margin-top:2%;">
+        <div class="col-md-offset-3 col-md-6">
+          <div class="section-header">
+            <h2 class="section-heading animated" data-animation="bounceInUp" style="margin-bottom:2%;">Klientų užsakymai</h2>
+            @if (User.Identity.IsAuthenticated)
+            {
+              if (User.IsInRole("Generalinis direktorius"))
+              {
+                <a href='@Url.Action("Create", "KlientoUzsakymoAplankas")'>
+                  <img src="~/IndexKlientoUzsakymoAplankas/plus.png" alt="Tutorials Point" border="0" width="60" height="60" class="pliusuzsakymas" />
+                </a><br />
+                <p>Pridėti naują kliento užsakymą</p>
+              }
+            }
+          </div>
+        </div>
+      </div>
+      <div class="row" style="width:inherit;">
+        @if (User.Identity.IsAuthenticated)
+        {
+          if (!User.IsInRole("Generalinis direktorius"))
+          {
+            <nav id="filter" class="col-md-12 text-center" style="margin-bottom:1%;">
+              <ul>
+                <li><a href="#" class="current btn-theme btn-small" id="all">Visi klientų užsakymai</a></li>
+                <li><a href="#" class="btn-theme btn-small" id="Archyvai">Archyvuoti klientų užsakymai</a></li>
+                <li><a href="#" class="btn-theme btn-small" id="In_Progress">Ne archyvuoti klientų užsakymai</a></li>
+              </ul>
+            </nav>
+          }
+        }
+        @if (User.Identity.IsAuthenticated)
+        {
+          if (User.IsInRole("Generalinis direktorius"))
+          {
+            <nav id="filter" class="col-md-12 text-center">
+              <ul>
+                <li><a href="#" class="current btn-theme btn-small" id="all">Visi klientų užsakymai</a></li>
+                <li><a href="#" class="btn-theme btn-small" id="Archyvai">Archyvuoti klientų užsakymai</a></li>
+                <li><a href="#" class="btn-theme btn-small" id="In_Progress">Ne archyvuoti klientų užsakymai</a></li>
+              </ul>
+            </nav>
+          }
+        }
+        <!--<div id="filter" class="col-md-12 text-center">
+          <button class="active btn btn-small" id="all">Visi klientų užsakymai</button>
+          <button class="btn btn-small" id="Archyvai">Archyvuoti klientų užsakymai</button>
+          <button class="btn btn-small" id="In_Progress">Ne archyvuoti klientų užsakymai</button>
+        </div>-->
+        @if (User.Identity.IsAuthenticated)
+        {
+          if (!User.IsInRole("Generalinis direktorius"))
+          {
+            <div class="col-md-12" style="width:inherit; text-align:center;position:page; margin-top:2%;">
+              <div class="row text-center" id="parentfilter" style="position:page;">
+                @foreach (var item in Model)
+                {
+                  if (item.Busena != "A")
+                  {
+
+                    <div class="col-sm filterDiv In_Progress" style="display:inline-table; margin:2%; margin-bottom:0;">
+                      <a asp-action="Details" asp-route-id="@item.KlientoUzsakymoId"> <img src="~/IndexKlientoUzsakymoAplankas/klientouzsakymas.png" alt="Tutorials Point" border="0" width="150" height="140" /> </a><br />
+                      <p style="text-decoration-color:black;"><b>Klientas: </b>@item.Kliento.KlientoPavadinimas</p>
+                      <p style="text-decoration-color:black;"><b>Terminas: </b>@Html.DisplayFor(modelItem => item.Terminas)</p>
+                    </div>
+
+                  }
+                  else if (item.GamybosInstrukcija != null)
+                  {
+                    if (item.GamybosInstrukcija.Busena == "B")
+                    {
+
+                      <div class="col-sm filterDiv Archyvai" style="display:inline-table; margin:1%;">
+                        <a asp-action="Details" asp-route-id="@item.KlientoUzsakymoId"> <img src="~/IndexKlientoUzsakymoAplankas/greenUzsakymas.png" alt="Tutorials Point" border="0" width="150" height="150" /> </a><br />
+                        <p><b>Klientas: </b>@item.Kliento.KlientoPavadinimas</p>
+                        <p><b>Terminas: </b>@Html.DisplayFor(modelItem => item.Terminas)</p>
+                        <!--<p><b>Gamybos instrukcija - Baigta</b></p>-->
+                      </div>
+
+                    }
+                    @foreach (var item2 in item.IngredientoPrasymas)
+                    {
+                      if (item2.Busena == "N")
+                      {
+
+                        <div class="col-sm filterDiv Archyvai" style="display:inline-table; margin:1%;">
+                          <a asp-action="Details" asp-route-id="@item.KlientoUzsakymoId"> <img src="~/IndexKlientoUzsakymoAplankas/Places-folder-red-icon.png" alt="Tutorials Point" border="0" width="150" height="150" /> </a><br />
+                          <p><b>Klientas: </b>@item.Kliento.KlientoPavadinimas</p>
+                          <p><b>Terminas: </b>@Html.DisplayFor(modelItem => item.Terminas)</p>
+                          <!--<p><b>Žaliavų prašymas - atmestas</b></p>-->
+                        </div>
+                      }
+                      break;
+                    }
+                    @foreach (var item2 in item.TechnikosPrietaisoPrasymas)
+                    {
+                      if (item2.Busena == "N")
+                      {
+
+                        <div class="col-sm filterDiv Archyvai" style="display:inline-table; margin:1%;">
+                          <a asp-action="Details" asp-route-id="@item.KlientoUzsakymoId"> <img src="~/IndexKlientoUzsakymoAplankas/Places-folder-red-icon.png" alt="Tutorials Point" border="0" width="150" height="150" /> </a><br />
+                          <p><b>Klientas: </b>@item.Kliento.KlientoPavadinimas</p>
+                          <p><b>Terminas: </b>@Html.DisplayFor(modelItem => item.Terminas)</p>
+                          <!-- <p><b>Technikos prašymas - atmestas</b></p>-->
+                        </div>
+                      }
+                      break;
+                    }
+                  }
+                }
+              </div>
+            </div>
+          }
+        }
+        @if (User.Identity.IsAuthenticated)
+        {
+          if (User.IsInRole("Generalinis direktorius"))
+          {
+            <div class="col-md-12" style="width:inherit; text-align:center;position:page;">
+              <div class="row text-center" id="parentfilter" style="position:page;">
+                @foreach (var item in Model)
+                {
+                  if (item.Busena != "A")
+                  {
+
+                    <div class="col-sm filterDiv In_Progress" style="display:inline-table; margin:2%; margin-bottom:0;">
+                      <a asp-action="Details" asp-route-id="@item.KlientoUzsakymoId"> <img src="~/IndexKlientoUzsakymoAplankas/klientouzsakymas.png" alt="Tutorials Point" border="0" width="150" height="140" /> </a><br />
+                      <p style="text-decoration-color:black;"><b>Klientas: </b>@item.Kliento.KlientoPavadinimas</p>
+                      <p style="text-decoration-color:black;"><b>Terminas: </b>@Html.DisplayFor(modelItem => item.Terminas)</p>
+                    </div>
+
+                  }
+                  else if (item.GamybosInstrukcija != null)
+                  {
+                    if (item.GamybosInstrukcija.Busena == "B")
+                    {
+
+                      <div class="col-sm filterDiv Archyvai" style="display:inline-table; margin:1%;margin-bottom:0;">
+                        <a asp-action="Details" asp-route-id="@item.KlientoUzsakymoId"> <img src="~/IndexKlientoUzsakymoAplankas/greenUzsakymas.png" alt="Tutorials Point" border="0" width="150" height="140" /> </a><br />
+                        <p><b>Klientas: </b>@item.Kliento.KlientoPavadinimas</p>
+                        <p><b>Terminas: </b>@Html.DisplayFor(modelItem => item.Terminas)</p>
+                        <!--  <p><b>Gamybos instrukcija - Baigta</b></p>-->
+                      </div>
+
+                    }
+                    @foreach (var item2 in item.IngredientoPrasymas)
+                    {
+                      if (item2.Busena == "N")
+                      {
+
+                        <div class="col-sm filterDiv Archyvai" style="display:inline-table; margin:1%;margin-bottom:0;">
+                          <a asp-action="Details" asp-route-id="@item.KlientoUzsakymoId"> <img src="~/IndexKlientoUzsakymoAplankas/Places-folder-red-icon.png" alt="Tutorials Point" border="0" width="150" height="140" /> </a><br />
+                          <p><b>Klientas: </b>@item.Kliento.KlientoPavadinimas</p>
+                          <p><b>Terminas: </b>@Html.DisplayFor(modelItem => item.Terminas)</p>
+                          <!--  <p><b>Žaliavų prašymas - atmestas</b></p>-->
+                        </div>
+                      }
+                      break;
+                    }
+                    @foreach (var item2 in item.TechnikosPrietaisoPrasymas)
+                    {
+                      if (item2.Busena == "N")
+                      {
+
+                        <div class="col-sm filterDiv Archyvai" style="display:inline-table; margin:1%;margin-bottom:0;">
+                          <a asp-action="Details" asp-route-id="@item.KlientoUzsakymoId"> <img src="~/IndexKlientoUzsakymoAplankas/Places-folder-red-icon.png" alt="Tutorials Point" border="0" width="150" height="140" /> </a><br />
+                          <p><b>Klientas: </b>@item.Kliento.KlientoPavadinimas</p>
+                          <p><b>Terminas: </b>@Html.DisplayFor(modelItem => item.Terminas)</p>
+                          <!--  <p><b>Technikos prašymas - atmestas</b></p>-->
+                        </div>
+                      }
+                      break;
+                    }
+                  }
+                }
+              </div>
+            </div>
+          }
+        }
+        @if (User.Identity.IsAuthenticated)
+        {
+          if (!User.IsInRole("Generalinis direktorius"))
+          {
+            <div style="position:fixed; bottom:7%; left:47%;">@Html.PagedListPager(Model, puslapis => Url.Action("Index", new { puslapis }));</div>
+          }
+        }
+        @if (User.Identity.IsAuthenticated)
+        {
+          if (User.IsInRole("Generalinis direktorius"))
+          {
+            <div style="position:fixed; bottom:5.2%; left:47%;">@Html.PagedListPager(Model, puslapis => Url.Action("Index", new { puslapis }));</div>
+          }
+        }
+        <script>
+              var $btns = $('.btn-theme').click(function () {
+                // event.preventDefault();
+                if (this.id == 'all') {
+                  $('#parentfilter > div').fadeIn(450);
+                } else {
+                  var $el = $('.' + this.id).fadeIn(450);
+                  $('#parentfilter > div').not($el).hide();
+                }
+                $btns.removeClass('current');
+                $(this).addClass('current');
+              });
+        </script>
+      </div>
+    </div>
+  </section>
+  <div class="container" style="background: #242424;
+    text-align: center; width:100%; position:fixed; clear:initial; bottom:5%;">
+    <p>Alaus daryklos gamybos organizavimo sistema</p>
+  </div>
+  <div class="modal fade" id="Pagalba" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="z-index:unset;">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel" style="font-size: 25px;">Alaus daryklos gamybos organizavimo sistema</h5>
+        </div>
+        <div class="modal-body">
+          <p>
+            Ši sistema skirta gerinti gamybos organizavimo procesą greitinant informacijos sklaidą tarp skyrių bei naudojant efektyvesnį jos dalinimosi būdą.
+          </p>
+          <p>
+            Šioje sistemoje prisijungus su atitinkamu vartotoju, bet neegzistuojant kliento užsakymo aplankui galimos šios funkcijos:<br>
+            <b>1. Kliento užsakymo aplanko sukūrimas</b><br>
+            <b>2. Tiekėjų sutarčių administravimas</b><br>
+
+          </p>
+          <p>
+            Ši sistema yra realizuota kliento užsakymų pagrindu, todėl pagrindinės funkcijos galimos kliento užsakymo aplanke:<br>
+            <b>1. Kliento užsakymo aplanko administravimas</b><br>
+            <b>2. Gamybos instrukcijos administravimas</b><br>
+            <b>3. Resursų rezervavimas bei rezervacijų administravimas</b><br>
+            <b>4. Resursų prašymų administravimas</b><br>
+            <b>5. Laisvų resursų formų administravimas</b><br>
+          </p>
+        </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal" style="margin-right:1%;">Grįžti</button>
+          </div>
+        </div>
+      </div>
+  </div>
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="z-index:unset;">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel" style="font-size: 25px;">Ar tikrai norite atsijungti?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal" style="margin-right:1%;">Grįžti</button>
+          <form asp-area="Identity" asp-page="/Account/Logout">
+            <button class="btn btn-primary" type="submit">Atsijungti</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Istorija-->
+  <div class="modal fade" id="Istorija" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="z-index:unset;">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <center><h5 style="font-size: 25px;">Gamybos organizavimo istorija</h5></center>
+        </div>
+        <div class="modal-body">
+          <center><p>Kliento užsakymų skaičius:</p></center>
+          <center><b style="font-size: 15px;">@ViewBag.KuiVisi</b></center><br>
+          <center><p>Vykdomų kliento užsakymų skaičius:</p></center>
+          <center><b style="font-size: 15px;">@ViewBag.KuiVykdomi</b></center><br>
+          <center><p>Užbaigtų kliento užsakymų skaičius:</p></center>
+          <center><b style="font-size: 15px;">@ViewBag.KuiArchyvuoti</b></center><br>
+          <center><p>Atšauktų kliento užsakymų skaičius:</p></center>
+          <center><b style="font-size: 15px;">@ViewBag.Kuiatsaukti</b></center><br>
+          <center><p>Pavėluotų kliento užsakymų skaičius:</p></center>
+          <center><b style="font-size: 15px;">@ViewBag.Kuipaveluoti</b></center><br>
+          <center><p>Trys populiariausi ingredientai receptūrose:</p></center>
+          <center>
+            <table class="table table-bordered" width="100%" cellspacing="0">
+              <thead style="text-align:center;">
+                <tr>
+                  <th style="text-align:center;">Vieta</th>
+                  <th style="text-align:center;">Pavadinimas</th>
+                </tr>
+              </thead>
+              <tbody style="text-align:center;">
+                @{
+                  var k = 1;
+
+                }
+                @foreach (var item in ViewBag.ingredientaitop3)
+                {
+                  <tr>
+                    <td>
+                      <p>@k</p><br>
+                    </td>
+
+                    <td>
+                      <p>@item</p><br>
+                    </td>
+                  </tr>
+                  k = k + 1;
+                }
+
+              </tbody>
+            </table>
+          </center><br>
+          <center><p>Trys dažniausiai naudojami technikos prietaisai:</p></center>
+          <center>
+            <table class="table table-bordered" width="100%" cellspacing="0">
+              <thead style="text-align:center;">
+                <tr>
+                  <th style="text-align:center;">Vieta</th>
+                  <th style="text-align:center;">Pavadinimas</th>
+                </tr>
+              </thead>
+              <tbody style="text-align:center;">
+                @{
+                  var u = 1;
+
+                }
+                @foreach (var item in ViewBag.techtop3)
+                {
+                  <tr>
+                    <td>
+                      <p>@u</p><br>
+                    </td>
+
+                    <td>
+                      <p>@item</p><br>
+                    </td>
+                  </tr>
+                  u = u + 1;
+                }
+
+              </tbody>
+            </table>
+          </center>
+        </div>
+        <div class="modal-footer">
+          <center><button class="btn btn-secondary" type="button" data-dismiss="modal">Grįžti</button></center>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <!--<script src="~/KlientoUzsakymoAplankasDetails/vendor/jquery/jquery.min.js"></script>
+   <script src="~/KlientoUzsakymoAplankasDetails/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <link href="~/KlientoUzsakymoAplankasDetails/css/sb-admin.css" rel="stylesheet">-->
+  <!-- Include all compiled plugins (below), or include individual files as needed-->
+  <script src="~/IndexKlientoUzsakymoAplankas/js/bootstrap.min.js"></script>
+  <script src="~/IndexKlientoUzsakymoAplankas/js/jquery.isotope.min.js"></script>
+  <script src="~/IndexKlientoUzsakymoAplankas/js/fancybox/jquery.fancybox.pack.js"></script>
+  <script src="~/IndexKlientoUzsakymoAplankas/js/wow.min.js"></script>
+  <script src="~/IndexKlientoUzsakymoAplankas/js/functions.js"></script>
+  <script type="text/javascript">
+                        new WOW().init();
+  </script>
+
+</body>
+
+</html>

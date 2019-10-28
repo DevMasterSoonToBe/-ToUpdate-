@@ -1,0 +1,56 @@
+﻿@model AlausDaryklosGamybosValdymoSistema.Models.Sutartis
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Sutartis</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <!--
+    <dt>
+        Html.DisplayNameFor(model => model.Sutartis1)
+    </dt>
+    <dd>
+        Html.DisplayFor(model => model.Sutartis1)
+    </dd>
+        -->
+        <dt>
+            @Html.DisplayNameFor(model => model.SutartiesPasirasymoData)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SutartiesPasirasymoData)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.SutartiesTerminas)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SutartiesTerminas)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Kliento)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Kliento.KlientoPavadinimas)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.KlientoUzsakymo)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.KlientoUzsakymo.Busena)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Tiekejo)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Tiekejo.TiekejoPavadinimas)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.SutartiesId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
