@@ -223,11 +223,38 @@ nav#filter ul {
 	color: rgba(220, 220, 220);
 }
 
+.segmentatorIndexKUI {
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
+  height: 4px;
+  text-align: center;
+  overflow: visible;
+  background-color: #EFEFEF;
+  margin-top: 0;
+  margin-bottom: 0;
+  border: 1px solid;
+  border-top: 1px solid;
+}
+
+.segmentatorIndexKUI:after {
+  background-color: #fff;
+  content: '//';
+  color: #343a40;
+  padding: 0 6px;
+  display: inline;
+  position: relative;
+  top: -9px;
+}
+.LentelesIstorijaPar {
+margin-top: 3%;
+}
+
+
 .portfolio-item:hover .portfolio-desc {
-	padding-top: 20%;
-	height: 100%;
-    transition: all 200ms ease-in-out 0s;
-	opacity: 1;
+  padding-top: 20%;
+  height: 100%;
+  transition: all 200ms ease-in-out 0s;
+  opacity: 1;
 }
 
 .portfolio-item .portfolio-desc a {
@@ -235,7 +262,7 @@ nav#filter ul {
 }
 .portfolio-item .portfolio-desc a:hover {
 	/*text-shadow: 2px 2px 1px rgba(0, 0, 0, 0.7);*/
-	text-decoration: none;	
+  text-decoration: none;
 }
 .portfolio-item .portfolio-desc i:hover {
 	color:#fff;	

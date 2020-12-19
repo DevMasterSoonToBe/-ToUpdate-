@@ -1,0 +1,16 @@
+C:\Users\Kipras\source\repos\Alaus-Gamybos-Organizavimo-informacine-sistema-Asmeninis-projektas-\Builds\netcoreapp2.2\appsettings.Development.json
+C:\Users\Kipras\source\repos\Alaus-Gamybos-Organizavimo-informacine-sistema-Asmeninis-projektas-\Builds\netcoreapp2.2\appsettings.json
+C:\Users\Kipras\source\repos\Alaus-Gamybos-Organizavimo-informacine-sistema-Asmeninis-projektas-\Builds\netcoreapp2.2\bundleconfig.json
+C:\Users\Kipras\source\repos\Alaus-Gamybos-Organizavimo-informacine-sistema-Asmeninis-projektas-\Builds\netcoreapp2.2\package-lock.json
+C:\Users\Kipras\source\repos\Alaus-Gamybos-Organizavimo-informacine-sistema-Asmeninis-projektas-\Builds\netcoreapp2.2\package.json
+C:\Users\Kipras\source\repos\Alaus-Gamybos-Organizavimo-informacine-sistema-Asmeninis-projektas-\Builds\netcoreapp2.2\Properties\launchSettings.json
+C:\Users\Kipras\source\repos\Alaus-Gamybos-Organizavimo-informacine-sistema-Asmeninis-projektas-\Builds\netcoreapp2.2\WEB platform.deps.json
+C:\Users\Kipras\source\repos\Alaus-Gamybos-Organizavimo-informacine-sistema-Asmeninis-projektas-\Builds\netcoreapp2.2\WEB platform.runtimeconfig.json
+C:\Users\Kipras\source\repos\Alaus-Gamybos-Organizavimo-informacine-sistema-Asmeninis-projektas-\Builds\netcoreapp2.2\WEB platform.runtimeconfig.dev.json
+C:\Users\Kipras\source\repos\Alaus-Gamybos-Organizavimo-informacine-sistema-Asmeninis-projektas-\Builds\netcoreapp2.2\WEB platform.dll
+C:\Users\Kipras\source\repos\Alaus-Gamybos-Organizavimo-informacine-sistema-Asmeninis-projektas-\Builds\netcoreapp2.2\WEB platform.pdb
+C:\Users\Kipras\source\repos\Alaus-Gamybos-Organizavimo-informacine-sistema-Asmeninis-projektas-\obj\Debug\netcoreapp2.2\WEB platform.csprojAssemblyReference.cache
+C:\Users\Kipras\source\repos\Alaus-Gamybos-Organizavimo-informacine-sistema-Asmeninis-projektas-\obj\Debug\netcoreapp2.2\WEB platform.AssemblyInfoInputs.cache
+C:\Users\Kipras\source\repos\Alaus-Gamybos-Organizavimo-informacine-sistema-Asmeninis-projektas-\obj\Debug\netcoreapp2.2\WEB platform.AssemblyInfo.cs
+C:\Users\Kipras\source\repos\Alaus-Gamybos-Organizavimo-informacine-sistema-Asmeninis-projektas-\obj\Debug\netcoreapp2.2\WEB platform.dll
+C:\Users\Kipras\source\repos\Alaus-Gamybos-Organizavimo-informacine-sistema-Asmeninis-projektas-\obj\Debug\netcoreapp2.2\WEB platform.pdb

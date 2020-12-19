@@ -365,8 +365,8 @@
               </script>
             </p>
           }
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Atsijungti</a>
+        <hr noshade class="segmentatorDetailsKUI">
+          <a class="dropdown-item TopMarginBigger" href="#" data-toggle="modal" data-target="#logoutModal">Atsijungti</a>
         </div>
       </li>
     </ul>
@@ -375,12 +375,7 @@
   <div id="wrapper">
     <!-- Sidebar -->
     <ul class="sidebar navbar-nav" style="width:30%;">
-      <!--<li class="nav-item active">
-    <a class="nav-link" href="index.html">
-      <i class="fas fa-fw fa-tachometer-alt"></i>
-      <span>Dashboard</span>
-    </a>
-  </li>-->
+
       @if (Model.Sutartis == null)
       {
         if (User.Identity.IsAuthenticated)
@@ -672,11 +667,6 @@
               }
             }
           }
-          <!--<div class="dropdown-divider"></div>
-      <h6 class="dropdown-header">Other Pages:</h6>
-      <a class="dropdown-item" href="404.html">404 Page</a>
-      <a class="dropdown-item" href="blank.html">Blank Page</a>
-          -->
         </div>
       </li>
       <li class="nav-item dropdown">
@@ -1168,113 +1158,116 @@
           if (User.IsInRole("Technologas") || User.IsInRole("Technikos vadovas") || User.IsInRole("Generalinis direktorius") || User.IsInRole("Gamybos vadovas") || User.IsInRole("Gamybos meistras") || User.IsInRole("Buhalteris") || User.IsInRole("Darbuotojas"))
           {
 
-            <div class="card mb-3">
-              <div class="card-header">
-                <i class="fas fa-table"></i>
-                Gamybos instrukcija
-              </div>
-              <div class="card-body">
-                <center>
-                  <p style="display:inline-table;margin:2%;">
-                    <b>Gamybos terminas: </b>@if (Model.GamybosInstrukcija != null)
-                    {
-                      @Html.DisplayFor(modelItem => Model.GamybosInstrukcija.GamybosTerminas)
-                    }
-                  </p>
-                  <p style="display:inline-table;margin:2%;">
-                    <b>Gamybos instrukcijos būsena: </b>@if (Model.GamybosInstrukcija != null)
-                    {
-                      <script type="text/javascript">document.write(t);</script>}
-                  </p>
-                  <p style="display:inline-table; margin:2%;">
-                    <b>Produkcijos brandinimo laikas: </b>@if (Model.GamybosInstrukcija != null)
-                    {@Html.DisplayFor(modelItem => Model.GamybosInstrukcija.BrandinimoLaikas)}
-                  </p>
-                  <p style="display:inline-table;margin:2%;">
-                    <b>Receptūra: </b>@if (Model.GamybosInstrukcija != null)
-                    {
-                      <script type="text/javascript">document.write(qz);</script>}
-                  </p>
-                  <p style="display:inline-table;margin:2%;">
-                    <b>Technikos patarimai: </b>@if (Model.GamybosInstrukcija != null)
-                    {
-                      <script type="text/javascript">document.write(qt);</script>}
-                  </p>
-                </center>
-              </div>
-              <hr>
-              <div class="card-body">
-                <center>Naudoti techniką/technikos patarimai</center><br>
-                <div class="table-responsive">
-                  <table class="table table-bordered" id="TechnikosPatarimai" width="100%" cellspacing="0">
-                    <thead>
-                      <tr>
-                        <th>Pavadinimas</th>
-                        <th>Kiekis</th>
-                        <th>Komentaras</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      @if (Model.GamybosInstrukcija != null)
-                      {
-                        @foreach (var tpp2 in Model.GamybosInstrukcija.TechnikosPrietaisoPatarimas)
-                        {
-                          <tr>
-                            <td>
-                              @Html.DisplayFor(modelItem => tpp2.TechnikosPrietaiso.PrietaisoPavadinimas)
-                            </td>
-                            <td>
-                              @Html.DisplayFor(modelItem => tpp2.PrietaisoKiekis) vnt.
-                            </td>
-                            <td>
-                              <p>@Html.DisplayFor(modelItem => tpp2.PrietaisoKomentaras)</p>
-                            </td>
-                          </tr>
-                        }
-                      }
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-              <hr>
-              <div class="card-body">
-                <center>Receptūra</center>
-                <div class="table-responsive">
-                  <table class="table table-bordered" id="Receptura" width="100%" cellspacing="0">
-                    <thead>
-                      <tr>
-                        <th>Pavadinimas</th>
-                        <th>Kiekis</th>
-                        <th>Virimo laikas</th>
-                        <th>Fermantacijos laikas</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      @if (Model.GamybosInstrukcija != null)
-                      {
-                        @foreach (var tpp2 in Model.GamybosInstrukcija.IngredientoReceptas)
-                        {
-                          <tr>
-                            <td>
-                              @Html.DisplayFor(modelItem => tpp2.Ingrediento.IngredientoPavadinimas)
-                            </td>&nbsp
-                            <td>
-                              <p>@Html.DisplayFor(modelItem => tpp2.IngredientoKiekis) (kg/l)</p>
-                            </td>
-                            <td>
-                              <p>@Html.DisplayFor(modelItem => tpp2.VirimoLaikas)</p>
-                            </td>
-                            <td>
-                              <p>@Html.DisplayFor(modelItem => tpp2.FermentacijosLaikas)</p>
-                            </td>
-                          </tr>
-                        }
-                      }
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
+      <div class="card mb-3">
+        <div class="card-header">
+          <i class="fas fa-table"></i>
+          Gamybos instrukcija
+        </div>
+        <div class="card-body">
+          <center>
+            <p style="display:inline-table;margin:2%;">
+              <b>Gamybos terminas: </b>@if (Model.GamybosInstrukcija != null)
+              {
+                @Html.DisplayFor(modelItem => Model.GamybosInstrukcija.GamybosTerminas)
+              }
+            </p>
+            <p style="display:inline-table;margin:2%;">
+              <b>Gamybos instrukcijos būsena: </b>@if (Model.GamybosInstrukcija != null)
+              {
+                <script type="text/javascript">document.write(t);</script>
+}
+            </p>
+            <p style="display:inline-table; margin:2%;">
+              <b>Produkcijos brandinimo laikas: </b>@if (Model.GamybosInstrukcija != null)
+              {@Html.DisplayFor(modelItem => Model.GamybosInstrukcija.BrandinimoLaikas)}
+            </p>
+            <p style="display:inline-table;margin:2%;">
+              <b>Receptūra: </b>@if (Model.GamybosInstrukcija != null)
+              {
+                <script type="text/javascript">document.write(qz);</script>
+}
+            </p>
+            <p style="display:inline-table;margin:2%;">
+              <b>Technikos patarimai: </b>@if (Model.GamybosInstrukcija != null)
+              {
+                <script type="text/javascript">document.write(qt);</script>
+}
+            </p>
+          </center>
+        </div>
+        <hr noshade class="segmentatorDetailsKUI">
+        <div class="card-body">
+          <center>Naudoti techniką/technikos patarimai</center><br>
+          <div class="table-responsive">
+            <table class="table table-bordered" id="TechnikosPatarimai" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th>Pavadinimas</th>
+                  <th>Kiekis</th>
+                  <th>Komentaras</th>
+                </tr>
+              </thead>
+              <tbody>
+                @if (Model.GamybosInstrukcija != null)
+                {
+                  @foreach (var tpp2 in Model.GamybosInstrukcija.TechnikosPrietaisoPatarimas)
+                  {
+                    <tr>
+                      <td>
+                        @Html.DisplayFor(modelItem => tpp2.TechnikosPrietaiso.PrietaisoPavadinimas)
+                      </td>
+                      <td>
+                        @Html.DisplayFor(modelItem => tpp2.PrietaisoKiekis) vnt.
+                      </td>
+                      <td>
+                        <p>@Html.DisplayFor(modelItem => tpp2.PrietaisoKomentaras)</p>
+                      </td>
+                    </tr>
+                  }
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <hr noshade class="segmentatorDetailsKUI">
+        <div class="card-body">
+          <center>Receptūra</center>
+          <div class="table-responsive">
+            <table class="table table-bordered" id="Receptura" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th>Pavadinimas</th>
+                  <th>Kiekis</th>
+                  <th>Virimo laikas</th>
+                  <th>Fermantacijos laikas</th>
+                </tr>
+              </thead>
+              <tbody>
+                @if (Model.GamybosInstrukcija != null)
+                {
+                  @foreach (var tpp2 in Model.GamybosInstrukcija.IngredientoReceptas)
+                  {
+                    <tr>
+                      <td>
+                        @Html.DisplayFor(modelItem => tpp2.Ingrediento.IngredientoPavadinimas)
+                      </td>&nbsp
+                      <td>
+                        <p>@Html.DisplayFor(modelItem => tpp2.IngredientoKiekis) (kg/l)</p>
+                      </td>
+                      <td>
+                        <p>@Html.DisplayFor(modelItem => tpp2.VirimoLaikas)</p>
+                      </td>
+                      <td>
+                        <p>@Html.DisplayFor(modelItem => tpp2.FermentacijosLaikas)</p>
+                      </td>
+                    </tr>
+                  }
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
           }
         }
         @foreach (var item in Model.TechnikosPrietaisoPrasymas)
@@ -1416,41 +1409,43 @@
                     </tbody>
                   </table>
                 </div>
-                <hr>
-                <center>
-                  <nobr>
-                    Prašymo žaliavoms užsakyti būsena -
-                    <script type="text/javascript">
-                      document.write(l);
-                    </script>
-                  </nobr>
-                </center>
-                <br>
-                <div class="table-responsive">
-                  <table class="table table-bordered" id="IngredientuPrasymas" width="100%" cellspacing="0">
-                    <thead>
-                      <tr>
-                        <th>Pavadinimas</th>
-                        <th>Kiekis</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      @foreach (var item in Model.IngredientoPrasymas)
-                      {
+              </div>
+                <hr noshade class="segmentatorDetailsKUI">
+                <div class="card-body">
+                  <center>
+                    <nobr>
+                      Prašymo žaliavoms užsakyti būsena -
+                      <script type="text/javascript">
+                        document.write(l);
+                      </script>
+                    </nobr>
+                  </center>
+                  <br>
+                  <div class="table-responsive">
+                    <table class="table table-bordered" id="IngredientuPrasymas" width="100%" cellspacing="0">
+                      <thead>
                         <tr>
-                          <td>
-                            @Html.DisplayFor(modelItem => item.Ingrediento.IngredientoPavadinimas)
-                          </td>
-                          <td>
-                            <p>@Html.DisplayFor(modelItem => item.IngredientoKiekis) kg/l</p>
-                          </td>
+                          <th>Pavadinimas</th>
+                          <th>Kiekis</th>
                         </tr>
-                      }
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        @foreach (var item in Model.IngredientoPrasymas)
+                        {
+                          <tr>
+                            <td>
+                              @Html.DisplayFor(modelItem => item.Ingrediento.IngredientoPavadinimas)
+                            </td>
+                            <td>
+                              <p>@Html.DisplayFor(modelItem => item.IngredientoKiekis) kg/l</p>
+                            </td>
+                          </tr>
+                        }
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
-            </div>
           }
         }
         <!-- Rezervuoti resursai-->
@@ -1491,36 +1486,38 @@
                     </tbody>
                   </table>
                 </div>
-                <hr>
-                <center>
-                  Rezervuoti ingredientai
-                </center>
-                <br>
-                <div class="table-responsive">
-                  <table class="table table-bordered" id="RezervuotiIngredientai" width="100%" cellspacing="0">
-                    <thead>
-                      <tr>
-                        <th>Pavadinimas</th>
-                        <th>Kiekis</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      @foreach (var item in Model.IngredientoRezervacija)
-                      {
+              </div>
+                <hr noshade class="segmentatorDetailsKUI">
+                <div class="card-body">
+                  <center>
+                    Rezervuoti ingredientai
+                  </center>
+                  <br>
+                  <div class="table-responsive">
+                    <table class="table table-bordered" id="RezervuotiIngredientai" width="100%" cellspacing="0">
+                      <thead>
                         <tr>
-                          <td>
-                            @Html.DisplayFor(modelItem => item.Ingrediento.IngredientoPavadinimas)
-                          </td>
-                          <td>
-                            <p>@Html.DisplayFor(modelItem => item.IngredientoKiekis) kg/l</p>
-                          </td>
+                          <th>Pavadinimas</th>
+                          <th>Kiekis</th>
                         </tr>
-                      }
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        @foreach (var item in Model.IngredientoRezervacija)
+                        {
+                          <tr>
+                            <td>
+                              @Html.DisplayFor(modelItem => item.Ingrediento.IngredientoPavadinimas)
+                            </td>
+                            <td>
+                              <p>@Html.DisplayFor(modelItem => item.IngredientoKiekis) kg/l</p>
+                            </td>
+                          </tr>
+                        }
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
-            </div>
           }
         }
         <!-- Kliento informacija-->
@@ -1601,6 +1598,7 @@
             </center>
           </form>
         </div>
+        <hr noshade class="segmentatorDetailsKUI">
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Grįžti</button>
         </div>
@@ -2320,6 +2318,7 @@
             <span aria-hidden="true">×</span>
           </button>
         </div>
+        <hr noshade class="segmentatorDetailsKUI">
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Grįžti</button>
           <form asp-area="Identity" asp-page="/Account/Logout">

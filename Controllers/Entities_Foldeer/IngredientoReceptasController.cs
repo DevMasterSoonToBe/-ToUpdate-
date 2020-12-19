@@ -40,6 +40,7 @@ namespace AlausDaryklosGamybosValdymoSistema.Controllers
       ViewData["IngredientoId"] = new SelectList(_context.Ingredientas, "IngredientoId", "IngredientoPavadinimas");
       return View(await alaus_daryklos_gamybos_valdymas_DBContext.ToListAsync());
         }
+        // komentass
     // GET: IngredientoReceptas/Details/5
     public async Task<IActionResult> Details(decimal? id)
         {

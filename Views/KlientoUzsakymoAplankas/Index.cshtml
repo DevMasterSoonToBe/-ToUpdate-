@@ -1,4 +1,4 @@
-<!--model IEnumerable<AlausDaryklosGamybosValdymoSistema.Models.KlientoUzsakymoAplankas> -->
+
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<Vartotojas> SignInManager
 @{
@@ -12,26 +12,6 @@
 <!DOCTYPE html>
 <html lang="en" style=" background-color:rgba(0,0,0,0.03)">
 <head>
-  <!-- <script type="text/javascript">
-     var listElement = $('.col-md-12');
-     var perPage = 4;
-     var numItems = listElement.children().size();
-     var numPages = Math.ceil(numItems / perPage);
-   </script>-->
-  <!-- <script>
-      $(document).ready(function () {
-        $('.btn-small').on('click', function () {
-          var $target = $(this).data('target');
-          if ($target != 'all') {
-            $('.filterDiv').css('display', 'none');
-            $('.filterDiv[data-status="' + $target + '"]').fadeIn('slow');
-          } else {
-            $('.filterDiv').css('display', 'none').fadeIn('slow');
-          }
-        });
-
-      });
-    </script>-->
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -58,17 +38,20 @@
     {
       <script type="text/javascript">
         var c = "Generalinis direktorius";
-      </script>}
+      </script>
+}
     if (User.IsInRole("Gamybos vadovas"))
     {
       <script type="text/javascript">
         var c = "Gamybos vadovas";
-      </script> }
+      </script>
+ }
     if (User.IsInRole("Technologas"))
     {
       <script type="text/javascript">
         var c = "Technologas";
-      </script>}
+      </script>
+}
     if (User.IsInRole("Technikos vadovas"))
     {
       <script type="text/javascript">
@@ -328,8 +311,8 @@
       -ms-flex-pack: justify;
       justify-content: space-between;
       padding: 1rem 1rem;
-      border-bottom: 1px solid #e9ecef;
       border-top-left-radius: 0.3rem;
+      border-bottom: none;
       border-top-right-radius: 0.3rem;
     }
 
@@ -337,7 +320,6 @@
       position: relative;
       display: -webkit-box;
       display: -ms-flexbox;
-      display: flex;
       -webkit-box-orient: vertical;
       -webkit-box-direction: normal;
       -ms-flex-direction: column;
@@ -468,11 +450,12 @@ text-decoration-color:aqua;position:absolute;top:0;left:0; border-radius:0; widt
                   </script>
                 </p>
               }
-              <div class="dropdown-divider"></div>
+              <hr noshade class="segmentatorIndexKUI">
               <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal" style="color: #007bff;
     text-decoration: none;
     background-color: transparent;
     display: block;
+    margin-top: 2%;
     width: 100%;
     padding: 0.25rem 1.5rem;
     clear: both;
@@ -534,11 +517,7 @@ text-decoration-color:aqua;position:absolute;top:0;left:0; border-radius:0; widt
             </nav>
           }
         }
-        <!--<div id="filter" class="col-md-12 text-center">
-          <button class="active btn btn-small" id="all">Visi klientų užsakymai</button>
-          <button class="btn btn-small" id="Archyvai">Archyvuoti klientų užsakymai</button>
-          <button class="btn btn-small" id="In_Progress">Ne archyvuoti klientų užsakymai</button>
-        </div>-->
+
         @if (User.Identity.IsAuthenticated)
         {
           if (!User.IsInRole("Generalinis direktorius"))
@@ -566,7 +545,6 @@ text-decoration-color:aqua;position:absolute;top:0;left:0; border-radius:0; widt
                         <a asp-action="Details" asp-route-id="@item.KlientoUzsakymoId"> <img src="~/IndexKlientoUzsakymoAplankas/greenUzsakymas.png" alt="Tutorials Point" border="0" width="150" height="150" /> </a><br />
                         <p><b>Klientas: </b>@item.Kliento.KlientoPavadinimas</p>
                         <p><b>Terminas: </b>@Html.DisplayFor(modelItem => item.Terminas)</p>
-                        <!--<p><b>Gamybos instrukcija - Baigta</b></p>-->
                       </div>
 
                     }
@@ -579,7 +557,6 @@ text-decoration-color:aqua;position:absolute;top:0;left:0; border-radius:0; widt
                           <a asp-action="Details" asp-route-id="@item.KlientoUzsakymoId"> <img src="~/IndexKlientoUzsakymoAplankas/Places-folder-red-icon.png" alt="Tutorials Point" border="0" width="150" height="150" /> </a><br />
                           <p><b>Klientas: </b>@item.Kliento.KlientoPavadinimas</p>
                           <p><b>Terminas: </b>@Html.DisplayFor(modelItem => item.Terminas)</p>
-                          <!--<p><b>Žaliavų prašymas - atmestas</b></p>-->
                         </div>
                       }
                       break;
@@ -593,7 +570,6 @@ text-decoration-color:aqua;position:absolute;top:0;left:0; border-radius:0; widt
                           <a asp-action="Details" asp-route-id="@item.KlientoUzsakymoId"> <img src="~/IndexKlientoUzsakymoAplankas/Places-folder-red-icon.png" alt="Tutorials Point" border="0" width="150" height="150" /> </a><br />
                           <p><b>Klientas: </b>@item.Kliento.KlientoPavadinimas</p>
                           <p><b>Terminas: </b>@Html.DisplayFor(modelItem => item.Terminas)</p>
-                          <!-- <p><b>Technikos prašymas - atmestas</b></p>-->
                         </div>
                       }
                       break;
@@ -631,7 +607,6 @@ text-decoration-color:aqua;position:absolute;top:0;left:0; border-radius:0; widt
                         <a asp-action="Details" asp-route-id="@item.KlientoUzsakymoId"> <img src="~/IndexKlientoUzsakymoAplankas/greenUzsakymas.png" alt="Tutorials Point" border="0" width="150" height="140" /> </a><br />
                         <p><b>Klientas: </b>@item.Kliento.KlientoPavadinimas</p>
                         <p><b>Terminas: </b>@Html.DisplayFor(modelItem => item.Terminas)</p>
-                        <!--  <p><b>Gamybos instrukcija - Baigta</b></p>-->
                       </div>
 
                     }
@@ -644,7 +619,6 @@ text-decoration-color:aqua;position:absolute;top:0;left:0; border-radius:0; widt
                           <a asp-action="Details" asp-route-id="@item.KlientoUzsakymoId"> <img src="~/IndexKlientoUzsakymoAplankas/Places-folder-red-icon.png" alt="Tutorials Point" border="0" width="150" height="140" /> </a><br />
                           <p><b>Klientas: </b>@item.Kliento.KlientoPavadinimas</p>
                           <p><b>Terminas: </b>@Html.DisplayFor(modelItem => item.Terminas)</p>
-                          <!--  <p><b>Žaliavų prašymas - atmestas</b></p>-->
                         </div>
                       }
                       break;
@@ -658,7 +632,6 @@ text-decoration-color:aqua;position:absolute;top:0;left:0; border-radius:0; widt
                           <a asp-action="Details" asp-route-id="@item.KlientoUzsakymoId"> <img src="~/IndexKlientoUzsakymoAplankas/Places-folder-red-icon.png" alt="Tutorials Point" border="0" width="150" height="140" /> </a><br />
                           <p><b>Klientas: </b>@item.Kliento.KlientoPavadinimas</p>
                           <p><b>Terminas: </b>@Html.DisplayFor(modelItem => item.Terminas)</p>
-                          <!--  <p><b>Technikos prašymas - atmestas</b></p>-->
                         </div>
                       }
                       break;
@@ -684,17 +657,17 @@ text-decoration-color:aqua;position:absolute;top:0;left:0; border-radius:0; widt
           }
         }
         <script>
-              var $btns = $('.btn-theme').click(function () {
-                // event.preventDefault();
-                if (this.id == 'all') {
-                  $('#parentfilter > div').fadeIn(450);
-                } else {
-                  var $el = $('.' + this.id).fadeIn(450);
-                  $('#parentfilter > div').not($el).hide();
-                }
-                $btns.removeClass('current');
-                $(this).addClass('current');
-              });
+          var $btns = $('.btn-theme').click(function () {
+            // event.preventDefault();
+            if (this.id == 'all') {
+              $('#parentfilter > div').fadeIn(450);
+            } else {
+              var $el = $('.' + this.id).fadeIn(450);
+              $('#parentfilter > div').not($el).hide();
+            }
+            $btns.removeClass('current');
+            $(this).addClass('current');
+          });
         </script>
       </div>
     </div>
@@ -703,16 +676,19 @@ text-decoration-color:aqua;position:absolute;top:0;left:0; border-radius:0; widt
     text-align: center; width:100%; position:fixed; clear:initial; bottom:5%;">
     <p>Alaus daryklos gamybos organizavimo sistema</p>
   </div>
+  <!-- Pagalba-->
   <div class="modal fade" id="Pagalba" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="z-index:unset;">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel" style="font-size: 25px;">Alaus daryklos gamybos organizavimo sistema</h5>
         </div>
+        <hr noshade class="segmentatorIndexKUI">
         <div class="modal-body">
           <p>
             Ši sistema skirta gerinti gamybos organizavimo procesą greitinant informacijos sklaidą tarp skyrių bei naudojant efektyvesnį jos dalinimosi būdą.
           </p>
+          <hr noshade>
           <p>
             Šioje sistemoje prisijungus su atitinkamu vartotoju, bet neegzistuojant kliento užsakymo aplankui galimos šios funkcijos:<br>
             <b>1. Kliento užsakymo aplanko sukūrimas</b><br>
@@ -728,11 +704,12 @@ text-decoration-color:aqua;position:absolute;top:0;left:0; border-radius:0; widt
             <b>5. Laisvų resursų formų administravimas</b><br>
           </p>
         </div>
-          <div class="modal-footer">
-            <button class="btn btn-secondary" type="button" data-dismiss="modal" style="margin-right:1%;">Grįžti</button>
-          </div>
+        <hr noshade class="segmentatorIndexKUI">
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal" style="margin-right:1%;">Grįžti</button>
         </div>
       </div>
+    </div>
   </div>
   <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="z-index:unset;">
     <div class="modal-dialog" role="document">
@@ -743,6 +720,7 @@ text-decoration-color:aqua;position:absolute;top:0;left:0; border-radius:0; widt
             <span aria-hidden="true">×</span>
           </button>
         </div>
+        <hr noshade class="segmentatorIndexKUI">
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal" style="margin-right:1%;">Grįžti</button>
           <form asp-area="Identity" asp-page="/Account/Logout">
@@ -759,6 +737,7 @@ text-decoration-color:aqua;position:absolute;top:0;left:0; border-radius:0; widt
         <div class="modal-header">
           <center><h5 style="font-size: 25px;">Gamybos organizavimo istorija</h5></center>
         </div>
+        <hr noshade class="segmentatorIndexKUI">
         <div class="modal-body">
           <center><p>Kliento užsakymų skaičius:</p></center>
           <center><b style="font-size: 15px;">@ViewBag.KuiVisi</b></center><br>
@@ -770,7 +749,8 @@ text-decoration-color:aqua;position:absolute;top:0;left:0; border-radius:0; widt
           <center><b style="font-size: 15px;">@ViewBag.Kuiatsaukti</b></center><br>
           <center><p>Pavėluotų kliento užsakymų skaičius:</p></center>
           <center><b style="font-size: 15px;">@ViewBag.Kuipaveluoti</b></center><br>
-          <center><p>Trys populiariausi ingredientai receptūrose:</p></center>
+          <hr noshade class="segmentatorIndexKUI">
+          <center><p class="LentelesIstorijaPar">Trys populiariausi ingredientai receptūrose:</p></center>
           <center>
             <table class="table table-bordered" width="100%" cellspacing="0">
               <thead style="text-align:center;">
@@ -801,7 +781,8 @@ text-decoration-color:aqua;position:absolute;top:0;left:0; border-radius:0; widt
               </tbody>
             </table>
           </center><br>
-          <center><p>Trys dažniausiai naudojami technikos prietaisai:</p></center>
+          <hr noshade class="segmentatorIndexKUI">
+          <center><p class="LentelesIstorijaPar">Trys dažniausiai naudojami technikos prietaisai:</p></center>
           <center>
             <table class="table table-bordered" width="100%" cellspacing="0">
               <thead style="text-align:center;">
@@ -833,6 +814,7 @@ text-decoration-color:aqua;position:absolute;top:0;left:0; border-radius:0; widt
             </table>
           </center>
         </div>
+        <hr noshade class="segmentatorIndexKUI">
         <div class="modal-footer">
           <center><button class="btn btn-secondary" type="button" data-dismiss="modal">Grįžti</button></center>
         </div>
@@ -841,17 +823,13 @@ text-decoration-color:aqua;position:absolute;top:0;left:0; border-radius:0; widt
   </div>
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-  <!--<script src="~/KlientoUzsakymoAplankasDetails/vendor/jquery/jquery.min.js"></script>
-   <script src="~/KlientoUzsakymoAplankasDetails/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <link href="~/KlientoUzsakymoAplankasDetails/css/sb-admin.css" rel="stylesheet">-->
-  <!-- Include all compiled plugins (below), or include individual files as needed-->
   <script src="~/IndexKlientoUzsakymoAplankas/js/bootstrap.min.js"></script>
   <script src="~/IndexKlientoUzsakymoAplankas/js/jquery.isotope.min.js"></script>
   <script src="~/IndexKlientoUzsakymoAplankas/js/fancybox/jquery.fancybox.pack.js"></script>
   <script src="~/IndexKlientoUzsakymoAplankas/js/wow.min.js"></script>
   <script src="~/IndexKlientoUzsakymoAplankas/js/functions.js"></script>
   <script type="text/javascript">
-                        new WOW().init();
+    new WOW().init();
   </script>
 
 </body>

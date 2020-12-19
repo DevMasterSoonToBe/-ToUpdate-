@@ -71,7 +71,7 @@ namespace AlausDaryklosGamybosValdymoSistema
            options.UseSqlServer(Configuration.GetConnectionString("TestConnection")));
            */
       services.AddDbContext<Alaus_daryklos_gamybos_valdymas_DBContext>(options =>
-      options.UseSqlServer("Data Source=alausdaryklosgamybosorganizavimosistemadbserver.database.windows.net;Initial Catalog=AlausDaryklosGamybosOrganizavimoSistema_db;User ID=sqladmin;Password=wataitau1R+;Connect Timeout=60;Encrypt=True;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"));
+      options.UseSqlServer("Data Source=alausdaryklosgamybosorganizavimosistemadbserver.database.windows.net;Initial Catalog=AlausDaryklosGamybosOrganizavimoSistema_db;User ID=sqladmin;Password=wataitau1R;Connect Timeout=60;Encrypt=True;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"));
       services.AddDbContext<Alaus_daryklos_gamybos_valdymas_DBContext>(options =>
           options.UseSqlServer(Configuration.GetConnectionString("TestConnection")));
 

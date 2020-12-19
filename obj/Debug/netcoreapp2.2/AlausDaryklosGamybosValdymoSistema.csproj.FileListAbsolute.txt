@@ -16,3 +16,5 @@ C:\Users\kipri\source\repos\AlausDaryklosGamybosValdymoSistema\AlausDaryklosGamy
 C:\Users\kipri\source\repos\AlausDaryklosGamybosValdymoSistema\AlausDaryklosGamybosValdymoSistema\Builds\netcoreapp2.2\AlausDaryklosGamybosValdymoSistema.runtimeconfig.dev.json
 C:\Users\kipri\source\repos\AlausDaryklosGamybosValdymoSistema\AlausDaryklosGamybosValdymoSistema\Builds\netcoreapp2.2\AlausDaryklosGamybosValdymoSistema.dll
 C:\Users\kipri\source\repos\AlausDaryklosGamybosValdymoSistema\AlausDaryklosGamybosValdymoSistema\Builds\netcoreapp2.2\AlausDaryklosGamybosValdymoSistema.pdb
+C:\Users\Kipras\Desktop\Alaus-Gamybos-Organizavimo-informacine-sistema-Asmeninis-projektas-\obj\Debug\netcoreapp2.2\AlausDaryklosGamybosValdymoSistema.dll
+C:\Users\Kipras\Desktop\Alaus-Gamybos-Organizavimo-informacine-sistema-Asmeninis-projektas-\obj\Debug\netcoreapp2.2\AlausDaryklosGamybosValdymoSistema.pdb

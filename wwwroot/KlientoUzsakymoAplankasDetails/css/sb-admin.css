@@ -41,11 +41,23 @@
   --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
+
 *,
 *::before,
 *::after {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
+}
+
+
+hr:after {
+  background-color: #fff;
+  content: '//';
+  color: #343a40;
+  padding: 0 7px;
+  display: inline;
+  position: relative;
+  top: -13px;
 }
 
 html {
@@ -77,9 +89,45 @@ body {
 hr {
   -webkit-box-sizing: content-box;
   box-sizing: content-box;
-  height: 0;
+  height: 1px;
+  text-align: center;
   overflow: visible;
+  background-color: #EFEFEF
 }
+
+
+.segmentatorDetailsKUI {
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
+  height: 1px;
+  text-align: center;
+  overflow: visible;
+  background-color: #EFEFEF;
+  margin-top: 0;
+  margin-bottom: 0;
+  border: 1px solid;
+  border-top: 1px solid;
+}
+
+  .segmentatorDetailsKUI:after {
+    background-color: #fff;
+    content: '//';
+    color: #343a40;
+    padding: 0 6px;
+    display: inline;
+    position: relative;
+    top: -9px;
+  }
+
+
+.BiggerMarginForgotPass {
+  margin-top: 7%;
+}
+
+.TopMarginBigger {
+  margin-top: 4%;
+}
+
 
 h1, h2, h3, h4, h5, h6 {
   margin-top: 0;
